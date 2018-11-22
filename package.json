@@ -1,0 +1,32 @@
+{
+  "name": "info.aws.dk",
+  "version": "1.0.2",
+  "description": "Vis DAWA data tekstueltt",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "env": "env",
+    "lint": "jshint index.js",
+    "devbuild": "npm install && cd public && npm run devbuild",
+    "build": "npm install --production && cd public && npm install --production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DanmarksAdresser/info.aws.dk.git"
+  },
+  "author": "Finn Jordal",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DanmarksAdresser/info.aws.dk/issues"
+  },
+  "homepage": "https://github.com/DanmarksAdresser/info.aws.dk#readme",
+  "dependencies": {
+    "express": "^4.13.1",
+    "g": "^2.0.1",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1"
+  },
+  "devDependencies": {
+    "jshint": "^2.9.5"
+  }
+}
