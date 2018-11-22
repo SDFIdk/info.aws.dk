@@ -334,14 +334,17 @@ function badge(tekst, type, url) {
   }
 }
 
-function visBetegnelseKort(betegnelse, status) {  
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function visKodeNavn(navn, ref) { 
   eo('li',null,null,
     'class', 'list-group-item d-flex justify-content-between align-items-center');
-    html(util.formatAdgangsadresse(adgangsadresse, false));
-    badge(statusTekst(adgangsadresse.status), statusFarve(adgangsadresse.status),null);
-    badge('info', 'badge-primary', adgangsadresse.href.replace('dawa','info'));
-    badge('kort', 'badge-primary', adgangsadresse.href.replace('dawa','vis'));
-    badge('data', 'badge-primary', adgangsadresse.href);
+    html(navn + ': ' + ref.kode + " " + ref.navn);
+    badge('info', 'badge-primary', ref.href.replace('dawa','info'));
+    badge('kort', 'badge-primary', ref.href.replace('dawa','vis'));
+    badge('data', 'badge-primary', ref.href);
   ec('li');
 }
 
@@ -428,6 +431,49 @@ function visAdgangsadresse(data) {
           badge('data', 'badge-primary', data.stormodtagerpostnummer.href);
         ec('li');
       }
+      eo('li',null,null,
+        'class', 'list-group-item d-flex justify-content-between align-items-center');
+        html('Kommune: ' + data.kommune.kode + " " + data.kommune.navn);
+        badge('info', 'badge-primary', data.kommune.href.replace('dawa','info'));
+        badge('kort', 'badge-primary', data.kommune.href.replace('dawa','vis'));
+        badge('data', 'badge-primary', data.kommune.href);
+      ec('li');
+      visKodeNavn('Kommune', data.kommune);
+      visKodeNavn('Sogn', data.sogn);
+      visKodeNavn('Region', data.region);
+      visKodeNavn('Retskreds', data.retskreds);
+      visKodeNavn('Politikreds', data.politikreds);
+      eo('li',null,null,
+        'class', 'list-group-item d-flex justify-content-between align-items-center');
+        html('Afstemningsområde: ' + data.afstemningsområde.nummer + " " + data.afstemningsområde.navn);
+        badge('info', 'badge-primary', data.afstemningsområde.href.replace('dawa','info'));
+        badge('kort', 'badge-primary', data.afstemningsområde.href.replace('dawa','vis'));
+        badge('data', 'badge-primary', data.afstemningsområde.href);
+      ec('li');
+      visKodeNavn('Opstillingskreds', data.opstillingskreds);
+      eo('li',null,null,
+        'class', 'list-group-item d-flex justify-content-between align-items-center');
+        html('Jordstykke: ' + data.jordstykke.matrikelnr + " " + data.jordstykke.ejerlav.navn);
+        badge('info', 'badge-primary', data.jordstykke.href.replace('dawa','info'));
+        badge('kort', 'badge-primary', data.jordstykke.href.replace('dawa','vis'));
+        badge('data', 'badge-primary', data.jordstykke.href);
+      ec('li');
+      visKodeNavn('Ejerlav', data.jordstykke.ejerlav);
+      if (data.bebyggelser) {
+        data.bebyggelser.forEach(bebyggelse => {          
+          eo('li',null,null,
+            'class', 'list-group-item d-flex justify-content-between align-items-center');
+            html(capitalizeFirstLetter(bebyggelse.type) + ': ' + bebyggelse.navn);
+            badge('info', 'badge-primary', bebyggelse.href.replace('dawa','info'));
+            badge('kort', 'badge-primary', bebyggelse.href.replace('dawa','vis'));
+            badge('data', 'badge-primary', bebyggelse.href);
+          ec('li');
+        })
+      }       
+      eo('li',null,null,
+        'class', 'list-group-item d-flex justify-content-between align-items-center');
+        html('Zone: ' + data.zone);
+      ec('li');  
     ec('ul');
   }
 }
