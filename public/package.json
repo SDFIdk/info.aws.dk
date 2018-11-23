@@ -11,7 +11,7 @@
   "author": "Finn Jordal",
   "license": "MIT",
   "dependencies": {
-    "dawa-util": "^0.1.10",
+    "dawa-util": "^0.1.13",
     "incremental-dom": "^0.6.0",
     "query-string": "^5.1.1",
     "url-parse": "^1.4.3"
