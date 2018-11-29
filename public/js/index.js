@@ -11,11 +11,9 @@ var eo = dom.elementOpen,
     ev = dom.elementVoid,
     text = dom.text;
 
-var visSide= function(container, url) {
+const tableclasses= 'table table-borderless table-hover';
 
-  if (url.hostname === 'localhost') {
-    url.set('host','info.aws.dk:80'); 
-  }
+var visSide= function(container, url) {
 
   let query= queryString.parse(url.query);
 
@@ -49,40 +47,36 @@ function danLabel2(overskrift, href, label) {
   return tekst;
 }
 
+function visData(data, flere, en) {  
+  if (Array.isArray(data) && data.length !== 1) {      
+    dom.patch(container, flere(data)); 
+  } 
+  else if (Array.isArray(data) && data.length === 1) {      
+    dom.patch(container, en(data[0])); 
+  }
+  else {
+    dom.patch(container, en(data)); 
+  }
+}
+
 function visInfo(container, ressource, data) {
   let label= "";
   switch (ressource) {
   case 'adresser':
-    if (Array.isArray(data)) {      
-      dom.patch(container, visAdresser(data)); 
-    }
-    else {
-      dom.patch(container, visAdresse(data)); 
-    }
+    visData(data, visAdresser, visAdresse);
     break;
   case 'adgangsadresser':
-    if (Array.isArray(data)) {      
-      dom.patch(container, visAdgangsadresser(data)); 
-    }
-    else {
-      dom.patch(container, visAdgangsadresse(data)); 
-    }    
-    break;      
-  case 'ejerlav':
-    label= danLabel2(overskrift, feature.properties.href, feature.properties.navn + " (" + feature.properties.kode + ")");
-    layer.bindPopup(label);
-    visVisueltCenter(feature.properties.visueltcenter[0], feature.properties.visueltcenter[1], 1); 
-    showPopup(vispopup, feature.properties.visueltcenter[0], feature.properties.visueltcenter[1], label);
+    visData(data, visAdgangsadresser, visAdgangsadresse);
+    break;    
+  case 'navngivneveje':    
+    visData(data, visNavngivneveje, visNavngivnevej);
+    break;     
+  case 'ejerlav': 
+    visData(data, visEjerlav, visEjerlavet);
     break;
   case 'jordstykker':
-    let kode= feature.properties.ejerlav.kode;
-    let navn= feature.properties.ejerlav.navn;
-    let nr= feature.properties.matrikelnr;
-    label= danLabel2(overskrift, feature.properties.href, nr + " " + navn + " (" + kode + ")");
-    layer.bindPopup(label);
-    visVisueltCenter(feature.properties.visueltcenter[0], feature.properties.visueltcenter[1], 1);
-    showPopup(vispopup, feature.properties.visueltcenter[0], feature.properties.visueltcenter[1], label); 
-   break;
+    visData(data, visJordstykker, visJordstykke);
+    break;
   case 'sogne':
   case 'politikredse':
   case 'retskredse':
@@ -151,19 +145,7 @@ function visInfo(container, ressource, data) {
     layer.bindPopup(label);    
     visVisueltCenter(feature.properties.visueltcenter[0], feature.properties.visueltcenter[1], 1); 
     showPopup(vispopup, feature.properties.visueltcenter[0], feature.properties.visueltcenter[1], label);  
-    break;    
-  case 'navngivneveje':
-    label= danLabel2(overskrift, feature.properties.href, feature.properties.navn);   
-    layer.bindPopup(label);
-    visVisueltCenter(feature.properties.visueltcenter[0], feature.properties.visueltcenter[1], 3); 
-    showPopup(vispopup, feature.properties.visueltcenter[0], feature.properties.visueltcenter[1], label);
-    if (feature.properties.beliggenhed.vejtilslutningspunkter) {
-      let punkter= feature.properties.beliggenhed.vejtilslutningspunkter.coordinates;
-      for (var i= 0; i<punkter.length;i++) {
-         var marker= L.circleMarker(L.latLng(punkter[i][1], punkter[i][0]), {color: 'blue', fillColor: 'blue', stroke: true, fillOpacity: 1.0, radius: 4, weight: 2, opacity: 1.0}).addTo(map);
-      }
-    }
-    break;
+    break; 
   case 'vejstykker':    
     layer.bindPopup(danLabel2(overskrift, feature.properties.href, feature.properties.kode + " " + feature.properties.navn)); 
     break;
@@ -225,6 +207,20 @@ function statusFarve(status) {
   return tekst;
 }
 
+
+function darstatusFarve(status) {
+  let tekst= "";
+  switch (status) {
+  case "gældende":
+    tekst= 'badge-success';
+    break;
+  case "foreløbig":
+    tekst= 'badge-warning';
+    break;
+  }
+  return tekst;
+}
+
 function badge(tekst, type, url) {
   eo('td');
     if (url) {
@@ -245,12 +241,16 @@ function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+function strong(value){
+  return '<strong>' + value + '</strong>';
+}
+
 function visKodeNavn(navn, ref) { 
   eo('tr');
     eo('td');
-      html(navn + ': ' + ref.kode + " " + ref.navn);
+      html(navn + ': ' + strong(ref.kode + " " + ref.navn));
     ec('td');
-    badge('info', 'badge-primary', ref.href.replace('dawa','info'));
+    badge('info', 'badge-primary', ref.href.replace('dawa.aws.dk',host));
     badge('kort', 'badge-primary', ref.href.replace('dawa','vis'));
     badge('data', 'badge-primary', ref.href);
   ec('tr');
@@ -266,16 +266,28 @@ function visAdresseKort(adresse) {
       adresse.vejnavn
       html('<br/>' + util.formatHelAdresse(adresse,false));
     ec('td');
-    badge('info', 'badge-primary', adresse.href.replace('dawa','info'));
+    badge('info', 'badge-primary', adresse.href.replace('dawa.aws.dk',host));
     badge('kort', 'badge-primary', adresse.href.replace('dawa','vis'));
     badge('data', 'badge-primary', adresse.href);
   ec('tr');
 }
 
+function visOverskrift(overskrift) {    
+  eo('tr');
+    eo('td');
+      html(strong(overskrift));
+    ec('td');          
+    eo('td');ec('td');
+    badge('kort', 'badge-primary', url.href.replace('dawa','vis'));
+    badge('data', 'badge-primary', url.href);
+  ec('tr'); 
+}
+
 function visAdresser(data) {
   return function() {
     eo('table',null,null,
-      'class', 'table table-striped table-dark');
+      'class', tableclasses);
+      visOverskrift('Adresser');
       eo('tbody');
         data.forEach(visAdresseKort);
       ec('tbody');
@@ -287,7 +299,7 @@ function visAdresser(data) {
 function visAdresse(data) {
   return function() {
     eo('table',null,null,
-      'class', 'table table-striped table-dark');
+      'class', tableclasses);
       eo('tbody');
         eo('tr');
           eo('td'); 
@@ -305,20 +317,25 @@ function visAdresse(data) {
         eo('tr');
           let oprettet= new Date(data.historik.oprettet);
           eo('td');
-            html('Oprettet d. ' + oprettet.toLocaleString());
+            html('Oprettet d. ' + strong(oprettet.toLocaleString()));
           ec('td');
         ec('tr');  
         eo('tr');
           let ændret= new Date(data.historik.ændret);
           eo('td');
-            html('Ændret d. ' + ændret.toLocaleString());
+            html('Ændret d. ' + strong(ændret.toLocaleString()));
           ec('td');
-        ec('tr'); 
+        ec('tr');             
         eo('tr');
           eo('td');
-            html('Adgangsadresse: ' + util.formatAdgangsadresse(data.adgangsadresse, true));
+            html('Id: ' + strong(data.id));
           ec('td');
-          badge('info', 'badge-primary', data.adgangsadresse.href.replace('dawa','info'));
+        ec('tr');  
+        eo('tr');
+          eo('td');
+            html('Adgangsadresse: ' + strong(util.formatAdgangsadresse(data.adgangsadresse, true)));
+          ec('td');
+          badge('info', 'badge-primary', data.adgangsadresse.href.replace('dawa.aws.dk',host));
           badge('kort', 'badge-primary', data.adgangsadresse.href.replace('dawa','vis'));
           badge('data', 'badge-primary', data.adgangsadresse.href);
         ec('tr'); 
@@ -336,7 +353,7 @@ function visAdgangsadresseKort(adgangsadresse) {
       ec('span');
       html('<br/>' + util.formatAdgangsadresse(adgangsadresse, false));
     ec('td');
-    badge('info', 'badge-primary', adgangsadresse.href.replace('dawa','info'));
+    badge('info', 'badge-primary', adgangsadresse.href.replace('dawa.aws.dk',host));
     badge('kort', 'badge-primary', adgangsadresse.href.replace('dawa','vis'));
     badge('data', 'badge-primary', adgangsadresse.href);
   ec('tr');
@@ -345,7 +362,8 @@ function visAdgangsadresseKort(adgangsadresse) {
 function visAdgangsadresser(data) {
   return function() {
     eo('table',null,null,
-      'class', 'table table-striped table-dark');
+      'class', tableclasses);
+      visOverskrift('Adgangsadresser');
       eo('tbody');
         data.forEach(visAdgangsadresseKort);
       ec('tbody');
@@ -356,7 +374,7 @@ function visAdgangsadresser(data) {
 function visAdgangsadresse(data) {
   return function() {
     eo('table',null,null,
-      'class', 'table table-striped table-dark');
+      'class', tableclasses); //table-striped'); //) table-dark');
       eo('tbody');
         eo('tr');
           eo('td'); 
@@ -366,60 +384,65 @@ function visAdgangsadresse(data) {
             ec('span');
             html('<br/><strong>' + util.formatAdgangsadresse(data, false) + '</strong>');
           ec('td');
-          badge('adresser', 'badge-danger',"https://info.aws.dk/adresser?adgangsadresseid=" + data.id);
+          badge('adresser', 'badge-primary', origin + "/adresser?adgangsadresseid=" + data.id);
           badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
           badge('data', 'badge-primary', data.href);
-        ec('tr'); 
+        ec('tr');
         eo('tr');
           let oprettet= new Date(data.historik.oprettet);
           eo('td');
-            html('Oprettet d. ' + oprettet.toLocaleString());
+            html('Oprettet d. ' + strong(oprettet.toLocaleString()));
           ec('td');
         ec('tr');  
         eo('tr');
           let ændret= new Date(data.historik.ændret);
           eo('td');
-            html('Ændret d. ' + ændret.toLocaleString());
+            html('Ændret d. ' + strong(ændret.toLocaleString()));
           ec('td');
-        ec('tr'); 
+        ec('tr');            
         eo('tr');
           eo('td');
-            html('Navngiven vej: ' + data.vejstykke.navn);
+            html('Id: ' + strong(data.id));
           ec('td');
-          badge('info', 'badge-primary', data.navngivenvej.href.replace('dawa','info'));
+        ec('tr');  
+        eo('tr');
+          eo('td');
+            html('Navngiven vej: ' + strong(data.vejstykke.navn));
+          ec('td');
+          badge('info', 'badge-primary', data.navngivenvej.href.replace('dawa.aws.dk',host));
           badge('kort', 'badge-primary', data.navngivenvej.href.replace('dawa','vis'));
           badge('data', 'badge-primary', data.navngivenvej.href);
         ec('tr'); 
         eo('tr');
           eo('td');
-            html('Vejstykke: ' + data.vejstykke.kode + " " + data.vejstykke.navn);
+            html('Vejstykke: ' + strong(data.vejstykke.kode + " " + data.vejstykke.navn));
           ec('td');
-          badge('info', 'badge-primary', data.vejstykke.href.replace('dawa','info'));
+          badge('info', 'badge-primary', data.vejstykke.href.replace('dawa.aws.dk',host));
           badge('kort', 'badge-primary', data.vejstykke.href.replace('dawa','vis'));
           badge('data', 'badge-primary', data.vejstykke.href);
         ec('tr');
         if (data.supplerendebynavn2) { 
           eo('tr');
             eo('td');
-              html('Supplerende bynavn: ' + data.supplerendebynavn);
+              html('Supplerende bynavn: ' + strong(data.supplerendebynavn));
             ec('td');
-            badge('info', 'badge-primary', data.supplerendebynavn2.href.replace('dawa','info'));
+            badge('info', 'badge-primary', data.supplerendebynavn2.href.replace('dawa.aws.dk',host));
             badge('kort', 'badge-primary', data.supplerendebynavn2.href.replace('dawa','vis'));
             badge('data', 'badge-primary', data.supplerendebynavn2.href);
           ec('tr');
         }
         eo('tr');
           eo('td');
-            html('Postnummer: ' + data.postnummer.nr + " " + data.postnummer.navn);
+            html('Postnummer: ' + strong(data.postnummer.nr + " " + data.postnummer.navn));
           ec('td');
-          badge('info', 'badge-primary', data.postnummer.href.replace('dawa','info'));
+          badge('info', 'badge-primary', data.postnummer.href.replace('dawa.aws.dk',host));
           badge('kort', 'badge-primary', data.postnummer.href.replace('dawa','vis'));
           badge('data', 'badge-primary', data.postnummer.href);
         ec('tr');
         if (data.stormodtagerpostnummer) {
           eo('tr');
             eo('td');
-              html('Stormodtagerpostnummer: ' + data.stormodtagerpostnummer.nr + " " + data.stormodtagerpostnummer.navn);
+              html('Stormodtagerpostnummer: ' + strong(data.stormodtagerpostnummer.nr + " " + data.stormodtagerpostnummer.navn));
             ec('td');
             badge('info', 'badge-primary', data.stormodtagerpostnummer.href.replace('dawa','info'));
             eo('td');
@@ -428,14 +451,6 @@ function visAdgangsadresse(data) {
             badge('data', 'badge-primary', data.stormodtagerpostnummer.href);
           ec('tr');
         }
-        eo('tr');
-          eo('td');
-            html('Adresser');
-          ec('td');
-          badge('info', 'badge-primary', "https://info.aws.dk/adresser?adgangsadresseid=" + data.id);
-          badge('info', 'badge-primary', "https://vis.aws.dk/adresser?adgangsadresseid=" + data.id);
-          badge('info', 'badge-primary', "https://dawa.aws.dk/adresser?adgangsadresseid=" + data.id);
-        ec('tr');
         visKodeNavn('Kommune', data.kommune);
         visKodeNavn('Sogn', data.sogn);
         visKodeNavn('Region', data.region);
@@ -443,18 +458,18 @@ function visAdgangsadresse(data) {
         visKodeNavn('Politikreds', data.politikreds);
         eo('tr');
           eo('td');
-            html('Afstemningsområde: ' + data.afstemningsområde.nummer + " " + data.afstemningsområde.navn);
+            html('Afstemningsområde: ' + strong(data.afstemningsområde.nummer + " " + data.afstemningsområde.navn));
           ec('td');
-          badge('info', 'badge-primary', data.afstemningsområde.href.replace('dawa','info'));
+          badge('info', 'badge-primary', data.afstemningsområde.href.replace('dawa.aws.dk',host));
           badge('kort', 'badge-primary', data.afstemningsområde.href.replace('dawa','vis'));
           badge('data', 'badge-primary', data.afstemningsområde.href);
         ec('tr');
         visKodeNavn('Opstillingskreds', data.opstillingskreds);
         eo('tr');
           eo('td');
-            html('Jordstykke: ' + data.jordstykke.matrikelnr + " " + data.jordstykke.ejerlav.navn);
+            html('Jordstykke: ' + strong(data.jordstykke.matrikelnr + " " + data.jordstykke.ejerlav.navn));
           ec('td');
-          badge('info', 'badge-primary', data.jordstykke.href.replace('dawa','info'));
+          badge('info', 'badge-primary', data.jordstykke.href.replace('dawa.aws.dk',host));
           badge('kort', 'badge-primary', data.jordstykke.href.replace('dawa','vis'));
           badge('data', 'badge-primary', data.jordstykke.href);
         ec('tr');
@@ -463,9 +478,9 @@ function visAdgangsadresse(data) {
           data.bebyggelser.forEach(bebyggelse => {          
             eo('tr');
               eo('td');
-                html(capitalizeFirstLetter(bebyggelse.type) + ': ' + bebyggelse.navn);
+                html(capitalizeFirstLetter(bebyggelse.type) + ': ' + strong(bebyggelse.navn));
               ec('td');
-              badge('info', 'badge-primary', bebyggelse.href.replace('dawa','info'));
+              badge('info', 'badge-primary', bebyggelse.href.replace('dawa.aws.dk',host));
               badge('kort', 'badge-primary', bebyggelse.href.replace('dawa','vis'));
               badge('data', 'badge-primary', bebyggelse.href);
             ec('tr');
@@ -473,12 +488,17 @@ function visAdgangsadresse(data) {
         }       
         eo('tr');
           eo('td');
-            html('Zone: ' + data.zone);
+            html('Zone: ' + strong(data.zone));
           ec('td');
         ec('tr');         
         eo('tr');
           eo('td');
-            html('Brofast: ' + (data.brofast?"Ja":"Nej"));
+            html('Brofast: ' + strong(data.brofast?"Ja":"Nej"));
+          ec('td');
+        ec('tr');          
+        eo('tr');
+          eo('td');
+            html('Højde (m.o.h.): ' + strong(data.adgangspunkt.højde));
           ec('td');
         ec('tr');  
       ec('tbody'); 
@@ -486,6 +506,246 @@ function visAdgangsadresse(data) {
   }
 }
 
+
+function visNavngivnevejKort(navngivenvej) {  
+  eo('tr');
+    eo('td');
+      eo('span', null, null,
+        'class', 'badge badge-pill '+darstatusFarve(navngivenvej.darstatus));
+        text(navngivenvej.darstatus);
+      ec('span');
+      html('<br/>' + strong(navngivenvej.navn + ' (' + navngivenvej.administrerendekommune.kode + ' ' +  navngivenvej.administrerendekommune.navn + ')'));
+    ec('td');
+    badge('info', 'badge-primary', navngivenvej.href.replace('dawa.aws.dk',host));
+    badge('kort', 'badge-primary', navngivenvej.href.replace('dawa','vis'));
+    badge('data', 'badge-primary', navngivenvej.href);
+  ec('tr');
+}
+
+function visNavngivneveje(data) {
+  return function() {
+    eo('table',null,null,
+      'class', tableclasses);
+      visOverskrift('Navngivne veje');
+      eo('tbody');
+        data.forEach(visNavngivnevejKort);
+      ec('tbody');
+    ec('table');
+  }
+}
+
+function visNavngivnevej(data) {
+  return function() {
+    eo('table',null,null,
+      'class', tableclasses); //table-striped'); //) table-dark');
+      eo('tbody');
+        eo('tr');
+          eo('td'); 
+            eo('span', null, null,
+              'class', 'badge badge-pill '+darstatusFarve(data.darstatus));
+              text(data.darstatus);
+            ec('span');
+            html('<br/>' + strong(data.navn + ' (' + data.administrerendekommune.kode + ' ' +  data.administrerendekommune.navn + ')'));
+          ec('td');
+          eo('td');
+          ec('td');
+          badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+          badge('data', 'badge-primary', data.href);
+        ec('tr');
+        eo('tr');
+          let oprettet= new Date(data.historik.oprettet);
+          eo('td');
+            html('Oprettet d. ' + strong(oprettet.toLocaleString()));
+          ec('td');
+        ec('tr');  
+        eo('tr');
+          let ændret= new Date(data.historik.ændret);
+          eo('td');
+            html('Ændret d. ' + strong(ændret.toLocaleString()));
+          ec('td');
+        ec('tr');            
+        eo('tr');
+          eo('td');
+            html('Id: ' + strong(data.id));
+          ec('td');
+        ec('tr');        
+        visKodeNavn('Administrende kommune', data.administrerendekommune);             
+        eo('tr');
+          eo('td');
+            html('Adresseringsnavn: ' + strong(data.adresseringsnavn));
+          ec('td');
+        ec('tr');               
+        eo('tr');
+          eo('td');
+            html('Udtalt vejnavn: ' + strong(data.udtaltvejnavn));
+          ec('td');
+        ec('tr');                  
+        eo('tr');
+          eo('td');
+            html('Retskrivningskontrol: ' + strong(data.retskrivningskontrol));
+          ec('td');
+        ec('tr');                     
+        eo('tr');
+          eo('td');
+            html('Vejstykker: ');
+          ec('td');
+        ec('tr');
+          data.vejstykker.forEach(vejstykke => {          
+            eo('tr');
+              eo('td', null, null, 'style', 'padding-left:2em ');
+                html(strong(vejstykke.kode + " " + data.navn + " (" + vejstykke.kommunekode + ")"));
+              ec('td');
+              badge('info', 'badge-primary', vejstykke.href.replace('dawa.aws.dk',host));
+              badge('kort', 'badge-primary', vejstykke.href.replace('dawa','vis'));
+              badge('data', 'badge-primary', vejstykke.href);
+            ec('tr');
+          })                    
+        eo('tr');
+          eo('td');
+            html('Beliggenhedens oprindelse: ');
+          ec('td');
+        ec('tr');          
+        eo('tr');
+          eo('td', null, null, 'style', 'padding-left:2em ');
+            html('Kilde: ' + strong(data.beliggenhed.oprindelse.kilde));
+          ec('td');
+        ec('tr');         
+        eo('tr');
+          eo('td', null, null, 'style', 'padding-left:2em ');
+            html('Teknisk standard: ' + strong(data.beliggenhed.oprindelse.tekniskstandard));
+          ec('td');
+        ec('tr');         
+        eo('tr');
+          eo('td', null, null, 'style', 'padding-left:2em ');
+            let registreret= new Date(data.beliggenhed.oprindelse.registrering);
+            html('Registreret d. ' + strong(registreret.toLocaleString()));
+          ec('td');
+        ec('tr');         
+        eo('tr');
+          eo('td', null, null, 'style', 'padding-left:2em ');
+            html('Nøjagtighedsklasse: ' + strong(data.beliggenhed.oprindelse.nøjagtighedsklasse));
+          ec('td');
+        ec('tr');       
+      ec('tbody'); 
+    ec('table');
+  }
+}
+
+function visEjerlavetKort(ejerlavet) {  
+  eo('tr');
+    eo('td');
+      html(strong(ejerlavet.kode + ' ' +ejerlavet.navn));
+    ec('td');
+    badge('info', 'badge-primary', ejerlavet.href.replace('dawa.aws.dk',host));
+    badge('kort', 'badge-primary', ejerlavet.href.replace('dawa','vis'));
+    badge('data', 'badge-primary', ejerlavet.href);
+  ec('tr');
+}
+
+function visEjerlav(data) {
+  return function() {
+    eo('table',null,null,
+      'class', tableclasses);
+      visOverskrift('Ejerlav');
+      eo('tbody');
+        data.forEach(visEjerlavetKort);
+      ec('tbody');
+    ec('table');
+  }
+}
+
+function visEjerlavet(data) {
+  return function() {
+    eo('table',null,null,
+      'class', tableclasses); //table-striped'); //) table-dark');
+      eo('tbody'); 
+        eo('tr');
+          eo('td');
+            html(strong(data.kode + ' ' +data.navn));
+          ec('td');
+          eo('td'); ec('td');
+          badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+          badge('data', 'badge-primary', data.href);
+        ec('tr');
+        visKodeNavn('Ejerlav', data.jordstykke.ejerlav);
+      ec('tbody'); 
+    ec('table');
+  }
+}
+
+
+function visJordstykkeKort(data) {  
+  eo('tr');
+    eo('td');
+      html(data.matrikelnr + ' ' + data.ejerlav.navn);
+    ec('td');
+    badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
+    badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+    badge('data', 'badge-primary', data.href);
+  ec('tr');
+}
+
+function visJordstykker(data) {
+  return function() {
+    eo('table',null,null,
+      'class', tableclasses);
+      visOverskrift('Jordstykker');
+      eo('tbody');
+        data.forEach(visJordstykkeKort);
+      ec('tbody');
+    ec('table');
+  }
+}
+
+function visJordstykke(data) {
+  return function() {
+    eo('table',null,null,
+      'class', tableclasses); //table-striped'); //) table-dark');
+      eo('tbody'); 
+        eo('tr');
+          eo('td');
+            html(strong(data.matrikelnr + ' ' + data.ejerlav.navn));
+          ec('td');
+          eo('td'); ec('td');
+          badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+          badge('data', 'badge-primary', data.href);
+        ec('tr'); 
+        eo('tr');
+          let ændret= new Date(data.ændret);
+          eo('td');
+            html('Ændret d. ' + strong(ændret.toLocaleString()));
+          ec('td');
+        ec('tr');   
+        visKodeNavn('Ejerlav', data.ejerlav);
+        visKodeNavn('Sogn', data.sogn);
+        visKodeNavn('Kommune', data.kommune);
+        visKodeNavn('Region', data.region);
+        visKodeNavn('Retskreds', data.retskreds);        
+        eo('tr');
+          eo('td');
+            html('ESR ejendomsnnummer: ' + strong(data.esrejendomsnr));
+          ec('td');
+        ec('tr');           
+        eo('tr');
+          eo('td');
+            html('Udvidet ESR ejendomsnnummer: ' + strong(data.udvidet_esrejendomsnr));
+          ec('td');
+        ec('tr');         
+        eo('tr');
+          eo('td');
+            html('SFE ejendomsnnummer: ' + strong(data.sfeejendomsnr));
+          ec('td');
+        ec('tr');              
+      ec('tbody'); 
+    ec('table');
+  }
+}
+
 let url= new URL(window.location.href);
+let host= url.host;
+let origin= url.origin;
+if (url.hostname === 'localhost') {
+  url.set('host','info.aws.dk:80'); 
+}
 const container = document.getElementById('side');
 visSide(container, url);
