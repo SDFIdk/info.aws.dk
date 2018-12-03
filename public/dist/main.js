@@ -171,6 +171,9 @@ function visInfo(container, ressource, data) {
   case 'vejstykker':      
     visData(data, visVejstykker, visVejstykke);
     break;   
+  case 'supplerendebynavne2': 
+    visData(data, visSupplerendeBynavne, visSupplerendeBynavn);
+    break;  
   case 'ejerlav': 
     visData(data, visEjerlav, visEjerlavet);
     break;
@@ -204,29 +207,14 @@ function visInfo(container, ressource, data) {
   case 'valglandsdele':
     visData(data, visValglandsdele, visValglandsdel);
     break;
-  case 'c': 
-    label= danLabel2(overskrift, feature.properties.href, feature.properties.navn);
-    layer.bindPopup(label); 
-    visVisueltCenter(feature.properties.visueltcenter[0], feature.properties.visueltcenter[1], 1); 
-    showPopup(vispopup, feature.properties.visueltcenter[0], feature.properties.visueltcenter[1], label);
-    break;  
   case 'stednavne':
-    label= danLabel2(overskrift, feature.properties.href, feature.properties.navn + '<br/>(' +  feature.properties.hovedtype  + ', ' + feature.properties.undertype + ")");  
-    layer.bindPopup(label);
-    visVisueltCenter(feature.properties.visueltcenter[0], feature.properties.visueltcenter[1], 1);
-    showPopup(vispopup, feature.properties.visueltcenter[0], feature.properties.visueltcenter[1], label); 
-    break;    
+    visData(data, visStednavne, visStednavn);
+   break;    
   case 'stednavne2':
-    label= danLabel2(overskrift, feature.properties.sted.href, feature.properties.navn + '<br>(' +  feature.properties.sted.hovedtype  + ', ' + feature.properties.sted.undertype + ")");  
-    layer.bindPopup(label);    
-    visVisueltCenter(feature.properties.sted.visueltcenter[0], feature.properties.sted.visueltcenter[1], 1);
-    showPopup(vispopup, feature.properties.sted.visueltcenter[0], feature.properties.sted.visueltcenter[1], label);  
+    visData(data, visStednavne2, visStednavn2);
     break;      
   case 'steder':
-    label= danLabel2(overskrift, feature.properties.href, feature.properties.primærtnavn + '<br>(' +  feature.properties.hovedtype  + ', ' + feature.properties.undertype + ")");  
-    layer.bindPopup(label);    
-    visVisueltCenter(feature.properties.visueltcenter[0], feature.properties.visueltcenter[1], 1); 
-    showPopup(vispopup, feature.properties.visueltcenter[0], feature.properties.visueltcenter[1], label);  
+    visData(data, visSteder, visSted);
     break; 
   default:    
     html('<h1>Ukendt ressource: ' + ressource + '</h1>');
@@ -814,6 +802,75 @@ function visVejstykke(data) {
     ec('table');
   }
 }
+
+function visSupplerendeBynavnKort(data) {  
+  eo('tr');
+    eo('td');
+      html(data.navn);
+    ec('td');
+    badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
+    badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+    badge('data', 'badge-primary', data.href);
+  ec('tr');
+}
+
+function visSupplerendeBynavne(data) {
+  return function() {
+    eo('table',null,null,
+      'class', tableclasses);
+      visOverskrift('Supplerende Bynavne');
+      eo('tbody');
+        data.forEach(visSupplerendeBynavnKort);
+      ec('tbody');
+    ec('table');
+  }
+}
+
+function visSupplerendeBynavn(data) {
+  return function() {
+    eo('table',null,null,
+      'class', tableclasses); //table-striped'); //) table-dark');
+      eo('tbody'); 
+        eo('tr');
+          eo('td');
+            html(strong(data.navn));
+          ec('td');
+          eo('td');ec('td');
+          badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+          badge('data', 'badge-primary', data.href);
+        ec('tr'); 
+        eo('tr');
+          let ændret= new Date(data.ændret);
+          eo('td');
+            html('Ændret d. ' + strong(ændret.toLocaleString()));
+          ec('td');
+        ec('tr');         
+        eo('tr');
+          eo('td');
+            html('DAGI id: ' + strong(data.dagi_id));
+          ec('td');
+        ec('tr');        
+        visKodeNavn('Kommune', data.kommune);          
+        eo('tr');
+          eo('td');
+            html('Postnumre: ');
+          ec('td');
+        ec('tr');
+          data.postnumre.forEach(postnummer => {          
+            eo('tr');
+              eo('td', null, null, 'style', 'padding-left:2em ');
+                html(strong(postnummer.nr + " " + postnummer.navn));
+              ec('td');
+              badge('info', 'badge-primary', postnummer.href.replace('dawa.aws.dk',host));
+              badge('kort', 'badge-primary', postnummer.href.replace('dawa','vis'));
+              badge('data', 'badge-primary', postnummer.href);
+            ec('tr');
+          })       
+      ec('tbody'); 
+    ec('table');
+  }
+}
+
 function visEjerlavetKort(ejerlavet) {  
   eo('tr');
     eo('td');
@@ -1360,6 +1417,259 @@ function visPostnummer(data) {
           badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
           badge('data', 'badge-primary', data.href);
         ec('tr');                      
+        eo('tr');
+          eo('td');
+            html('Kommuner: ');
+          ec('td');
+        ec('tr');
+          data.kommuner.forEach(kommune => {          
+            eo('tr');
+              eo('td', null, null, 'style', 'padding-left:2em ');
+                html(strong(kommune.kode + " " + kommune.navn));
+              ec('td');
+              badge('info', 'badge-primary', kommune.href.replace('dawa.aws.dk',host));
+              badge('kort', 'badge-primary', kommune.href.replace('dawa','vis'));
+              badge('data', 'badge-primary', kommune.href);
+            ec('tr');
+          })      
+      ec('tbody'); 
+    ec('table');
+  }
+}
+
+function visStednavnKort(data) {  
+  eo('tr');
+    eo('td');
+      html(data.navn);
+    ec('td');
+    badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
+    badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+    badge('data', 'badge-primary', data.href);
+  ec('tr');
+}
+
+function visStednavne(data) {
+  return function() {
+    eo('table',null,null,
+      'class', tableclasses);
+      visOverskrift('Stednavne');
+      eo('tbody');
+        data.forEach(visStednavnKort);
+      ec('tbody');
+    ec('table');
+  }
+}
+
+function visStednavn(data) {
+  return function() {
+    eo('table',null,null,
+      'class', tableclasses); //table-striped'); //) table-dark');
+      eo('tbody'); 
+        eo('tr');
+          eo('td');
+            html(strong(data.navn));
+          ec('td');
+          eo('td');ec('td');
+          badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+          badge('data', 'badge-primary', data.href);
+        ec('tr'); 
+        eo('tr');
+          let ændret= new Date(data.ændret);
+          eo('td');
+            html('Ændret d. ' + strong(ændret.toLocaleString()));
+          ec('td');
+        ec('tr');         
+        eo('tr');
+          eo('td');
+            html('Id: ' + strong(data.id));
+          ec('td');
+        ec('tr');          
+        eo('tr');
+          eo('td');
+            html('Hovedtype: ' + strong(data.hovedtype));
+          ec('td');
+        ec('tr');              
+        eo('tr');
+          eo('td');
+            html('Undertype: ' + strong(capitalizeFirstLetter(data.undertype)));
+          ec('td');
+        ec('tr');           
+        eo('tr');
+          eo('td');
+            html('Navnestatus: ' + strong(data.navnestatus));
+          ec('td');
+        ec('tr'); 
+        var keys = Object.keys(data.egenskaber);
+        keys.forEach(key => {                          
+          eo('tr');
+            eo('td');
+              html(capitalizeFirstLetter(key) + ': ' + strong(data.egenskaber[key]));
+            ec('td');
+          ec('tr');
+        })                                
+        eo('tr');
+          eo('td');
+            html('Kommuner: ');
+          ec('td');
+        ec('tr');
+          data.kommuner.forEach(kommune => {          
+            eo('tr');
+              eo('td', null, null, 'style', 'padding-left:2em ');
+                html(strong(kommune.kode + " " + kommune.navn));
+              ec('td');
+              badge('info', 'badge-primary', kommune.href.replace('dawa.aws.dk',host));
+              badge('kort', 'badge-primary', kommune.href.replace('dawa','vis'));
+              badge('data', 'badge-primary', kommune.href);
+            ec('tr');
+          })      
+      ec('tbody'); 
+    ec('table');
+  }
+}
+
+function visStednavn2Kort(data) {  
+  eo('tr');
+    eo('td');
+      html(data.navn);
+    ec('td');
+    badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
+    badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+    badge('data', 'badge-primary', data.href);
+  ec('tr');
+}
+
+function visStednavne2(data) {
+  return function() {
+    eo('table',null,null,
+      'class', tableclasses);
+      visOverskrift('Stednavne');
+      eo('tbody');
+        data.forEach(visStednavn2Kort);
+      ec('tbody');
+    ec('table');
+  }
+}
+
+function visStednavn2(data) {
+  return function() {
+    eo('table',null,null,
+      'class', tableclasses); //table-striped'); //) table-dark');
+      eo('tbody'); 
+        eo('tr');
+          eo('td');
+            html(strong(data.navn));
+          ec('td');
+          eo('td');ec('td');
+          badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+          badge('data', 'badge-primary', data.href);
+        ec('tr');   
+        eo('tr');
+          eo('td');
+            html('Navnestatus: ' + strong(data.navnestatus));
+          ec('td');
+        ec('tr');    
+        eo('tr');
+          eo('td');
+            html('Brugsprioritet: ' + strong(data.brugsprioritet));
+          ec('td');
+        ec('tr'); 
+        eo('tr');
+          eo('td');
+            html('Sted: ' + strong(data.sted.primærtnavn));
+          ec('td');
+          badge('info', 'badge-primary', data.sted.href.replace('dawa.aws.dk',host));
+          badge('kort', 'badge-primary', data.sted.href.replace('dawa','vis'));
+          badge('data', 'badge-primary', data.sted.href);
+        ec('tr'); 
+      ec('tbody'); 
+    ec('table');
+  }
+}
+
+function visStedKort(data) {  
+  eo('tr');
+    eo('td');
+      html(data.primærtnavn);
+    ec('td');
+    badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
+    badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+    badge('data', 'badge-primary', data.href);
+  ec('tr');
+}
+
+function visSteder(data) {
+  return function() {
+    eo('table',null,null,
+      'class', tableclasses);
+      visOverskrift('Steder');
+      eo('tbody');
+        data.forEach(visStedKort);
+      ec('tbody');
+    ec('table');
+  }
+}
+
+function visSted(data) {
+  return function() {
+    eo('table',null,null,
+      'class', tableclasses); //table-striped'); //) table-dark');
+      eo('tbody'); 
+        eo('tr');
+          eo('td');
+            html(strong(data.primærtnavn));
+          ec('td');
+          eo('td');ec('td');
+          badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+          badge('data', 'badge-primary', data.href);
+        ec('tr'); 
+        eo('tr');
+          let ændret= new Date(data.ændret);
+          eo('td');
+            html('Ændret d. ' + strong(ændret.toLocaleString()));
+          ec('td');
+        ec('tr');         
+        eo('tr');
+          eo('td');
+            html('Id: ' + strong(data.id));
+          ec('td');
+        ec('tr');          
+        eo('tr');
+          eo('td');
+            html('Hovedtype: ' + strong(data.hovedtype));
+          ec('td');
+        ec('tr');              
+        eo('tr');
+          eo('td');
+            html('Undertype: ' + strong(capitalizeFirstLetter(data.undertype)));
+          ec('td');
+        ec('tr');           
+        eo('tr');
+          eo('td');
+            html('Navnestatus: ' + strong(data.primærnavnestatus));
+          ec('td');
+        ec('tr'); 
+        if (data.sekundærenavne.length > 0)  {                          
+          eo('tr');
+            eo('td');
+              html('Sekundære navne: ');
+            ec('td');
+          ec('tr');
+          data.sekundærenavne.forEach(navn => {                          
+            eo('tr');
+              eo('td');
+                html(strong(navn));
+              ec('td');
+            ec('tr');
+          })  
+        }            
+        var keys = Object.keys(data.egenskaber);
+        keys.forEach(key => {                          
+          eo('tr');
+            eo('td');
+              html(capitalizeFirstLetter(key) + ': ' + strong(data.egenskaber[key]));
+            ec('td');
+          ec('tr');
+        })                              
         eo('tr');
           eo('td');
             html('Kommuner: ');
