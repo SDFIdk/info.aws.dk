@@ -69,14 +69,19 @@ function visInfo(container, ressource, data) {
   case 'jordstykker':
     visData(data, visJordstykkeKort, visJordstykke, ressource);
     break;  
+  case 'bygninger':
+    visData(data, visBygningKort, visBygning, ressource);
+    break;  
   case 'postnumre': 
     visData(data, visPostnummerKort, visPostnummer, ressource);
     break;
   case 'sogne':
   case 'politikredse':
   case 'retskredse':
-  case 'regioner':
     visData(data, visDAGIKort, visDAGI(ressource), flertal(ressource), ressource);
+    break;
+  case 'regioner':
+    visData(data, visRegionKort, visRegion, ressource);
     break;
   case 'kommuner':
     visData(data, visKommuneKort, visKommune, ressource);
@@ -615,10 +620,10 @@ function onClick(event) {
 
 function eotd(indrykninger= 0) {  
   if (indrykninger) {
-    eo('td', null, null, 'style', indrykningsStyle(indrykninger), 'onclick', onClick);
+    eo('td', null, null, 'style', indrykningsStyle(indrykninger)); //, 'onclick', onClick);
   }
   else {
-    eo('td', null, null, 'onclick', onClick);
+    eo('td'); //, null, null, 'onclick', onClick);
   };    
 }
 
@@ -689,7 +694,7 @@ function adgangsadresseIndhold(data, indrykninger= 0)
     eotd(indrykninger);;
         html('Stormodtagerpostnummer: ' + strong(data.stormodtagerpostnummer.nr + " " + data.stormodtagerpostnummer.navn));
       ec('td');
-      badge('info', 'badge-primary', data.stormodtagerpostnummer.href.replace('dawa','info'));
+      badge('info', 'badge-primary', data.stormodtagerpostnummer.href.replace('dawa.aws.dk',host));
       eo('td');
       ec('td');
      // badge('kort', 'badge-primary', data.stormodtagerpostnummer.href.replace('dawa','vis'));
@@ -710,6 +715,14 @@ function adgangsadresseIndhold(data, indrykninger= 0)
     badge('data', 'badge-primary', data.afstemningsområde.href);
   ec('tr');
   visKodeNavn('Opstillingskreds', data.opstillingskreds, indrykninger);
+  let txtBygningsid= 'bygning';
+  eo('tr', null, null, 'id', txtBygningsid, 'style', 'display: none'); 
+    getBygning(txtBygningsid, data.id, indrykninger);
+    eo('td'); ec('td');
+    eo('td'); ec('td');
+    eo('td'); ec('td');
+    eo('td'); ec('td');
+  ec('tr');
   eo('tr');    
     eotd(indrykninger);;
       html('Jordstykke: ' + strong(data.jordstykke.matrikelnr + " " + data.jordstykke.ejerlav.navn));
@@ -813,6 +826,28 @@ function adgangsadresseIndhold(data, indrykninger= 0)
       html('Teknisk standard: ' + strong(data.vejpunkt.tekniskstandard + ' - ' + tekniskstandardTekst(data.vejpunkt.tekniskstandard)));
     ec('td');
   ec('tr');
+}
+
+function getBygning(id, adgangsadresseid, indrykninger) {
+  const url= dawaUrl.origin + '/bygninger?adgangsadresseid=' + adgangsadresseid;
+  fetch(url).then( function(response) {
+    if (response.ok) {
+      response.json().then( function ( data ) {
+        if (data.length > 0) {
+          let element= document.getElementById(id);           
+          element.style.display = "table-row";
+          dom.patch(element, () => {
+            eotd(indrykninger);
+                html('Bygning: ');
+            ec('td');
+            badge('info', 'badge-primary', url.replace('dawa.aws.dk',host));
+            badge('kort', 'badge-primary', url.replace('dawa','vis'));
+            badge('data', 'badge-primary', url); 
+          });
+        }
+      });
+    };
+  });
 }
 
 function visAdgangsadresse(data) {
@@ -964,6 +999,107 @@ function visNavngivnevej(data) {
             html('Teknisk standard: ' + strong(data.beliggenhed.oprindelse.tekniskstandard + ' - ' + tekniskstandardTekst(data.beliggenhed.oprindelse.tekniskstandard)));
           ec('td');
         ec('tr');         
+      ec('tbody'); 
+    ec('table');
+  }
+}
+
+
+function visBygningKort(bygning) {  
+  eo('tr');
+    eo('td');
+      html(strong('Bygning ' + bygning.id));
+    ec('td');
+    badge('info', 'badge-primary', bygning.href.replace('dawa.aws.dk',host));
+    badge('kort', 'badge-primary', bygning.href.replace('dawa','vis'));
+    badge('data', 'badge-primary', bygning.href);
+  ec('tr');
+}
+
+function visBygning(data) {
+  return function() {
+    eo('table',null,null,
+      'class', tableclasses); //table-striped'); //) table-dark');
+      eo('thead', null, null,
+        'class', theadclasses);
+        eo('tr');
+          eo('th'); 
+            html(strong(data.id));
+          ec('th');
+          eo('th');
+            html(em('Bygning'));
+          ec('th');
+          badge('kort', 'badge-primary', data.href.replace('dawa','vis'), true);
+          badge('data', 'badge-primary', data.href, true);
+        ec('tr');
+      ec('thead');
+      eo('tbody');          
+        eo('tr');
+          eo('td');
+            html('Id: ' + strong(data.id));
+          ec('td');
+        ec('tr');
+        eo('tr');
+          let ændret= new Date(data.ændret);
+          eo('td');
+            html('Ændret d. ' + strong(ændret.toLocaleString()));
+          ec('td');
+        ec('tr');             
+        eo('tr');
+          eo('td');
+            html('Bygningstype: ' + strong(data.bygningstype));
+          ec('td');
+        ec('tr');               
+        eo('tr');
+          eo('td');
+            html('3D metode: ' + strong(data.metode3d));
+          ec('td');
+        ec('tr');                  
+        eo('tr');
+          eo('td');
+            html('Målested: ' + strong(data.målested));
+          ec('td');
+        ec('tr');                
+        eo('tr');
+          eo('td');
+            html('Synlig: ' + strong(data.synlig?'ja':'nej'));
+          ec('td');
+        ec('tr');                     
+        eo('tr');
+          eo('td');
+            html('Overlap: ' + strong(data.overlap?'ja':'nej'));
+          ec('td');
+        ec('tr');                         
+        eo('tr');
+          eo('td');
+            html('Kommuner: ');
+          ec('td');
+        ec('tr');
+        data.kommuner.forEach(kommune => {          
+          eo('tr');
+            eotd(1);
+              html(strong(kommune.kode + " " + kommune.navn));
+            ec('td');
+            badge('info', 'badge-primary', kommune.href.replace('dawa.aws.dk',host));
+            badge('kort', 'badge-primary', kommune.href.replace('dawa','vis'));
+            badge('data', 'badge-primary', kommune.href);
+          ec('tr');
+        });                       
+        eo('tr');
+          eo('td');
+            html('Indeholdte adgangsadresser: ');
+          ec('td');
+        ec('tr');
+          data.adgangsadresser.forEach(adgangsadresse => {          
+            eo('tr');
+              eotd(1);
+                html(strong(adgangsadresse.adressebetegnelse));
+              ec('td');
+              badge('info', 'badge-primary', adgangsadresse.href.replace('dawa.aws.dk',host));
+              badge('kort', 'badge-primary', adgangsadresse.href.replace('dawa','vis'));
+              badge('data', 'badge-primary', adgangsadresse.href);
+            ec('tr');
+          }) 
       ec('tbody'); 
     ec('table');
   }
@@ -1325,6 +1461,81 @@ function getRegion(id, regionskode) {
   });
 }
 
+
+function visRegionKort(data) {  
+  eo('tr');
+    eo('td');
+      html(data.kode + ' ' + data.navn);
+    ec('td');
+    badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
+    badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+    badge('data', 'badge-primary', data.href);
+  ec('tr');
+}
+
+function visRegion(data) {
+  return function() {
+    eo('table',null,null,
+      'class', tableclasses); //table-striped'); //) table-dark');
+      eo('thead', null, null,
+        'class', theadclasses);
+        eo('tr');
+          eo('th');
+            html(strong(data.kode + ' ' + data.navn));
+          ec('th');
+          eo('th');
+            html(em('Region'));
+          ec('th');
+          badge('kort', 'badge-primary', data.href.replace('dawa','vis'), true);
+          badge('data', 'badge-primary', data.href, true);
+        ec('tr');
+      ec('thead'); 
+      eo('tbody');   
+        eo('tr');
+          eo('td');
+            html('DAGI id: ' + strong(data.dagi_id));
+          ec('td');
+        ec('tr');  
+        eo('tr');
+          let ændret= new Date(data.ændret);
+          eo('td');
+            html('Ændret d. ' + strong(ændret.toLocaleString()));
+          ec('td');
+        ec('tr');                   
+        eo('tr');
+          eo('td');
+            html('Kommuner: ');
+          ec('td');
+        ec('tr');
+      ec('tbody'); 
+      let regionskommuner= 'regionskommuner';
+      eo('tbody', null, null, 'id', regionskommuner);
+          getKommuner(regionskommuner, data.kode);
+      ec('tbody'); 
+    ec('table');
+  }
+}
+
+function getKommuner(id, regionskode) {
+  const url= dawaUrl.origin + '/kommuner?regionskode=' + regionskode;;
+  fetch(url).then( function(response) {
+    response.json().then( function ( data ) {
+      dom.patch(document.getElementById(id), () => {
+        data.forEach(kommune => { 
+          eo('tr'); 
+            eotd(1);
+              html(strong(kommune.kode + " " + kommune.navn));
+            ec('td');
+            badge('info', 'badge-primary', kommune.href.replace('dawa.aws.dk',host));
+            badge('kort', 'badge-primary', kommune.href.replace('dawa','vis'));
+            badge('data', 'badge-primary', kommune.href);
+          ec('tr');
+        });   
+      });
+    });
+  });
+}                 
+
 function visAfstemningsområdeKort(data) {  
   eo('tr');
     eo('td');
@@ -1642,13 +1853,11 @@ function visPostnummer(data) {
             ec('td');
           ec('tr');
             data.stormodtageradresser.forEach(aa => {          
-              eo('tr');
+              eo('tr', null, null, 'id', aa.id);
                 eo('td', null, null, 'style', 'padding-left:2em ');
                   html(strong(aa.id));
+                  getStormodtager(aa.id, aa.href);
                 ec('td');
-                badge('info', 'badge-primary', aa.href.replace('dawa.aws.dk',host));
-                badge('kort', 'badge-primary', aa.href.replace('dawa','vis'));
-                badge('data', 'badge-primary', aa.href);
               ec('tr');
             })   
           }                        
@@ -1671,6 +1880,23 @@ function visPostnummer(data) {
     ec('table');
   }
 }
+
+function getStormodtager(id, href) {
+  const url= href;
+  fetch(url).then( function(response) {
+    response.json().then( function ( data ) {
+      dom.patch(document.getElementById(id), () => {
+        eo('td', null, null, 'style', 'padding-left:2em ');
+            html(strong(util.formatAdgangsadresse(data,true)));
+        ec('td');
+        badge('info', 'badge-primary', url.replace('dawa.aws.dk',host));
+        badge('kort', 'badge-primary', url.replace('dawa','vis'));
+        badge('data', 'badge-primary', url);
+      });
+    });
+  });
+}
+
 
 function visStednavnKort(data) {  
   eo('tr');
