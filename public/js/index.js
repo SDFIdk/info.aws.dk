@@ -332,6 +332,54 @@ function kildeTekst(kilde) {
   }
   return tekst;
 }
+ 
+function arealberegningsmetodeTekst(bogstav) {
+  let tekst= 'Ukendt arealberegningsmetode';
+  switch (bogstav) {
+  case 'o':
+    tekst= 'Arealet er beregnet efter opmåling';
+    break;
+  case 's':
+    tekst= 'Arealet er beregnet efter konstruktion i større målforhold, dvs. større end det analoge matrikelkort';
+    break;
+  case 'k':
+    tekst= 'Arealet er beregnet på grundlag af kort';
+    break;
+  }
+  return tekst;
+} 
+
+function vejarealberegningsmetodeTekst(bogstav) {
+  let tekst= 'Ukendt vejarealberegningsmetode';
+  switch (bogstav) {
+  case 'b':
+    tekst= 'Vejareal på jordstykket er beregnet (og kan være 0)';
+    break;
+  case 'e':
+    tekst= 'Der er konstateret vej på jordstykket, men areal er ikke beregnet';
+    break;
+  case 'u':
+    tekst= 'Det er ukendt, om der findes vej på jordstykket';
+    break;
+  }
+  return tekst;
+}
+
+function vandarealberegningsmetodeTekst(bogstav) {
+  let tekst= 'Ukendt vandarealberegningsmetode';
+  switch (bogstav) {
+  case 'incl':
+    tekst= 'Vandareal på jordstykket et inkluderet i det registrerede areal for jordstykket';
+    break;
+  case 'excl':
+    tekst= 'Vandareal på jordstykket er ikke inkluderet i det registrerede areal for jordstykket';
+    break;
+  case 'ukendt':
+    tekst= 'Vandareal er ikke oplyst';
+    break;
+  }
+  return tekst;
+}
 
 function tekniskstandardTekst(standard) {
   let tekst= 'Ukendt teknisk standard';
@@ -957,12 +1005,13 @@ function visNavngivnevej(data) {
           eo('td');
             html('Retskrivningskontrol: ' + strong(data.retskrivningskontrol));
           ec('td');
-        ec('tr');                     
-        eo('tr');
-          eo('td');
-            html('Vejstykker: ');
-          ec('td');
         ec('tr');
+        if (data.vejstykker) {                     
+          eo('tr');
+            eo('td');
+              html('Vejstykker: ');
+            ec('td');
+          ec('tr');
           data.vejstykker.forEach(vejstykke => {          
             eo('tr');
               eo('td', null, null, 'style', 'padding-left:2em ');
@@ -972,7 +1021,24 @@ function visNavngivnevej(data) {
               badge('kort', 'badge-primary', vejstykke.href.replace('dawa','vis'));
               badge('data', 'badge-primary', vejstykke.href);
             ec('tr');
-          })                    
+          }) 
+        }
+        if (data.postnumre) { eo('tr');
+          eo('td');
+              html('Postnumre: ');
+            ec('td');
+          ec('tr');
+          data.postnumre.forEach(postnummer => {          
+            eo('tr');
+              eo('td', null, null, 'style', 'padding-left:2em ');
+                html(strong(postnummer.nr + " " + postnummer.navn));
+              ec('td');
+              badge('info', 'badge-primary', postnummer.href.replace('dawa.aws.dk',host));
+              badge('kort', 'badge-primary', postnummer.href.replace('dawa','vis'));
+              badge('data', 'badge-primary', postnummer.href);
+            ec('tr');
+          }) 
+        }                    
         eo('tr');
           eo('td');
             html('Beliggenhedens oprindelse: ');
@@ -1164,12 +1230,13 @@ function visVejstykke(data) {
           badge('info', 'badge-primary', data.navngivenvej.href.replace('dawa.aws.dk',host));
           badge('kort', 'badge-primary', data.navngivenvej.href.replace('dawa','vis'));
           badge('data', 'badge-primary', data.navngivenvej.href);
-        ec('tr');                     
-        eo('tr');
-          eo('td');
-            html('Postnumre: ');
-          ec('td');
         ec('tr');
+        if (data.postnumre) {                     
+          eo('tr');
+            eo('td');
+              html('Postnumre: ');
+            ec('td');
+          ec('tr');
           data.postnumre.forEach(postnummer => {          
             eo('tr');
               eo('td', null, null, 'style', 'padding-left:2em ');
@@ -1179,7 +1246,8 @@ function visVejstykke(data) {
               badge('kort', 'badge-primary', postnummer.href.replace('dawa','vis'));
               badge('data', 'badge-primary', postnummer.href);
             ec('tr');
-          })  
+          }) 
+        } 
       ec('tbody'); 
     ec('table');
   }
@@ -1320,12 +1388,52 @@ function visJordstykke(data) {
         visKodeNavn('Sogn', data.sogn);
         visKodeNavn('Kommune', data.kommune);
         visKodeNavn('Region', data.region);
-        visKodeNavn('Retskreds', data.retskreds);        
+        visKodeNavn('Retskreds', data.retskreds);
+        eo('tr');
+          eo('td');
+            html('Fælleslod: ' + strong(data.fælleslod?'Ja':'Nej'));
+          ec('td');
+        ec('tr');
+        if (data.moderjordstykke) {                   
+          eo('tr');
+            eo('td');
+            html('Moderjordstykke: ' + strong(data.moderjordstykke));
+            ec('td');
+            // badge('info', 'badge-primary', postnummer.href.replace('dawa.aws.dk',host));
+            // badge('kort', 'badge-primary', postnummer.href.replace('dawa','vis'));
+            // badge('data', 'badge-primary', postnummer.href);
+          ec('tr');
+        }                   
+        eo('tr');
+          eo('td');
+            html('Registreret areal: ' + strong(data.registreretareal));
+          ec('td');
+        ec('tr');              
+        eo('tr');
+          eo('td');
+            html('Arealberegningsmetode: ' + strong(data.arealberegningsmetode + ' - ' + arealberegningsmetodeTekst(data.arealberegningsmetode)));
+          ec('td');
+        ec('tr');               
+        eo('tr');
+          eo('td');
+            html('Vejareal: ' + strong(data.vejareal));
+          ec('td');
+        ec('tr');                   
+        eo('tr');
+          eo('td');
+            html('Vejarealberegningsmetode: ' + strong(data.vejarealberegningsmetode + ' - ' + vejarealberegningsmetodeTekst(data.vejarealberegningsmetode)));
+          ec('td');
+        ec('tr');                   
+        eo('tr');
+          eo('td');
+            html('Vandarealberegningsmetode: ' + strong(data.vandarealberegningsmetode + ' - ' + vandarealberegningsmetodeTekst(data.vandarealberegningsmetode)));
+          ec('td');
+        ec('tr');        
         eo('tr');
           eo('td');
             html('ESR ejendomsnnummer: ' + strong(data.esrejendomsnr));
           ec('td');
-        ec('tr');           
+        ec('tr');                   
         eo('tr');
           eo('td');
             html('Udvidet ESR ejendomsnnummer: ' + strong(data.udvidet_esrejendomsnr));
@@ -1669,16 +1777,7 @@ function visOpstillingskreds(data) {
           badge('data', 'badge-primary', data.href, true);
         ec('tr');       
       ec('thead');  
-      eo('tbody');
-        eo('tr');
-          eo('td');
-            html('Tilknyttede afstemningsområder');
-          ec('td');
-          let aourl= origin + "/afstemningsomraader?opstillingskredsnummer=" + data.nummer;
-          badge('info', 'badge-primary', aourl);
-          badge('kort', 'badge-primary', aourl.replace('info','vis'));
-          badge('data', 'badge-primary', aourl.replace('info','dawa'));
-        ec('tr');          
+      eo('tbody');        
         eo('tr');
           eo('td');
             html('DAGI id: ' + strong(data.dagi_id));
@@ -1709,8 +1808,16 @@ function visOpstillingskreds(data) {
             badge('data', 'badge-primary', kommune.href);
           ec('tr');
         });
- //         badge('Afstemningsområder', 'badge-primary', origin + '/afstemningsomraader?opstillingskredsnummer='+data.nummer, true);     
-      ec('tbody'); 
+        eo('tr');
+          eo('td');
+            html('Tilknyttede afstemningsområder');
+          ec('td');
+          let aourl= origin + "/afstemningsomraader?opstillingskredsnummer=" + data.nummer;
+          badge('info', 'badge-primary', aourl);
+          badge('kort', 'badge-primary', aourl.replace('info','vis'));
+          badge('data', 'badge-primary', aourl.replace('info','dawa'));
+        ec('tr');  
+     ec('tbody'); 
     ec('table');
   }
 }
@@ -1755,7 +1862,7 @@ function visStorkreds(data) {
         visBogstavNavn('Valglandsdel', data.valglandsdel);         
         eo('tr');
           eo('td');
-            html('Opstillingskredse');
+            html('Tilknyttede opstillingskredse');
           ec('td');
           let okurl= origin + "/opstillingskredse?storkredsnummer=" + data.nummer;
           badge('info', 'badge-primary', okurl);
@@ -1803,15 +1910,15 @@ function visValglandsdel(data) {
             html('Ændret d. ' + strong(ændret.toLocaleString()));
           ec('td');
         ec('tr'); 
-        // eo('tr');
-        //   eo('td');
-        //     html('Storkredse');
-        //   ec('td');
-        //   let asurl= origin + "/storkredse?valglandsdelbogstav=" + data.bogstav;
-        //   badge('info', 'badge-primary', adrurl);
-        //   badge('kort', 'badge-primary', adrurl.replace('info','vis'));
-        //   badge('data', 'badge-primary', adrurl.replace('info','dawa'));
-        // ec('tr');
+        eo('tr');
+          eo('td');
+            html('Tilknyttede storkredse');
+          ec('td');
+          let skurl= origin + "/storkredse?valglandsdelsbogstav=" + data.bogstav;
+          badge('info', 'badge-primary', skurl);
+          badge('kort', 'badge-primary', skurl.replace('info','vis'));
+          badge('data', 'badge-primary', skurl.replace('info','dawa'));
+        ec('tr');
       ec('tbody'); 
     ec('table');
   }
