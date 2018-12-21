@@ -42,9 +42,7 @@ app.get(/.+/, function (req, res) {
   });
 }); 
 
-var usr= process.argv[2]
-  , pw= process.argv[3]
-  , port= process.argv[4];
+var port= process.argv[2];
 
 if (!port) port= 3000;
 

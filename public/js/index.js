@@ -554,8 +554,8 @@ function visOverskrift(overskrift) {
         html(strong(overskrift));
       ec('th');          
       eo('th');ec('th');
-      badge('kort', 'badge-primary', url.href.replace('dawa','vis'), true);
-      badge('data', 'badge-primary', url.href, true);
+      badge('kort', 'badge-primary', url.href.replace('info','vis'), true);
+      badge('data', 'badge-primary', url.href.replace('info','dawa'), true);
     ec('tr'); 
   ec('thead');
 }
