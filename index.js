@@ -45,6 +45,7 @@ app.get(/.+/, function (req, res) {
 var port= process.argv[2];
 
 if (!port) port= 3000;
+  console.log('port:%s', port);
 
 var server = app.listen(port, function () {
   var host = server.address().address;
