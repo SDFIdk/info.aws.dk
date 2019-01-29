@@ -8,7 +8,8 @@
     "env": "env",
     "lint": "jshint index.js",
     "devbuild": "npm install && cd public && npm run devbuild",
-    "build": "npm install --production && cd public && npm install --production"
+    "build": "npm install --production && cd public && npm install --production",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
