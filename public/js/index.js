@@ -1796,17 +1796,37 @@ function visOpstillingskreds(data) {
         });
         eo('tr');
           eo('td');
-            html('Tilknyttede afstemningsområder');
+            html('Afstemningsområder: ');
           ec('td');
-          let aourl= origin + "/afstemningsomraader?opstillingskredsnummer=" + data.nummer;
-          badge('info', 'badge-primary', aourl);
-          badge('kort', 'badge-primary', aourl.replace('info','vis'));
-          badge('data', 'badge-primary', aourl.replace('info','dawa'));
-        ec('tr');  
-     ec('tbody'); 
+        ec('tr');
+      ec('tbody'); 
+      let opstillingskredsafstemningsområder= 'opstillingskredsafstemningsområder';
+      eo('tbody', null, null, 'id', opstillingskredsafstemningsområder);
+          getAfstemningsområder(opstillingskredsafstemningsområder, data.nummer);
+      ec('tbody'); 
     ec('table');
   }
 }
+
+function getAfstemningsområder(id, opstillingskredsnummer) {
+  const url= dawaUrl.origin + '/afstemningsomraader?opstillingskredsnummer=' + opstillingskredsnummer;;
+  fetch(url).then( function(response) {
+    response.json().then( function ( data ) {
+      dom.patch(document.getElementById(id), () => {
+        data.forEach(afstemningsområde => { 
+          eo('tr'); 
+            eotd(1);
+              html(strong(afstemningsområde.nummer + " " + afstemningsområde.navn));
+            ec('td');
+            badge('info', 'badge-primary', afstemningsområde.href.replace('dawa.aws.dk',host));
+            badge('kort', 'badge-primary', afstemningsområde.href.replace('dawa','vis'));
+            badge('data', 'badge-primary', afstemningsområde.href);
+          ec('tr');
+        });   
+      });
+    });
+  });
+}       
 
 function visStorkredsKort(data) {  
   eo('tr');
@@ -1844,20 +1864,40 @@ function visStorkreds(data) {
           ec('td');
         ec('tr'); 
         visKodeNavn('Region', data.region);             
-        visBogstavNavn('Valglandsdel', data.valglandsdel);         
+        visBogstavNavn('Valglandsdel', data.valglandsdel);
         eo('tr');
           eo('td');
-            html('Tilknyttede opstillingskredse');
+            html('Opstillingskredse: ');
           ec('td');
-          let okurl= origin + "/opstillingskredse?storkredsnummer=" + data.nummer;
-          badge('info', 'badge-primary', okurl);
-          badge('kort', 'badge-primary', okurl.replace('info','vis'));
-          badge('data', 'badge-primary', okurl.replace('info','dawa'));
         ec('tr');
+      ec('tbody'); 
+      let storkredsopstillingskredse= 'storkredsopstillingskredse';
+      eo('tbody', null, null, 'id', storkredsopstillingskredse);
+          getOpstillingskredse(storkredsopstillingskredse, data.nummer);
       ec('tbody'); 
     ec('table');
   }
 }
+
+function getOpstillingskredse(id, storkredsnummer) {
+  const url= dawaUrl.origin + '/opstillingskredse?storkredsnummer=' + storkredsnummer;;
+  fetch(url).then( function(response) {
+    response.json().then( function ( data ) {
+      dom.patch(document.getElementById(id), () => {
+        data.forEach(opstillingskreds => { 
+          eo('tr'); 
+            eotd(1);
+              html(strong(opstillingskreds.nummer + " " + opstillingskreds.navn));
+            ec('td');
+            badge('info', 'badge-primary', opstillingskreds.href.replace('dawa.aws.dk',host));
+            badge('kort', 'badge-primary', opstillingskreds.href.replace('dawa','vis'));
+            badge('data', 'badge-primary', opstillingskreds.href);
+          ec('tr');
+        });   
+      });
+    });
+  });
+}       
 
 function visValglandsdelKort(data) {  
   eo('tr');
@@ -1893,20 +1933,40 @@ function visValglandsdel(data) {
           eo('td');
             html('Ændret d. ' + strong(ændret.toLocaleString()));
           ec('td');
-        ec('tr'); 
-        eo('tr');
-          eo('td');
-            html('Tilknyttede storkredse');
-          ec('td');
-          let skurl= origin + "/storkredse?valglandsdelsbogstav=" + data.bogstav;
-          badge('info', 'badge-primary', skurl);
-          badge('kort', 'badge-primary', skurl.replace('info','vis'));
-          badge('data', 'badge-primary', skurl.replace('info','dawa'));
         ec('tr');
+        eo('tr');
+            eo('td');
+              html('Storkredse: ');
+            ec('td');
+          ec('tr');
+        ec('tbody'); 
+        let valglandsdelestorkredse= 'valglandsdelestorkredse';
+      eo('tbody', null, null, 'id', valglandsdelestorkredse);
+          getStorkredse(valglandsdelestorkredse, data.bogstav);
       ec('tbody'); 
     ec('table');
   }
 }
+
+function getStorkredse(id, valglandsdelsbogstav) {
+  const url= dawaUrl.origin + '/storkredse?valglandsdelsbogstav=' + valglandsdelsbogstav;;
+  fetch(url).then( function(response) {
+    response.json().then( function ( data ) {
+      dom.patch(document.getElementById(id), () => {
+        data.forEach(storkreds => { 
+          eo('tr'); 
+            eotd(1);
+              html(strong(storkreds.nummer + " " + storkreds.navn));
+            ec('td');
+            badge('info', 'badge-primary', storkreds.href.replace('dawa.aws.dk',host));
+            badge('kort', 'badge-primary', storkreds.href.replace('dawa','vis'));
+            badge('data', 'badge-primary', storkreds.href);
+          ec('tr');
+        });   
+      });
+    });
+  });
+}            
 
 function visPostnummerKort(data) {  
   eo('tr');
