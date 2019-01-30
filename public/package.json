@@ -17,7 +17,7 @@
     "url-parse": "^1.4.3"
   },
   "devDependencies": {
-    "webpack": "^3.5.5",
-    "jshint": "^2.9.5"
+    "jshint": "^2.9.7",
+    "webpack": "^3.5.5"
   }
 }

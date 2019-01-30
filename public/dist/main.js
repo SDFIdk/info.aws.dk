@@ -663,15 +663,17 @@ function visListe(data, visEnkeltKort, overskrift) {
       'class', listetableclasses);
       visOverskrift('<em>' + capitalizeFirstLetter(overskrift) + '</em>');
       eo('tbody');
-        data.forEach(visEnkeltKort);
+      for (let i= 0; i<data.length; i++) {
+        visEnkeltKort(data[i], 0);
+      }
       ec('tbody');
     ec('table');
   }
 }
 
-function visAdresseKort(adresse) {  
+function visAdresseKort(adresse, indrykninger= 0) {  
   eo('tr');
-    eo('td');
+    eotd(indrykninger);
       eo('span', null, null,
         'class', 'badge badge-pill '+statusFarve(adresse.status));
         text(statusTekst(adresse.status));
@@ -1011,6 +1013,7 @@ function visAdgangsadresse(data) {
         ec('tr');
       ec('thead');
       eo('tbody');
+        adgangsadresseIndhold(data);
         eo('tr');
           eo('td');
             html('Tilknyttede adresser');
@@ -1020,11 +1023,35 @@ function visAdgangsadresse(data) {
           badge('kort', 'badge-primary', adrurl.replace('info','vis'));
           badge('data', 'badge-primary', adrurl.replace('info','dawa'));
         ec('tr');
-        adgangsadresseIndhold(data);
+      ec('tbody'); 
+      let adgangsadressensadresser= 'adgangsadressensadresser';
+      eo('tbody', null, null, 'id', adgangsadressensadresser);
+          getAdresser(adgangsadressensadresser, data.id);
       ec('tbody'); 
     ec('table');
   }
 }
+
+function getAdresser(id, adgangsadresseid) {
+  const url= dawaUrl.origin + "/adresser?adgangsadresseid=" + adgangsadresseid;;
+  fetch(url).then( function(response) {
+    response.json().then( function ( data ) {
+      dom.patch(document.getElementById(id), () => {
+        data.forEach(adresse => {
+          visAdresseKort(adresse,1); 
+          // eo('tr'); 
+          //   eotd(1);
+          //     html(strong(adresse.kode + " " + adresse.navn));
+          //   ec('td');
+          //   badge('info', 'badge-primary', adresse.href.replace('dawa.aws.dk',host));
+          //   badge('kort', 'badge-primary', adresse.href.replace('dawa','vis'));
+          //   badge('data', 'badge-primary', adresse.href);
+          // ec('tr');
+        });   
+      });
+    });
+  });
+}                
 
 function visNavngivnevejKort(navngivenvej) {  
   eo('tr');
