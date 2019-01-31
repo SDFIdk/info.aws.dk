@@ -935,6 +935,13 @@ function visAdgangsadresse(data) {
   }
 }
 
+function adresseCompare(a, b) {
+  var re = /\w+\s/g;
+  var str = 'fee fi fo fum';
+  var myArray = str.match(re);
+  console.log(myArray);
+}
+
 function getAdresser(id, adgangsadresseid) {
   const url= dawaUrl.origin + "/adresser?adgangsadresseid=" + adgangsadresseid;;
   fetch(url).then( function(response) {
