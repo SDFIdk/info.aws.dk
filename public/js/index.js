@@ -2062,7 +2062,7 @@ function visValglandsdel(data) {
         'class', theadclasses);
         eo('tr');
           eo('th');
-            html(em('Valglandsdele') + '<br/>' + strong(data.bogstav + ' ' + data.navn));
+            html(em('Valglandsdel') + '<br/>' + strong(data.bogstav + ' ' + data.navn));
           ec('th');
           eo('th');
           ec('th');
@@ -2421,10 +2421,10 @@ function stedIndhold(data,indrykninger) {
         html('Sekundære navne: ');
       ec('td');
     ec('tr');
-    data.sekundærenavne.forEach(navn => {                          
+    data.sekundærenavne.forEach(seknavn => {                          
       eo('tr');
-        eotd(indrykninger);
-          html(strong(navn));
+        eotd(indrykninger+1);
+          html(strong(seknavn.navn + ' (' + seknavn.navnestatus + ')'));
         ec('td');
       ec('tr');
     })  
