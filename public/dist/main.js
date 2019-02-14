@@ -130,9 +130,9 @@ var visSide= function(container) {
   });
 }
 
-function visData(data, visEnKort, visEn, ressource) {  
+function visData(data, visEnKort, visEn, ressource, compare) {  
   if (Array.isArray(data) && data.length !== 1) {      
-    dom.patch(container, visListe(data, visEnKort, ressource)); 
+    dom.patch(container, visListe(data, visEnKort, ressource, compare)); 
   } 
   else if (Array.isArray(data) && data.length === 1) {      
     dom.patch(container, visEn(data[0], ressource)); 
@@ -146,69 +146,69 @@ function visInfo(container, ressource, data) {
   let label= "";
   switch (ressource) {
   case 'adresser':
-    visData(data, visAdresseKort, visAdresse, ressource);
+    visData(data, visAdresseKort, visAdresse, ressource, adresseCompare);
     break;
   case 'adgangsadresser':
-    visData(data, visAdgangsadresseKort, visAdgangsadresse, ressource);
+    visData(data, visAdgangsadresseKort, visAdgangsadresse, ressource, adgangsadresseCompare);
     break;    
   case 'navngivneveje':    
-    visData(data, visNavngivnevejKort, visNavngivnevej, ressource);
+    visData(data, visNavngivnevejKort, visNavngivnevej, ressource, null);
     break;  
   case 'vejstykker':      
-    visData(data, visVejstykkeKort, visVejstykke, ressource);
+    visData(data, visVejstykkeKort, visVejstykke, ressource, null);
     break;   
   case 'supplerendebynavne2': 
-    visData(data, visSupplerendeBynavnKort, visSupplerendeBynavn, ressource);
+    visData(data, visSupplerendeBynavnKort, visSupplerendeBynavn, ressource, null);
     break;  
   case 'ejerlav': 
-    visData(data, visEjerlavetKort, visEjerlavet, ressource);
+    visData(data, visEjerlavetKort, visEjerlavet, ressource, null);
     break;
   case 'jordstykker':
-    visData(data, visJordstykkeKort, visJordstykke, ressource);
+    visData(data, visJordstykkeKort, visJordstykke, ressource, null);
     break;  
   case 'bygninger':
-    visData(data, visBygningKort, visBygning, ressource);
+    visData(data, visBygningKort, visBygning, ressource, null);
     break;  
   case 'postnumre': 
-    visData(data, visPostnummerKort, visPostnummer, ressource);
+    visData(data, visPostnummerKort, visPostnummer, ressource, null);
     break;
   case 'sogne':
   case 'politikredse':
   case 'retskredse':
-    visData(data, visDAGIKort, visDAGI(ressource), flertal(ressource), ressource);
+    visData(data, visDAGIKort, visDAGI(ressource), flertal(ressource), ressource, null);
     break;
   case 'regioner':
-    visData(data, visRegionKort, visRegion, ressource);
+    visData(data, visRegionKort, visRegion, ressource, null);
     break;
   case 'kommuner':
-    visData(data, visKommuneKort, visKommune, ressource);
+    visData(data, visKommuneKort, visKommune, ressource, null);
     break;
   case 'afstemningsomraader': 
-    visData(data, visAfstemningsområdeKort, visAfstemningsområde, flertal(ressource));
+    visData(data, visAfstemningsområdeKort, visAfstemningsområde, flertal(ressource), null);
     break;
   case 'menighedsraadsafstemningsomraader':
-    visData(data, visMenighedsraadsafstemningsområdeKort, visMenighedsraadsafstemningsområde, flertal(ressource));
+    visData(data, visMenighedsraadsafstemningsområdeKort, visMenighedsraadsafstemningsområde, flertal(ressource), null);
     break;
   case 'opstillingskredse':
-    visData(data, visOpstillingskredsKort, visOpstillingskreds, ressource);
+    visData(data, visOpstillingskredsKort, visOpstillingskreds, ressource, null);
     break;
   case 'storkredse':
-    visData(data, visStorkredsKort, visStorkreds, ressource);
+    visData(data, visStorkredsKort, visStorkreds, ressource, null);
     break; 
   case 'valglandsdele':
-    visData(data, visValglandsdelKort, visValglandsdel, ressource);
+    visData(data, visValglandsdelKort, visValglandsdel, ressource, null);
     break;
   case 'bebyggelser':
-    visData(data, visBebyggelseKort, visBebyggelse, ressource);
+    visData(data, visBebyggelseKort, visBebyggelse, ressource, null);
     break;    
   case 'stednavne':
-    visData(data, visStednavnKort, visStednavn, ressource);
+    visData(data, visStednavnKort, visStednavn, ressource, null);
    break;    
   case 'stednavne2':
-    visData(data, visStednavn2Kort, visStednavn2, flertal(ressource));
+    visData(data, visStednavn2Kort, visStednavn2, flertal(ressource), null);
     break;      
   case 'steder':
-    visData(data, visStedKort, visSted, ressource);
+    visData(data, visStedKort, visSted, ressource, null);
     break; 
   default:    
     html('<h1>Ukendt ressource: ' + ressource + '</h1>');
@@ -657,13 +657,14 @@ function visOverskrift(overskrift) {
   ec('thead');
 }
 
-function visListe(data, visEnkeltKort, overskrift) {
+function visListe(data, visEnkeltKort, overskrift, compare) {
   return function() {
     eo('table',null,null,
       'class', listetableclasses);
       visOverskrift('<em>' + capitalizeFirstLetter(overskrift) + '</em>');
       eo('tbody');
       for (let i= 0; i<data.length; i++) {
+        if (compare) data.sort(compare);
         visEnkeltKort(data[i], 0);
       }
       ec('tbody');
@@ -1031,12 +1032,120 @@ function visAdgangsadresse(data) {
     ec('table');
   }
 }
+function adgangsadresseCompare(a, b) {
+
+  let apostnr= parseInt(a.postnummer.nr);
+  let bpostnr= parseInt(b.postnummer.nr);
+
+  let dif= apostnr - bpostnr;
+
+  if (dif > 0) {
+    return 1;
+  }
+  else if (dif < 0) {
+    return -1;
+  } 
+
+
+  if (a.vejstykke.navn < b.vejstykke.navn) {
+    return -1;
+  }
+  if (a.vejstykke.navn > b.vejstykke.navn) {
+    return 1;
+  }
+
+
+  var reHusnr = /(\d+)([A-ZÆØÅ]?)/;
+
+  var aArray = a.husnr.match(reHusnr);
+  var bArray = b.husnr.match(reHusnr);
+
+  let ahusnr= parseInt(aArray[1]);
+  let bhusnr= parseInt(bArray[1]);
+
+  dif= ahusnr - bhusnr;
+
+  if (dif > 0) {
+    return 1;
+  }
+  else if (dif < 0) {
+    return -1;
+  } 
+
+  let aBogstav= aArray[2];
+  let bBogstav= bArray[2];
+
+  if (aBogstav < bBogstav) {
+    return -1;
+  }
+  if (aBogstav > bBogstav) {
+    return 1;
+  }
+
+  return 0;
+}
+
+function etage2int(etage) {
+  if (!etage) {
+    return -9999;
+  }
+  if (etage.match(/^\d+$/)) {
+    return parseInt(etage);
+  }
+  else if (etage.match(/^st$/)) {
+    return 0;
+  }
+  else if (etage.match(/^kl$/)) {
+    return -1;
+  }
+  let ar= etage.match(/^k(\d+)$/);
+  return -parseInt(ar[1]);
+}
+
+function dør2str(dør) {
+  if (!dør) {
+    dør= '';
+  }
+  else if (dør === 'tv') {
+    return ' ';
+  }
+  else if (dør === 'mf') {
+    return '  ';
+  }
+  else if (dør == 'th') {
+    return '   ';
+  }
+  return dør;
+}
 
 function adresseCompare(a, b) {
-  var re = /(\d+)([A-ZÆØÅ]?)/;
-  var str = 'fee fi fo fum';
-  var myArray = str.match(re);
-  console.log(myArray);
+
+  let aa= adgangsadresseCompare(a.adgangsadresse, b.adgangsadresse);
+  if (aa !== 0) return aa;
+
+  let aetage= etage2int(a.etage);
+  let betage= etage2int(b.etage);
+
+  let dif= aetage - betage;
+
+  if (dif > 0) {
+    return 1;
+  }
+  else if (dif < 0) {
+    return -1;
+  } 
+
+  let adør= dør2str(a.dør);
+  let bdør= dør2str(b.dør);
+
+  if (adør < bdør) {
+    return -1;
+  }
+  if (adør > bdør) {
+    return 1;
+  }
+
+  return 0;
 }
 
 function getAdresser(id, adgangsadresseid) {
@@ -1044,6 +1153,7 @@ function getAdresser(id, adgangsadresseid) {
   fetch(url).then( function(response) {
     response.json().then( function ( data ) {
       dom.patch(document.getElementById(id), () => {
+        data.sort(adresseCompare);
         data.forEach(adresse => {
           visAdresseKort(adresse,1); 
           // eo('tr'); 
@@ -2049,7 +2159,7 @@ function visValglandsdel(data) {
         'class', theadclasses);
         eo('tr');
           eo('th');
-            html(em('Valglandsdel') + '<br/>' + strong(data.bogstav + ' ' + data.navn));
+            html(em('Valglandsdele') + '<br/>' + strong(data.bogstav + ' ' + data.navn));
           ec('th');
           eo('th');
           ec('th');
@@ -2408,10 +2518,10 @@ function stedIndhold(data,indrykninger) {
         html('Sekundære navne: ');
       ec('td');
     ec('tr');
-    data.sekundærenavne.forEach(seknavn => {                          
+    data.sekundærenavne.forEach(navn => {                          
       eo('tr');
-        eotd(indrykninger+1);
-          html(strong(seknavn.navn + ' (' + seknavn.navnestatus + ')'));
+        eotd(indrykninger);
+          html(strong(navn));
         ec('td');
       ec('tr');
     })  
