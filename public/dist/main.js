@@ -1622,21 +1622,20 @@ function visJordstykke(data) {
         visKodeNavn('Kommune', data.kommune);
         visKodeNavn('Region', data.region);
         visKodeNavn('Retskreds', data.retskreds);
+        if (data.moderjordstykke) { 
+          let id= 'moderjordstykke';                  
+          eo('tr', null, null, 'id', id);
+            eo('td');
+            html('Moderjordstykke: ' + strong(data.moderjordstykke));
+            ec('td');
+            getJordstykke(id, data.moderjordstykke);
+          ec('tr');
+        } 
         eo('tr');
           eo('td');
             html('Fælleslod: ' + strong(data.fælleslod?'Ja':'Nej'));
           ec('td');
-        ec('tr');
-        if (data.moderjordstykke) {                   
-          eo('tr');
-            eo('td');
-            html('Moderjordstykke: ' + strong(data.moderjordstykke));
-            ec('td');
-            // badge('info', 'badge-primary', postnummer.href.replace('dawa.aws.dk',host));
-            // badge('kort', 'badge-primary', postnummer.href.replace('dawa','vis'));
-            // badge('data', 'badge-primary', postnummer.href);
-          ec('tr');
-        }                   
+        ec('tr');                  
         eo('tr');
           eo('td');
             html('Registreret areal: ' + strong(data.registreretareal));
@@ -1677,9 +1676,54 @@ function visJordstykke(data) {
             html('SFE ejendomsnnummer: ' + strong(data.sfeejendomsnr));
           ec('td');
         ec('tr');              
+      ec('tbody');
+      let tilknyttedeJordstykker= 'tilknyttedeJordstykker';
+      eo('tbody', null, null, 'id', tilknyttedeJordstykker);
+          getTilknyttedeJordstykker(tilknyttedeJordstykker, data.featureid);
       ec('tbody'); 
     ec('table');
   }
+}
+
+function getTilknyttedeJordstykker(id, moderjorstykke) {
+  const url= dawaUrl.origin + '/jordstykker?moderjordstykke=' + moderjorstykke;;
+  fetch(url).then( function(response) {
+    response.json().then( function ( data ) {
+      dom.patch(document.getElementById(id), () => {                  
+        eo('tr');
+          eo('td');
+            html('Børnejordstykker: ');
+          ec('td');
+        ec('tr');
+        data.forEach(jordstykke => {  
+          eo('tr'); 
+            eotd(1);
+              html(strong(jordstykke.matrikelnr + " " + jordstykke.ejerlav.navn));
+            ec('td');
+            badge('info', 'badge-primary', jordstykke.href.replace('dawa.aws.dk',host));
+            badge('kort', 'badge-primary', jordstykke.href.replace('dawa','vis'));
+            badge('data', 'badge-primary', jordstykke.href);
+          ec('tr');
+        });   
+      });
+    });
+  });
+}        
+
+function getJordstykke(id, featureid) {
+  const url= dawaUrl.origin + '/jordstykker?featureid=' + featureid;
+  fetch(url).then( function(response) {
+    response.json().then( function ( data ) {
+      dom.patch(document.getElementById(id), () => {
+        eo('td');
+        html('Moderjordstykke: ' + strong(data[0].featureid));
+        ec('td');
+        badge('info', 'badge-primary', url.replace('dawa.aws.dk',host));
+        badge('kort', 'badge-primary', url.replace('dawa','vis'));
+        badge('data', 'badge-primary', url);
+      });
+    });
+  });
 }
 
 function visDAGIKort(data) {  
