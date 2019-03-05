@@ -634,6 +634,22 @@ function visAdresse(data) {
             html('Ændret d. ' + strong(ændret.toLocaleString()));
           ec('td');
         ec('tr');
+        if (data.historik.ikrafttrædelse) { 
+          eo('tr');
+            let ikrafttrædelse= new Date(data.historik.ikrafttrædelse);
+            eo('td');
+              html('Ikrafttrådt d. ' + strong(ikrafttrædelse.toLocaleString()));
+            ec('td');
+          ec('tr');
+        }
+        if (data.historik.nedlagt) { 
+          eo('tr');
+            let nedlagt= new Date(data.historik.nedlagt);
+            eo('td');
+              html('Nedlagt d. ' + strong(nedlagt.toLocaleString()));
+            ec('td');
+          ec('tr');
+        }
         eo('tr');
           eo('td');
             html('Adgangsadresse: ');
@@ -705,6 +721,22 @@ function adgangsadresseIndhold(data, indrykninger= 0)
       html('Ændret d. ' + strong(ændret.toLocaleString()));
     ec('td');
   ec('tr');
+  if (data.historik.ikrafttrædelse) { 
+    eo('tr');
+      let ikrafttrædelse= new Date(data.historik.ikrafttrædelse);
+      eo('td');
+        html('Ikrafttrådt d. ' + strong(ikrafttrædelse.toLocaleString()));
+      ec('td');
+    ec('tr');
+  }
+  if (data.historik.nedlagt) { 
+    eo('tr');
+      let nedlagt= new Date(data.historik.nedlagt);
+      eo('td');
+        html('Nedlagt d. ' + strong(nedlagt.toLocaleString()));
+      ec('td');
+    ec('tr');
+  }
   eo('tr');    
     eotd(indrykninger);; 
         html('Navngiven vej: ' + strong(data.vejstykke.navn));
@@ -1130,7 +1162,23 @@ function visNavngivnevej(data) {
           eo('td');
             html('Ændret d. ' + strong(ændret.toLocaleString()));
           ec('td');
-        ec('tr');   
+        ec('tr');
+        if (data.historik.ikrafttrædelse) { 
+          eo('tr');
+            let ikrafttrædelse= new Date(data.historik.ikrafttrædelse);
+            eo('td');
+              html('Ikrafttrådt d. ' + strong(ikrafttrædelse.toLocaleString()));
+            ec('td');
+          ec('tr');
+        }
+        if (data.historik.nedlagt) { 
+          eo('tr');
+            let nedlagt= new Date(data.historik.nedlagt);
+            eo('td');
+              html('Nedlagt d. ' + strong(nedlagt.toLocaleString()));
+            ec('td');
+          ec('tr');
+        }   
         visKodeNavn('Administrende kommune', data.administrerendekommune);             
         eo('tr');
           eo('td');
