@@ -1737,23 +1737,25 @@ function getTilknyttedeJordstykker(id, moderjorstykke) {
   const url= dawaUrl.origin + '/jordstykker?moderjordstykke=' + moderjorstykke;;
   fetch(url).then( function(response) {
     response.json().then( function ( data ) {
-      dom.patch(document.getElementById(id), () => {                  
-        eo('tr');
-          eo('td');
-            html('Børnejordstykker: ');
-          ec('td');
-        ec('tr');
-        data.forEach(jordstykke => {  
-          eo('tr'); 
-            eotd(1);
-              html(strong(jordstykke.matrikelnr + " " + jordstykke.ejerlav.navn));
+      if (data.length > 0) {
+        dom.patch(document.getElementById(id), () => {                  
+          eo('tr');
+            eo('td');
+              html('Børnejordstykker: ');
             ec('td');
-            badge('info', 'badge-primary', jordstykke.href.replace('dawa.aws.dk',host));
-            badge('kort', 'badge-primary', jordstykke.href.replace('dawa','vis'));
-            badge('data', 'badge-primary', jordstykke.href);
           ec('tr');
-        });   
-      });
+          data.forEach(jordstykke => {  
+            eo('tr'); 
+              eotd(1);
+                html(strong(jordstykke.matrikelnr + " " + jordstykke.ejerlav.navn));
+              ec('td');
+              badge('info', 'badge-primary', jordstykke.href.replace('dawa.aws.dk',host));
+              badge('kort', 'badge-primary', jordstykke.href.replace('dawa','vis'));
+              badge('data', 'badge-primary', jordstykke.href);
+            ec('tr');
+          });
+        });  
+      }; 
     });
   });
 }        
