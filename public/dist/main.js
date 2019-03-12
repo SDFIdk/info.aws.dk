@@ -2590,7 +2590,15 @@ function stedIndhold(data,indrykninger) {
     eotd(indrykninger);
       html('Ændret d. ' + strong(ændret.toLocaleString()));
     ec('td');
-  ec('tr');       
+  ec('tr');                           
+  eo('tr');
+    eotd(indrykninger);
+      html('Primært navn: ' + strong(data.primærtnavn));
+    ec('td');
+    badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host).replace('steder','stednavne2') + '/' + data.primærtnavn);
+    badge('kort', 'badge-primary', 'https://vis.aws.dk/stednavne2/' + data.id + '/' + data.primærtnavn);
+    badge('data', 'badge-primary', 'https://data.aws.dk/stednavne2/' + data.id + '/' + data.primærtnavn);
+  ec('tr');      
   eo('tr');
     eotd(indrykninger);
       html('Hovedtype: ' + strong(data.hovedtype));
@@ -2617,6 +2625,9 @@ function stedIndhold(data,indrykninger) {
         eotd(indrykninger+1);
           html(strong(seknavn.navn + ' (' + seknavn.navnestatus + ')'));
         ec('td');
+        badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host).replace('steder','stednavne2') + '/' + seknavn.navn);
+        badge('kort', 'badge-primary', 'https://vis.aws.dk/stednavne2/' + data.id + '/' + seknavn.navn);
+        badge('data', 'badge-primary', 'https://data.aws.dk/stednavne2/' + data.id + '/' + seknavn.navn);
       ec('tr');
     })  
   }            
