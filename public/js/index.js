@@ -723,8 +723,8 @@ function adgangsadresseIndhold(data, indrykninger= 0)
   ec('tr');
   if (data.historik.ikrafttrædelse) { 
     eo('tr');
-      let ikrafttrædelse= new Date(data.historik.ikrafttrædelse);
-      eo('td');
+      let ikrafttrædelse= new Date(data.historik.ikrafttrædelse);   
+      eotd(indrykninger);;
         html('Ikrafttrådt d. ' + strong(ikrafttrædelse.toLocaleString()));
       ec('td');
     ec('tr');
