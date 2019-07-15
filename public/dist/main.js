@@ -179,7 +179,10 @@ function visInfo(container, ressource, data) {
     break;
   case 'regioner':
     visData(data, visRegionKort, visRegion, ressource, null);
-    break;
+    break;  
+  case 'landsdele': 
+    visData(data, visLandsdelKort, visLandsdel, ressource, null);
+    break;  
   case 'kommuner':
     visData(data, visKommuneKort, visKommune, ressource, null);
     break;
@@ -253,6 +256,9 @@ function ental(ressource) {
     break;
   case 'regioner':
     tekst= 'region';
+    break;
+  case 'landsdele':
+    tekst= 'landsdel';
     break;
   case 'kommuner':
     tekst= 'kommune';
@@ -328,6 +334,9 @@ function flertal(ressource) {
     break;
   case 'regioner':
     tekst= 'regioner';
+    break;
+  case 'landsdele':
+    tekst= 'landsdele';
     break;
   case 'kommuner':
     tekst= 'kommuner';
@@ -562,11 +571,47 @@ function statusFarve(status) {
 function darstatusFarve(status) {
   let tekst= "";
   switch (status) {
+  case 3:
   case "gældende":
     tekst= 'badge-success';
     break;
+  case 2:
   case "foreløbig":
     tekst= 'badge-warning';
+    break;
+  }
+  return tekst;
+}
+
+function darstatusTekst(status) {
+  let tekst= "";
+  switch (status) {
+  case 1:
+    tekst= 'Intern forberedelse';
+    break;
+  case 2:
+    tekst= 'Foreløbig';
+    break;
+  case 3:
+    tekst= 'Gældende';
+    break;
+  case 4:
+    tekst= 'Nedlagt';
+    break;
+  case 5:
+    tekst= 'Henlagt';
+    break;
+  case 6:
+    tekst= 'Slettet';
+    break;
+  case 7:
+    tekst= 'Ikke i brug';
+    break;
+  case 8:
+    tekst= 'I brug';
+    break;
+  case 5:
+    tekst= 'Udgået';
     break;
   }
   return tekst;
@@ -666,7 +711,16 @@ function visListe(data, visEnkeltKort, overskrift, compare) {
       for (let i= 0; i<data.length; i++) {
         if (compare) data.sort(compare);
         visEnkeltKort(data[i], 0);
-      }
+      }       
+      eo('tr', null, null,
+        'class', 'table-secondary');
+        eo('td');
+          html(strong(data.length + " " + overskrift));
+        ec('td');
+        for (let i= 0; i<3; i++) {
+          eo('td');
+          ec('td');
+        }
       ec('tbody');
     ec('table');
   }
@@ -1540,7 +1594,11 @@ function visVejstykke(data) {
 function visSupplerendeBynavnKort(data) {  
   eo('tr');
     eo('td');
-      html(data.navn);
+      eo('span', null, null,
+        'class', 'badge badge-pill '+darstatusFarve(data.darstatus));
+        text(darstatusTekst(data.darstatus));
+      ec('span');
+      html('<br/>' + strong(data.navn));
     ec('td');
     badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
     badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
@@ -1564,7 +1622,16 @@ function visSupplerendeBynavn(data) {
           badge('data', 'badge-primary', data.href, true);
         ec('tr'); 
       ec('thead');  
-      eo('tbody');          
+      eo('tbody');
+        eo('tr');
+          eo('td');
+            html('Status: '); 
+            eo('span', null, null,
+              'class', 'badge badge-pill '+darstatusFarve(data.darstatus));
+              text(darstatusTekst(data.darstatus));
+            ec('span');
+          ec('td');
+        ec('tr');             
         eo('tr');
           eo('td');
             html('DAGI id: ' + strong(data.dagi_id));
@@ -1893,6 +1960,58 @@ function getRegion(id, regionskode) {
     });
   });
 }
+
+
+function visLandsdelKort(data) {  
+  eo('tr');
+    eo('td');
+      html(strong(data.navn));
+    ec('td');
+    badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
+    badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+    badge('data', 'badge-primary', data.href);
+  ec('tr');
+}
+
+function visLandsdel(data) {
+  return function() {
+    eo('table',null,null,
+      'class', tableclasses); //table-striped'); //) table-dark');
+      eo('thead', null, null,
+        'class', theadclasses);
+        eo('tr');
+          eo('th');
+            html(em('Landsdel') + '<br/>' +strong(data.navn));
+          ec('th');
+          eo('th');
+          ec('th');
+          badge('kort', 'badge-primary', data.href.replace('dawa','vis'), true);
+          badge('data', 'badge-primary', data.href, true);
+        ec('tr'); 
+      ec('thead');  
+      eo('tbody');        
+        eo('tr');
+          eo('td');
+            html('NUTS 3: ' + strong(data.nuts3));
+          ec('td');
+        ec('tr');            
+        eo('tr');
+          eo('td');
+            html('DAGI id: ' + strong(data.dagi_id));
+          ec('td');
+        ec('tr');    
+        eo('tr');
+          let ændret= new Date(data.ændret);
+          eo('td');
+            html('Ændret d. ' + strong(ændret.toLocaleString()));
+          ec('td');
+        ec('tr');    
+        visKodeNavn('Region', data.region);
+      ec('tbody'); 
+    ec('table');
+  }
+}
+
 
 
 function visRegionKort(data) {  
