@@ -936,6 +936,16 @@ function adgangsadresseIndhold(data, indrykninger= 0)
   }
   visKodeNavn('Kommune', data.kommune, indrykninger);
   visKodeNavn('Sogn', data.sogn, indrykninger);
+  if (data.landsdel) {
+    eo('tr');    
+      eotd(indrykninger);;
+        html('Landsdel: ' + strong(data.landsdel.nuts3 + " " + data.landsdel.navn));
+      ec('td');
+      badge('info', 'badge-primary', data.landsdel.href.replace('dawa.aws.dk',host));
+      badge('kort', 'badge-primary', data.landsdel.href.replace('dawa','vis'));
+      badge('data', 'badge-primary', data.landsdel.href);
+    ec('tr');
+  }
   visKodeNavn('Region', data.region, indrykninger);
   visKodeNavn('Retskreds', data.retskreds, indrykninger);
   visKodeNavn('Politikreds', data.politikreds, indrykninger);
@@ -948,6 +958,22 @@ function adgangsadresseIndhold(data, indrykninger= 0)
     badge('data', 'badge-primary', data.afstemningsområde.href);
   ec('tr');
   visKodeNavn('Opstillingskreds', data.opstillingskreds, indrykninger);
+  eo('tr');    
+    eotd(indrykninger);;
+      html('Storkreds: ' + strong(data.storkreds.nummer + " " + data.storkreds.navn));
+    ec('td');
+    badge('info', 'badge-primary', data.storkreds.href.replace('dawa.aws.dk',host));
+    badge('kort', 'badge-primary', data.storkreds.href.replace('dawa','vis'));
+    badge('data', 'badge-primary', data.storkreds.href);
+  ec('tr');
+  eo('tr');    
+    eotd(indrykninger);;
+      html('Valglandsdel: ' + strong(data.valglandsdel.bogstav + " " + data.valglandsdel.navn));
+    ec('td');
+    badge('info', 'badge-primary', data.valglandsdel.href.replace('dawa.aws.dk',host));
+    badge('kort', 'badge-primary', data.valglandsdel.href.replace('dawa','vis'));
+    badge('data', 'badge-primary', data.valglandsdel.href);
+  ec('tr');
   let txtBygningsid= 'bygning';
   eo('tr', null, null, 'id', txtBygningsid, 'style', 'display: none'); 
     getBygning(txtBygningsid, data.id, indrykninger);
