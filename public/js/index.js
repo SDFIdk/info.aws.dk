@@ -33,9 +33,9 @@ var visSide= function(container) {
   });
 }
 
-function visData(data, visEnKort, visEn, ressource, compare) {  
+function visData(data, visEnKort, visEn, ressource, compare, kort=true) {  
   if (Array.isArray(data) && data.length !== 1) {      
-    dom.patch(container, visListe(data, visEnKort, ressource, compare)); 
+    dom.patch(container, visListe(data, visEnKort, ressource, compare, kort)); 
   } 
   else if (Array.isArray(data) && data.length === 1) {      
     dom.patch(container, visEn(data[0], ressource)); 
@@ -59,6 +59,9 @@ function visInfo(container, ressource, data) {
     break;  
   case 'vejstykker':      
     visData(data, visVejstykkeKort, visVejstykke, ressource, null);
+    break;    
+  case 'vejnavne':      
+    visData(data, visVejnavnKort, visVejnavn, ressource, vejnavneCompare, false);
     break;   
   case 'supplerendebynavne2': 
     visData(data, visSupplerendeBynavnKort, visSupplerendeBynavn, ressource, null);
@@ -116,8 +119,8 @@ function visInfo(container, ressource, data) {
   case 'steder':
     visData(data, visStedKort, visSted, ressource, null);
     break; 
-  default:    
-    html('<h1>Ukendt ressource: ' + ressource + '</h1>');
+  default: 
+    dom.patch(container, () => {html('<h1>Ukendt ressource: ' + ressource + '</h1>')});
   }
 }
 
@@ -591,7 +594,7 @@ function visBogstavNavn(navn, ref) {
 }
 
 
-function visOverskrift(overskrift) {
+function visOverskrift(overskrift, kort=true) {
   eo('thead', null, null,
       'class', theadclasses);    
     eo('tr');
@@ -599,17 +602,22 @@ function visOverskrift(overskrift) {
         html(strong(overskrift));
       ec('th');          
       eo('th');ec('th');
-      badge('kort', 'badge-primary', url.href.replace('info','vis'), true);
+      if (kort) {
+        badge('kort', 'badge-primary', url.href.replace('info','vis'), true);
+      }
+      else {               
+        eo('th');ec('th');
+      }
       badge('data', 'badge-primary', url.href.replace('info','dawa'), true);
     ec('tr'); 
   ec('thead');
 }
 
-function visListe(data, visEnkeltKort, overskrift, compare) {
+function visListe(data, visEnkeltKort, overskrift, compare, kort=true) {
   return function() {
     eo('table',null,null,
       'class', listetableclasses);
-      visOverskrift('<em>' + capitalizeFirstLetter(overskrift) + '</em>');
+      visOverskrift('<em>' + capitalizeFirstLetter(overskrift) + '</em>', kort);
       eo('tbody');
       for (let i= 0; i<data.length; i++) {
         if (compare) data.sort(compare);
@@ -624,6 +632,7 @@ function visListe(data, visEnkeltKort, overskrift, compare) {
           eo('td');
           ec('td');
         }
+      ec('tr');
       ec('tbody');
     ec('table');
   }
@@ -1047,6 +1056,7 @@ function visAdgangsadresse(data) {
     ec('table');
   }
 }
+
 function adgangsadresseCompare(a, b) {
 
   let apostnr= parseInt(a.postnummer.nr);
@@ -1498,6 +1508,84 @@ function visVejstykke(data) {
           badge('kort', 'badge-primary', data.navngivenvej.href.replace('dawa','vis'));
           badge('data', 'badge-primary', data.navngivenvej.href);
         ec('tr');
+        if (data.postnumre) {                     
+          eo('tr');
+            eo('td');
+              html('Postnumre: ');
+            ec('td');
+          ec('tr');
+          data.postnumre.forEach(postnummer => {          
+            eo('tr');
+              eo('td', null, null, 'style', 'padding-left:2em ');
+                html(strong(postnummer.nr + " " + postnummer.navn));
+              ec('td');
+              badge('info', 'badge-primary', postnummer.href.replace('dawa.aws.dk',host));
+              badge('kort', 'badge-primary', postnummer.href.replace('dawa','vis'));
+              badge('data', 'badge-primary', postnummer.href);
+            ec('tr');
+          }) 
+        } 
+      ec('tbody'); 
+    ec('table');
+  }
+}
+
+function vejnavneCompare(a, b) {
+
+  if (a.navn < b.navn) {
+    return -1;
+  }
+  if (a.navn > b.navn) {
+    return 1;
+  }
+
+  return 0;
+}
+
+function visVejnavnKort(data) {  
+  eo('tr');
+    eo('td');
+      html(strong(data.navn));
+    ec('td');
+    badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
+    eo('td'); ec('td');
+    badge('data', 'badge-primary', data.href);
+  ec('tr');
+}
+
+function visVejnavn(data) {
+  return function() {
+    eo('table',null,null,
+      'class', tableclasses); //table-striped'); //) table-dark');
+      eo('thead', null, null,
+        'class', theadclasses);
+        eo('tr');
+          eo('th'); 
+            html(em('Vejnavn') + '<br/>' + strong(data.navn));
+          ec('th');
+          eo('th');
+          ec('th');
+          eo('th');
+          ec('th');
+          badge('data', 'badge-primary', data.href, true);
+        ec('tr');
+      ec('thead'); 
+      eo('tbody');                       
+        eo('tr');
+          eo('td');
+            html('Kommuner: ');
+          ec('td');
+        ec('tr');
+        data.kommuner.forEach(kommune => {          
+          eo('tr');
+            eo('td', null, null, 'style', 'padding-left:2em ');
+              html(strong(kommune.kode + " " + kommune.navn));
+            ec('td');
+            badge('info', 'badge-primary', kommune.href.replace('dawa.aws.dk',host));
+            badge('kort', 'badge-primary', kommune.href.replace('dawa','vis'));
+            badge('data', 'badge-primary', kommune.href);
+          ec('tr');
+        });
         if (data.postnumre) {                     
           eo('tr');
             eo('td');
