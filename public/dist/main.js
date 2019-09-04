@@ -420,6 +420,22 @@ function nøjagtighedTekst(bogstav) {
   return tekst;
 }
 
+function beliggenhedNøjagtighedTekst(bogstav) {
+  let tekst= 'Ukendt nøjagtighedsklasse';
+  switch (bogstav) {
+  case 'A':
+    tekst= 'Manuelt sat, følger IKKE GeoDanmark';
+    break;
+  case 'B':
+    tekst= 'Maskinelt sat, ud fra GeoDanmark';
+    break;
+  case 'C':
+    tekst= 'Manuelt sat, kommer til at følge GeoDanmark';
+    break;
+  }
+  return tekst;
+}
+
 function kildeTekst(kilde) {
   let tekst= 'Ukendt kilde';
   switch (kilde) {
@@ -1433,7 +1449,7 @@ function visNavngivnevej(data) {
         ec('tr');
         eo('tr');
           eo('td', null, null, 'style', 'padding-left:2em ');
-            html('Nøjagtighedsklasse: ' + strong(data.beliggenhed.oprindelse.nøjagtighedsklasse + ' - ' + nøjagtighedTekst(data.beliggenhed.oprindelse.nøjagtighedsklasse)));
+            html('Nøjagtighedsklasse: ' + strong(data.beliggenhed.oprindelse.nøjagtighedsklasse + ' - ' + beliggenhedNøjagtighedTekst(data.beliggenhed.oprindelse.nøjagtighedsklasse)));
           ec('td');
         ec('tr');          
         eo('tr');
