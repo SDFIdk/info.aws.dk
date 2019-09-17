@@ -2352,11 +2352,16 @@ function visOpstillingskreds(data) {
           eo('td');
             html('DAGI id: ' + strong(data.dagi_id));
           ec('td');
-        ec('tr'); 
+        ec('tr');
         eo('tr');
           let ændret= new Date(data.ændret);
           eo('td');
             html('Ændret d. ' + strong(ændret.toLocaleString()));
+          ec('td');
+        ec('tr');         
+        eo('tr');
+          eo('td');
+            html('Valgkredsnummer: ' + strong(data.valgkredsnummer));
           ec('td');
         ec('tr');   
         visNummerNavn('Storkreds', data.storkreds);         
