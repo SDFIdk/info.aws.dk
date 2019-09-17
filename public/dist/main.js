@@ -115,7 +115,13 @@ const listetableclasses= 'table table-hover'
 var visSide= function(container) {
 
   let arr= dawaUrl.pathname.split('/');
-  let ressource= arr[1];
+  let ressource= arr[1].toLowerCase();
+  console.log(arr);
+  console.log(ressource);
+  if (ressource === 'bbr') {
+    ressource= ressource + '/' + arr[2].toLowerCase();
+  }
+  console.log(ressource);
 
   query.format= 'json';
   delete query.struktur;
@@ -124,9 +130,14 @@ var visSide= function(container) {
   let urltext= dawaUrl.toString();
 
   fetch(urltext).then( function(response) {
-    response.json().then( function ( data ) {
-      visInfo(container, ressource, data);
-    });
+    if (response.status === 200) {
+      response.json().then( function ( data ) {
+        visInfo(container, ressource, data);
+      });
+    }
+    else {      
+      dom.patch(container, () => {html('<h1>Ukendt ressource: ' + ressource + '</h1>')});
+    }
   });
 }
 
@@ -145,6 +156,9 @@ function visData(data, visEnKort, visEn, ressource, compare, kort=true) {
 function visInfo(container, ressource, data) {
   let label= "";
   switch (ressource) {
+  case 'bbr/bygninger':
+    visData(data, visAdresseKort, visAdresse, ressource, adresseCompare);
+    break;
   case 'adresser':
     visData(data, visAdresseKort, visAdresse, ressource, adresseCompare);
     break;
