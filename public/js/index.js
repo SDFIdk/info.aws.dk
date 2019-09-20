@@ -95,7 +95,7 @@ function visInfo(container, ressource, data) {
   case 'sogne':
   case 'politikredse':
   case 'retskredse':
-    visData(data, visDAGIKort, visDAGI(ressource), flertal(ressource), ressource, null);
+    visData(data, visDAGIKort, visDAGI(ressource), flertal(ressource), null, null);
     break;
   case 'regioner':
     visData(data, visRegionKort, visRegion, ressource, null);
@@ -132,6 +132,9 @@ function visInfo(container, ressource, data) {
     break;      
   case 'steder':
     visData(data, visStedKort, visSted, ressource, null);
+    break;       
+  case 'stednavntyper':
+    visData(data, visStednavntypeKort, visStednavntype, ressource, null, false);
     break; 
   default: 
     dom.patch(container, () => {html('<h1>Ukendt ressource: ' + ressource + '</h1>')});
@@ -209,6 +212,9 @@ function ental(ressource) {
     break;      
   case 'steder':
     tekst= 'sted';
+    break;       
+  case 'stednavntyper':
+    tekst= 'stednavntype';
     break; 
   default:    
     html('<h1>Ukendt ressource: ' + ressource + '</h1>');
@@ -287,6 +293,9 @@ function flertal(ressource) {
     break;      
   case 'steder':
     tekst= 'steder';
+    break;      
+  case 'stednavntyper':
+    tekst= 'stednavntyper';
     break; 
   default:    
     html('<h1>Ukendt ressource: ' + ressource + '</h1>');
@@ -649,8 +658,8 @@ function visListe(data, visEnkeltKort, overskrift, compare, kort=true) {
       'class', listetableclasses);
       visOverskrift('<em>' + capitalizeFirstLetter(overskrift) + '</em>', kort);
       eo('tbody');
+      if (compare) data.sort(compare);
       for (let i= 0; i<data.length; i++) {
-        if (compare) data.sort(compare);
         visEnkeltKort(data[i], 0);
       }       
       eo('tr', null, null,
@@ -2845,6 +2854,52 @@ function visSted(data) {
       ec('thead'); 
       eo('tbody');
         stedIndhold(data, 0);
+      ec('tbody'); 
+    ec('table');
+  }
+}
+
+function visStednavntypeKort(data) {  
+  eo('tr');
+    eo('td');
+      html(data.hovedtype);
+    ec('td');
+    badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
+    eo('td'); ec('td');
+    badge('data', 'badge-primary', data.href);
+  ec('tr');
+}
+
+function visStednavntype(data) {
+  return function() {
+    eo('table',null,null,
+      'class', tableclasses); //table-striped'); //) table-dark');
+      eo('thead', null, null,
+        'class', theadclasses);
+        eo('tr');
+          eo('th');
+            html(em('Stednavntype') + '<br/>' + strong(data.hovedtype));
+          ec('th');
+          eo('th');
+          ec('th');
+          eo('th');
+          ec('th');
+          badge('data', 'badge-primary', data.href, true);
+        ec('tr');  
+      ec('thead'); 
+      eo('tbody');                          
+        eo('tr');
+          eo('td');
+            html('Undertyper: ');
+          ec('td');
+        ec('tr');
+        data.undertyper.forEach(undertype => {                          
+          eo('tr');
+            eotd(1);
+              html(strong(undertype));
+            ec('td');
+          ec('tr');
+        })  
       ec('tbody'); 
     ec('table');
   }
