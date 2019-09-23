@@ -3,7 +3,8 @@
 var util = require('dawa-util')
     , URL = require('url-parse')
     , queryString = require('query-string')
-    , dom = require('incremental-dom');
+    , dom = require('incremental-dom')
+    , bbr = require('./bbrkodelister.js');
 
 
 var eo = dom.elementOpen,
@@ -25,6 +26,9 @@ var visSide= function(container) {
     ressource= ressource + '/' + arr[2].toLowerCase();
   }
   console.log(ressource);
+
+  const title = document.getElementById('title');
+  title.innerText= 'Danmarks ' + flertal(ressource);
 
   query.format= 'json';
   delete query.struktur;

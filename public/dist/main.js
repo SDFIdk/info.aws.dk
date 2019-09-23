@@ -100,7 +100,8 @@ module.exports = g;
 var util = __webpack_require__(2)
     , URL = __webpack_require__(4)
     , queryString = __webpack_require__(7)
-    , dom = __webpack_require__(11);
+    , dom = __webpack_require__(11)
+    , bbr = __webpack_require__(13);
 
 
 var eo = dom.elementOpen,
@@ -122,6 +123,9 @@ var visSide= function(container) {
     ressource= ressource + '/' + arr[2].toLowerCase();
   }
   console.log(ressource);
+
+  const title = document.getElementById('title');
+  title.innerText= 'Danmarks ' + flertal(ressource);
 
   query.format= 'json';
   delete query.struktur;
@@ -5940,6 +5944,12 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports) {
+
+throw new Error("Module parse failed: C:\\GitHub\\info.aws.dk\\public\\js\\bbrkodelister.js Unterminated string constant (414:8)\nYou may need an appropriate loader to handle this file type.\n| \t\tbreak;\n| \tcase 50:\n| \t\tnavn= \"Denne BBR-Meddelelse er udskrevet på grund af, at kommunen har foretaget rettelser\n|                         af registreringen i BBR.\n|                      \";");
 
 /***/ })
 /******/ ]);
