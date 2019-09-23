@@ -1,7 +1,6 @@
 
 function adgangsadresseCompare(a, b) {
 
-
   let apostnr= parseInt(a.postnummer.nr);
   let bpostnr= parseInt(b.postnummer.nr);
 
@@ -26,9 +25,7 @@ function adgangsadresseCompare(a, b) {
 	var reHusnr = /(\d+)([A-ZÆØÅ]?)/;
 
   var aArray = a.husnr.match(reHusnr);
-  //console.log(aArray);
   var bArray = b.husnr.match(reHusnr);
-  //console.log(bArray);
 
   let ahusnr= parseInt(aArray[1]);
   let bhusnr= parseInt(bArray[1]);
