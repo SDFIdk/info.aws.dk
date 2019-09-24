@@ -411,27 +411,19 @@ export function getBBRMessageAarsagskode(kode) {
 		navn= "Denne BBR-Meddelelse er udskrevet på grund af opdeling/ændret opdeling i ejerlejligheder.";
 		break;
 	case 50:
-		navn= "Denne BBR-Meddelelse er udskrevet på grund af, at kommunen har foretaget rettelser
-                        af registreringen i BBR.
-                     ";
+		navn= "Denne BBR-Meddelelse er udskrevet på grund af, at kommunen har foretaget rettelser af registreringen i BBR. ";
 		break;
 	case 51:
-		navn= "De har til kommunen anmeldt et byggeri som ikke er færdigmeldt. Denne BBR-Meddelelse
-                        udskrives…
-                     ";
+		navn= "De har til kommunen anmeldt et byggeri som ikke er færdigmeldt. Denne BBR-Meddelelse udskrives… ";
 		break;
 	case 70:
 		navn= "Denne BBR-Meddelelse er udskrevet på grund af matrikulære ændringer.";
 		break;
 	case 80:
-		navn= "Denne BBR-Meddelelse er udskrevet fordi ejer selv eller andre har rettet, slettet
-                        eller tilføjet…
-                     ";
+		navn= "Denne BBR-Meddelelse er udskrevet fordi ejer selv eller andre har rettet, slettet eller tilføjet… ";
 		break;
 	case 81:
-		navn= "Denne BBR-Meddelelse er udskrevet fordi skatteforvaltningen har rettet, slettet eller
-                        tilføjet…
-                     ";
+		navn= "Denne BBR-Meddelelse er udskrevet fordi skatteforvaltningen har rettet, slettet eller tilføjet… ";
 		break;
 	default:
 		navn= "Ukendt kode";
@@ -496,7 +488,7 @@ export function getBeregningsprincipForArealAfCarport(kode) {
 export function getBoligtype(kode) {
 	switch (kode) { 
 	case "E":
-		navn= "Andet  (bl.a. institutioner og erhverv)";
+		navn= "Andet (bl.a. institutioner og erhverv)";
 		break;
 	case 1:
 		navn= "Egentlig beboelseslejlighed (boligenhed med eget køkken)";
@@ -731,9 +723,7 @@ export function getBygAnvendelse(kode) {
 		navn= "Anden bygning til helårsbeboelse";
 		break;
 	case 210:
-		navn= "(UDFASES) Bygning til erhvervsmæssig produktion vedrørende landbrug, gartneri, råstofudvinding
-                        o. lign
-                     ";
+		navn= "(UDFASES) Bygning til erhvervsmæssig produktion vedrørende landbrug, gartneri, råstofudvinding o. lign ";
 		break;
 	case 211:
 		navn= "Stald til svin";
@@ -754,7 +744,7 @@ export function getBygAnvendelse(kode) {
 		navn= "Lade til foder, afgrøder mv.";
 		break;
 	case 217:
-		navn= "Maskinhus,  garage mv.";
+		navn= "Maskinhus, garage mv.";
 		break;
 	case 218:
 		navn= "Lade til halm, hø mv.";
@@ -763,9 +753,7 @@ export function getBygAnvendelse(kode) {
 		navn= "Anden bygning til landbrug mv.";
 		break;
 	case 220:
-		navn= "(UDFASES) Bygning til erhvervsmæssig produktion vedrørende industri, håndværk m.v.
-                        (fabrik, værksted o.lign.)
-                     ";
+		navn= "(UDFASES) Bygning til erhvervsmæssig produktion vedrørende industri, håndværk m.v. (fabrik, værksted o.lign.) ";
 		break;
 	case 221:
 		navn= "Bygning til industri med integreret produktionsapparat";
@@ -801,10 +789,7 @@ export function getBygAnvendelse(kode) {
 		navn= "(UDFASES) Anden bygning til landbrug, industri etc.";
 		break;
 	case 310:
-		navn= "(UDFASES) Transport- og garageanlæg (fragtmandshal, lufthavnsbygning, banegårdsbygning,
-                        parkeringshus). Garage med plads til et eller to køretøjer registreres med anvendelseskode
-                        910
-                     ";
+		navn= "(UDFASES) Transport- og garageanlæg (fragtmandshal, lufthavnsbygning, banegårdsbygning, parkeringshus). Garage med plads til et eller to køretøjer registreres med anvendelseskode 910 ";
 		break;
 	case 311:
 		navn= "Bygning til jernbane- og busdrift";
@@ -867,9 +852,7 @@ export function getBygAnvendelse(kode) {
 		navn= "(UDFASES) Anden bygning til transport, handel etc";
 		break;
 	case 410:
-		navn= "(UDFASES) Bygning til biograf, teater, erhvervsmæssig udstilling, bibliotek, museum,
-                        kirke o. lign.
-                     ";
+		navn= "(UDFASES) Bygning til biograf, teater, erhvervsmæssig udstilling, bibliotek, museum, kirke o. lign. ";
 		break;
 	case 411:
 		navn= "Biograf, teater, koncertsted mv.";
@@ -893,9 +876,7 @@ export function getBygAnvendelse(kode) {
 		navn= "Anden bygning til kulturelle formål";
 		break;
 	case 420:
-		navn= "(UDFASES) Bygning til undervisning og forskning (skole, gymnasium, forskningslabratorium
-                        o.lign.).
-                     ";
+		navn= "(UDFASES) Bygning til undervisning og forskning (skole, gymnasium, forskningslabratorium o.lign.). ";
 		break;
 	case 421:
 		navn= "Grundskole";
@@ -961,9 +942,7 @@ export function getBygAnvendelse(kode) {
 		navn= "Anden bygning til ferieformål";
 		break;
 	case 530:
-		navn= "(UDFASES) Bygning i forbindelse med idrætsudøvelse (klubhus, idrætshal, svømmehal
-                        o. lign.)
-                     ";
+		navn= "(UDFASES) Bygning i forbindelse med idrætsudøvelse (klubhus, idrætshal, svømmehal o. lign.) ";
 		break;
 	case 531:
 		navn= "Klubhus i forbindelse med fritid og idræt";
@@ -1140,9 +1119,7 @@ export function getBygherreForhold(kode) {
 		navn= "Staten";
 		break;
 	case 90:
-		navn= "Andet, herunder moderejendomme for bebyggelser, der er op­delt i ejerlejligheder samt
-                        ejendomme, der ejes af flere ka­te­gorier af ejere
-                     ";
+		navn= "Andet, herunder moderejendomme for bebyggelser, der er op­delt i ejerlejligheder samt ejendomme, der ejes af flere ka­te­gorier af ejere ";
 		break;
 	default:
 		navn= "Ukendt kode";
@@ -1365,9 +1342,7 @@ export function getEjerforholdskode(kode) {
 		navn= "Staten";
 		break;
 	case 90:
-		navn= "Andet, herunder moderejendomme for bebyggelser, der er opdelt i ejerlejligheder samt
-                        ejendomme, der ejes af flere kategorier af ejere
-                     ";
+		navn= "Andet, herunder moderejendomme for bebyggelser, der er opdelt i ejerlejligheder samt ejendomme, der ejes af flere kategorier af ejere ";
 		break;
 	default:
 		navn= "Ukendt kode";
@@ -1451,9 +1426,7 @@ export function getEnhAnvendelse(kode) {
 		navn= "Anden enhed til helårsbeboelse";
 		break;
 	case 210:
-		navn= "(UDFASES) Erhvervsmæssig produktion vedrørende landbrug, skovbrug, gartneri, råstofudvinding
-                        og lign.
-                     ";
+		navn= "(UDFASES) Erhvervsmæssig produktion vedrørende landbrug, skovbrug, gartneri, råstofudvinding og lign. ";
 		break;
 	case 211:
 		navn= "Stald til svin";
@@ -1474,7 +1447,7 @@ export function getEnhAnvendelse(kode) {
 		navn= "Lade til foder, afgrøder mv.";
 		break;
 	case 217:
-		navn= "Maskinhus,  garage mv.";
+		navn= "Maskinhus, garage mv.";
 		break;
 	case 218:
 		navn= "Lade til halm, hø mv.";
@@ -1483,9 +1456,7 @@ export function getEnhAnvendelse(kode) {
 		navn= "Anden enhed til landbrug mv.";
 		break;
 	case 220:
-		navn= "(UDFASES) Erhvervsmæssig produktion vedrørende industri, håndværk m.v. (fabrik, værksted
-                        o. lign.)
-                     ";
+		navn= "(UDFASES) Erhvervsmæssig produktion vedrørende industri, håndværk m.v. (fabrik, værksted o. lign.) ";
 		break;
 	case 221:
 		navn= "Enhed til industri med integreret produktionsapparat";
@@ -1518,14 +1489,10 @@ export function getEnhAnvendelse(kode) {
 		navn= "Anden enhed til energiproduktion og -distribution";
 		break;
 	case 290:
-		navn= "(UDFASES) Anden enhed til produktion og lager i forbindelse med landbrug, industri
-                        o. lign.
-                     ";
+		navn= "(UDFASES) Anden enhed til produktion og lager i forbindelse med landbrug, industri o. lign. ";
 		break;
 	case 310:
-		navn= "(UDFASES) Transport- og garageanlæg (fragtmandshal, lufthavnsbygning,banegårdsbygning
-                        o. lign.)
-                     ";
+		navn= "(UDFASES) Transport- og garageanlæg (fragtmandshal, lufthavnsbygning,banegårdsbygning o. lign.) ";
 		break;
 	case 311:
 		navn= "Enhed til jernbane- og busdrift";
@@ -1588,9 +1555,7 @@ export function getEnhAnvendelse(kode) {
 		navn= "(UDFASES) Pengeinstitut, forsikringsvirksomhed m.v.";
 		break;
 	case 350:
-		navn= "(UDFASES) Kontor og liberale erhverv bortset fra offentlig administration  (kontorer
-                        for advokater, rådgivende ingeniører, klinikker o.lign.)
-                     ";
+		navn= "(UDFASES) Kontor og liberale erhverv bortset fra offentlig administration (kontorer for advokater, rådgivende ingeniører, klinikker o.lign.) ";
 		break;
 	case 360:
 		navn= "(UDFASES) Offentlig administration.";
@@ -1695,9 +1660,7 @@ export function getEnhAnvendelse(kode) {
 		navn= "Anden enhed til ferieformål";
 		break;
 	case 530:
-		navn= "(UDFASES) Enhed i forbindelse med idrætsudøvelse (klubhus, idrætshal, svømmehal o.
-                        lign.).
-                     ";
+		navn= "(UDFASES) Enhed i forbindelse med idrætsudøvelse (klubhus, idrætshal, svømmehal o. lign.). ";
 		break;
 	case 531:
 		navn= "Klubhus i forbindelse med fritid- og idræt";
@@ -2501,9 +2464,7 @@ export function getIndhold(kode) {
 		navn= "Ajle, ensilagesaft, mælkerumsvand eller møddingvand";
 		break;
 	case 60:
-		navn= "Øvrige stoffer, produkter og materialer der kan forurene grundvand, jord og undergrund
-                        (§ 19)
-                     ";
+		navn= "Øvrige stoffer, produkter og materialer der kan forurene grundvand, jord og undergrund (§ 19) ";
 		break;
 	case 70:
 		navn= "Korn";
@@ -2749,298 +2710,298 @@ export function getKommuneFelterNiveau(kode) {
 
 export function getKommunekode(kode) {
 	switch (kode) { 
-	case 0101:
+	case 101:
 		navn= "Københavns Kommune";
 		break;
-	case 0147:
+	case 147:
 		navn= "Frederiksberg Kommune";
 		break;
-	case 0151:
+	case 151:
 		navn= "Ballerup Kommune";
 		break;
-	case 0153:
+	case 153:
 		navn= "Brøndby Kommune";
 		break;
-	case 0155:
+	case 155:
 		navn= "Dragør Kommune";
 		break;
-	case 0157:
+	case 157:
 		navn= "Gentofte Kommune";
 		break;
-	case 0159:
+	case 159:
 		navn= "Gladsaxe Kommune";
 		break;
-	case 0161:
+	case 161:
 		navn= "Glostrup Kommune";
 		break;
-	case 0163:
+	case 163:
 		navn= "Herlev Kommune";
 		break;
-	case 0165:
+	case 165:
 		navn= "Albertslund Kommune";
 		break;
-	case 0167:
+	case 167:
 		navn= "Hvidovre Kommune";
 		break;
-	case 0169:
+	case 169:
 		navn= "Høje Taastrup Kommune";
 		break;
-	case 0173:
+	case 173:
 		navn= "Lyngby-Taarbæk Kommune";
 		break;
-	case 0175:
+	case 175:
 		navn= "Rødovre Kommune";
 		break;
-	case 0183:
+	case 183:
 		navn= "Ishøj Kommune";
 		break;
-	case 0185:
+	case 185:
 		navn= "Tårnby Kommune";
 		break;
-	case 0187:
+	case 187:
 		navn= "Vallensbæk Kommune";
 		break;
-	case 0190:
+	case 190:
 		navn= "Furesø Kommune";
 		break;
-	case 0201:
+	case 201:
 		navn= "Allerød Kommune";
 		break;
-	case 0210:
+	case 210:
 		navn= "Fredensborg Kommune";
 		break;
-	case 0217:
+	case 217:
 		navn= "Helsingør Kommune";
 		break;
-	case 0219:
+	case 219:
 		navn= "Hillerød Kommune";
 		break;
-	case 0223:
+	case 223:
 		navn= "Hørsholm Kommune";
 		break;
-	case 0230:
+	case 230:
 		navn= "Rudersdal Kommune";
 		break;
-	case 0240:
+	case 240:
 		navn= "Egedal Kommune";
 		break;
-	case 0250:
+	case 250:
 		navn= "Frederikssund Kommune";
 		break;
-	case 0253:
+	case 253:
 		navn= "Greve Kommune";
 		break;
-	case 0259:
+	case 259:
 		navn= "Køge Kommune";
 		break;
-	case 0260:
+	case 260:
 		navn= "Halsnæs Kommune";
 		break;
-	case 0265:
+	case 265:
 		navn= "Roskilde Kommune";
 		break;
-	case 0269:
+	case 269:
 		navn= "Solrød Kommune";
 		break;
-	case 0270:
+	case 270:
 		navn= "Gribskov Kommune";
 		break;
-	case 0306:
+	case 306:
 		navn= "Odsherred Kommune";
 		break;
-	case 0316:
+	case 316:
 		navn= "Holbæk Kommune";
 		break;
-	case 0320:
+	case 320:
 		navn= "Faxe Kommune";
 		break;
-	case 0326:
+	case 326:
 		navn= "Kalundborg Kommune";
 		break;
-	case 0329:
+	case 329:
 		navn= "Ringsted Kommune";
 		break;
-	case 0330:
+	case 330:
 		navn= "Slagelse Kommune";
 		break;
-	case 0336:
+	case 336:
 		navn= "Stevns Kommune";
 		break;
-	case 0340:
+	case 340:
 		navn= "Sorø Kommune";
 		break;
-	case 0350:
+	case 350:
 		navn= "Lejre Kommune";
 		break;
-	case 0360:
+	case 360:
 		navn= "Lolland Kommune";
 		break;
-	case 0370:
+	case 370:
 		navn= "Næstved Kommune";
 		break;
-	case 0376:
+	case 376:
 		navn= "Guldborgsund Kommune";
 		break;
-	case 0390:
+	case 390:
 		navn= "Vordingborg Kommune";
 		break;
-	case 0400:
+	case 400:
 		navn= "Bornholms Regionskommune";
 		break;
-	case 0410:
+	case 410:
 		navn= "Middelfart Kommune";
 		break;
-	case 0420:
+	case 420:
 		navn= "Assens Kommune";
 		break;
-	case 0430:
+	case 430:
 		navn= "Faaborg-Midtfyn Kommune";
 		break;
-	case 0440:
+	case 440:
 		navn= "Kerteminde Kommune";
 		break;
-	case 0450:
+	case 450:
 		navn= "Nyborg Kommune";
 		break;
-	case 0461:
+	case 461:
 		navn= "Odense Kommune";
 		break;
-	case 0479:
+	case 479:
 		navn= "Svendborg Kommune";
 		break;
-	case 0480:
+	case 480:
 		navn= "Nordfyns Kommune";
 		break;
-	case 0482:
+	case 482:
 		navn= "Langeland Kommune";
 		break;
-	case 0492:
+	case 492:
 		navn= "Ærø Kommune";
 		break;
-	case 0510:
+	case 510:
 		navn= "Haderslev Kommune";
 		break;
-	case 0530:
+	case 530:
 		navn= "Billund Kommune";
 		break;
-	case 0540:
+	case 540:
 		navn= "Sønderborg Kommune";
 		break;
-	case 0550:
+	case 550:
 		navn= "Tønder Kommune";
 		break;
-	case 0561:
+	case 561:
 		navn= "Esbjerg Kommune";
 		break;
-	case 0563:
+	case 563:
 		navn= "Fanø Kommune";
 		break;
-	case 0573:
+	case 573:
 		navn= "Varde Kommune";
 		break;
-	case 0575:
+	case 575:
 		navn= "Vejen Kommune";
 		break;
-	case 0580:
+	case 580:
 		navn= "Aabenraa Kommune";
 		break;
-	case 0607:
+	case 607:
 		navn= "Fredericia Kommune";
 		break;
-	case 0615:
+	case 615:
 		navn= "Horsens Kommune";
 		break;
-	case 0621:
+	case 621:
 		navn= "Kolding Kommune";
 		break;
-	case 0630:
+	case 630:
 		navn= "Vejle Kommune";
 		break;
-	case 0657:
+	case 657:
 		navn= "Herning Kommune";
 		break;
-	case 0661:
+	case 661:
 		navn= "Holstebro Kommune";
 		break;
-	case 0665:
+	case 665:
 		navn= "Lemvig Kommune";
 		break;
-	case 0671:
+	case 671:
 		navn= "Struer Kommune";
 		break;
-	case 0706:
+	case 706:
 		navn= "Syddjurs Kommune";
 		break;
-	case 0707:
+	case 707:
 		navn= "Norddjurs Kommune";
 		break;
-	case 0710:
+	case 710:
 		navn= "Favrskov Kommune";
 		break;
-	case 0727:
+	case 727:
 		navn= "Odder Kommune";
 		break;
-	case 0730:
+	case 730:
 		navn= "Randers Kommune";
 		break;
-	case 0740:
+	case 740:
 		navn= "Silkeborg Kommune";
 		break;
-	case 0741:
+	case 741:
 		navn= "Samsø Kommune";
 		break;
-	case 0746:
+	case 746:
 		navn= "Skanderborg Kommune";
 		break;
-	case 0751:
+	case 751:
 		navn= "Aarhus Kommune";
 		break;
-	case 0756:
+	case 756:
 		navn= "Ikast-Brande Kommune";
 		break;
-	case 0760:
+	case 760:
 		navn= "Ringkøbing-Skjern Kommune";
 		break;
-	case 0766:
+	case 766:
 		navn= "Hedensted Kommune";
 		break;
-	case 0773:
+	case 773:
 		navn= "Morsø Kommune";
 		break;
-	case 0779:
+	case 779:
 		navn= "Skive Kommune";
 		break;
-	case 0787:
+	case 787:
 		navn= "Thisted Kommune";
 		break;
-	case 0791:
+	case 791:
 		navn= "Viborg Kommune";
 		break;
-	case 0810:
+	case 810:
 		navn= "Brønderslev Kommune";
 		break;
-	case 0813:
+	case 813:
 		navn= "Frederikshavn Kommune";
 		break;
-	case 0820:
+	case 820:
 		navn= "Vesthimmerlands Kommune";
 		break;
-	case 0825:
+	case 825:
 		navn= "Læsø Kommune";
 		break;
-	case 0840:
+	case 840:
 		navn= "Rebild Kommune";
 		break;
-	case 0846:
+	case 846:
 		navn= "Mariagerfjord Kommune";
 		break;
-	case 0849:
+	case 849:
 		navn= "Jammerbugt Kommune";
 		break;
-	case 0851:
+	case 851:
 		navn= "Aalborg Kommune";
 		break;
-	case 0860:
+	case 860:
 		navn= "Hjørring Kommune";
 		break;
 	default:
@@ -3459,10 +3420,7 @@ export function getOversvoemmelsesselvrisiko(kode) {
 		navn= "Bygningens selvrisiko er forhøjet til trin 2";
 		break;
 	case 3:
-		navn= "Stormrådet har registreret udbetalt erstatning fra stormflod (siden 2012) og oversvømmelse
-                        fra søer og vandløb (siden 2010). Læs mere om stormflods- og oversvømmelsesordningerne
-                        på www.stormraadet.dk
-                     ";
+		navn= "Stormrådet har registreret udbetalt erstatning fra stormflod (siden 2012) og oversvømmelse fra søer og vandløb (siden 2010). Læs mere om stormflods- og oversvømmelsesordningerne på www.stormraadet.dk ";
 		break;
 	default:
 		navn= "Ukendt kode";
@@ -3717,9 +3675,7 @@ export function getStoerrelsesklasse(kode) {
 export function getSupplerendeAnvendelseskode(kode) {
 	switch (kode) { 
 	case 210:
-		navn= "Bygning til erhvervsmæssig produktion vedrørende landbrug, gartneri, råstofudvinding
-                        o. lign
-                     ";
+		navn= "Bygning til erhvervsmæssig produktion vedrørende landbrug, gartneri, råstofudvinding o. lign ";
 		break;
 	case 220:
 		navn= "Bygning til erhvervsmæssig produktion vedrørende industri, håndværk m.v.";
@@ -3731,9 +3687,7 @@ export function getSupplerendeAnvendelseskode(kode) {
 		navn= "Anden bygning til landbrug, industri etc.";
 		break;
 	case 310:
-		navn= "Transport- og garageanlæg (fragtmandshal, lufthavnsbygning, banegårdsbygning, parkeringshus).
-                        Garage med plads til et eller to køretøjer registreres med anvendelseskode 910
-                     ";
+		navn= "Transport- og garageanlæg (fragtmandshal, lufthavnsbygning, banegårdsbygning, parkeringshus). Garage med plads til et eller to køretøjer registreres med anvendelseskode 910 ";
 		break;
 	case 320:
 		navn= "Bygning til kontor, handel, lager, herunder offentlig administration";
@@ -3745,9 +3699,7 @@ export function getSupplerendeAnvendelseskode(kode) {
 		navn= "Anden bygning til transport, handel etc";
 		break;
 	case 410:
-		navn= "Bygning til biograf, teater, erhvervsmæssig udstilling, bibliotek, museum, kirke o.
-                        lign.
-                     ";
+		navn= "Bygning til biograf, teater, erhvervsmæssig udstilling, bibliotek, museum, kirke o. lign. ";
 		break;
 	case 420:
 		navn= "Bygning til undervisning og forskning.";

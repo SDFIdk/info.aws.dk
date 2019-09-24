@@ -99,7 +99,7 @@ function visInfo(container, ressource, data) {
   case 'sogne':
   case 'politikredse':
   case 'retskredse':
-    visData(data, visDAGIKort, visDAGI(ressource), flertal(ressource), null, null);
+    visData(data, visDAGIKort, visDAGI(ressource), flertal(ressource), null);
     break;
   case 'regioner':
     visData(data, visRegionKort, visRegion, ressource, null);
@@ -302,7 +302,7 @@ function flertal(ressource) {
     tekst= 'stednavntyper';
     break; 
   default:    
-    html('<h1>Ukendt ressource: ' + ressource + '</h1>');
+    tekst= 'Ukendt ressource: ' + ressource;
   }
   return tekst;
 }
@@ -656,11 +656,51 @@ function visOverskrift(overskrift, kort=true) {
   ec('thead');
 }
 
+function danNavbar(overskrift) {
+  let html= 
+   `<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">Kommuner</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item dropdown active">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Download data
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#">JSON</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">GeoJSON</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">NDJSON</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">CSV</a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Vis på kort</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">API dokumentation<span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Om<span class="sr-only">(current)</span></a>
+          </li>
+        </ul>
+      </div>
+    </nav>`;
+  container.insertAdjacentHTML('afterbegin', html);
+}
+
 function visListe(data, visEnkeltKort, overskrift, compare, kort=true) {
   return function() {
+    //danNavbar(overskrift);
     eo('table',null,null,
       'class', listetableclasses);
-      visOverskrift('<em>' + capitalizeFirstLetter(overskrift) + '</em>', kort);
+     //visOverskrift('<em>' + capitalizeFirstLetter(overskrift) + '</em>', kort);
       eo('tbody');
       if (compare) data.sort(compare);
       for (let i= 0; i<data.length; i++) {
@@ -1495,7 +1535,11 @@ function visBygning(data) {
 function visVejstykkeKort(data) {  
   eo('tr');
     eo('td');
-      html(strong(data.kode + ' ' + data.navn + ' (' + data.kommune.kode + ' ' +  data.kommune.navn + ')'));
+      eo('span', null, null,
+        'class', 'badge badge-pill '+darstatusFarve(data.darstatus));
+        text(darstatusTekst(data.darstatus));
+      ec('span');
+      html('<br/>' + strong(data.kode + ' ' + data.navn + ' (' + data.kommune.kode + ' ' +  data.kommune.navn + ')'));
     ec('td');
     badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
     badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
@@ -1519,7 +1563,16 @@ function visVejstykke(data) {
           badge('data', 'badge-primary', data.href, true);
         ec('tr');
       ec('thead'); 
-      eo('tbody');          
+      eo('tbody'); 
+        eo('tr');
+          eo('td');
+            html('Status: '); 
+            eo('span', null, null,
+              'class', 'badge badge-pill '+darstatusFarve(data.darstatus));
+              text(darstatusTekst(data.darstatus));
+            ec('span');
+          ec('td');
+        ec('tr');             
         eo('tr');
           eo('td');
             html('Id: ' + strong(data.id));
