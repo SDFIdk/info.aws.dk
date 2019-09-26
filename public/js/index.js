@@ -16,10 +16,11 @@ const listetableclasses= 'table table-hover'
     , tableclasses= 'table table-borderless table-hover'
     , theadclasses= 'thead-dark';
 
+let ressource= null;
 var visSide= function(container) {
 
   let arr= dawaUrl.pathname.split('/');
-  let ressource= arr[1].toLowerCase();
+  ressource= arr[1].toLowerCase();
   console.log(arr);
   console.log(ressource);
   if (ressource === 'bbr') {
@@ -159,7 +160,10 @@ function ental(ressource) {
     break;  
   case 'vejstykker':      
     tekst= 'vejstykke';
-    break;   
+    break;    
+  case 'vejnavne':      
+    tekst= 'vejnavn';
+    break;     
   case 'supplerendebynavne2': 
     tekst= 'supplerende bynavn';
     break;  
@@ -174,6 +178,9 @@ function ental(ressource) {
     break;
   case 'sogne':
     tekst= 'sogn';
+    break;
+  case 'bygninger':
+    tekst= 'bygning';
     break;
   case 'politikredse':
     tekst= 'politikreds';
@@ -241,17 +248,22 @@ function flertal(ressource) {
   case 'vejstykker':      
     tekst= 'vejstykker';
     break;   
+  case 'vejnavne':      
+    tekst= 'vejnavne'; 
   case 'supplerendebynavne2': 
     tekst= 'supplerende bynavne';
     break;  
   case 'ejerlav': 
-    tekst= 'ejserlav';
+    tekst= 'ejerlav';
     break;
   case 'jordstykker':
     tekst= 'jordstykker';
     break;  
   case 'postnumre': 
     tekst= 'postnumre';
+    break;
+  case 'bygninger':
+    tekst= 'bygning';
     break;
   case 'sogne':
     tekst= 'sogne';
@@ -656,48 +668,155 @@ function visOverskrift(overskrift, kort=true) {
   ec('thead');
 }
 
-function danNavbar(overskrift) {
-  let html= 
-   `<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="#">Kommuner</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+function danNavbar(overskrift, infotekst) {  
+  const navoverskrift = document.getElementById('navoverskrift');
+  navoverskrift.innerText= capitalizeFirstLetter(flertal(ressource));
+  navoverskrift.href= url; 
+  
+  let href= new URL(dawaUrl.toString());
+  let hrefquery= queryString.parse(href.query);
+  delete hrefquery.struktur;
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item dropdown active">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Download data
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">JSON</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">GeoJSON</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">NDJSON</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">CSV</a>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Vis på kort</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">API dokumentation<span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Om<span class="sr-only">(current)</span></a>
-          </li>
-        </ul>
-      </div>
-    </nav>`;
-  container.insertAdjacentHTML('afterbegin', html);
+  const json = document.getElementById('json');
+  hrefquery.format= 'json';
+  href.set('query',queryString.stringify(hrefquery));
+  json.href= href.toString(); 
+
+  const geojson = document.getElementById('geojson');
+  hrefquery.format= 'geojson';
+  href.set('query',queryString.stringify(hrefquery));
+  geojson.href= href.toString();
+
+  const ndjson = document.getElementById('ndjson');
+  hrefquery.format= 'json';
+  hrefquery.ndjson= true;
+  href.set('query',queryString.stringify(hrefquery));
+  ndjson.href= href.toString();
+  delete hrefquery.ndjson;
+
+  const csv = document.getElementById('csv');
+  hrefquery.format= 'csv';
+  href.set('query',queryString.stringify(hrefquery));
+  csv.href= href.toString();
+
+  const vispåkort = document.getElementById('vispåkort');
+  vispåkort.href= dawaUrl.toString().replace('dawa','vis');
+
+  const apidokumentation = document.getElementById('apidokumentation');
+  apidokumentation.href= 'https://dawa.aws.dk/dok/api/' + ental(ressource); 
+
+  let visinfoboks= true;
+  if (query.infoboks) {
+    visinfoboks= (query.infoboks === 'true');
+  }
+  if (visinfoboks) {
+    const jumbotron = document.getElementById('jumbotron');
+    let tekst= null;
+    if (infotekst) {
+      tekst= infotekst;
+    }
+    else {
+      tekst= jumbotrontekst(ressource);
+    } 
+    if (tekst) {
+      jumbotron.insertAdjacentHTML('afterbegin', tekst);
+      jumbotron.hidden= false;
+    }
+    else {
+      jumbotron.hidden= true;
+    }
+  }
+}
+
+
+function jumbotrontekst(ressource) {
+  let tekst= "";
+  switch (ressource) {
+  case 'adresser':
+    tekst= null;
+    break;
+  case 'adgangsadresser':
+    tekst= null;
+    break;    
+  case 'navngivneveje':  
+    tekst= null;
+    break;  
+  case 'vejstykker':  
+    tekst= null;
+    break;   
+  case 'supplerendebynavne2': 
+    tekst= null;
+    break;  
+  case 'ejerlav': 
+    tekst= null;
+    break;
+  case 'jordstykker':
+    tekst= null;
+    break;  
+  case 'postnumre': 
+    tekst= null;
+    break;
+  case 'sogne':
+    tekst= null;
+    break;
+  case 'politikredse':
+    tekst= null;
+    break;
+  case 'retskredse':
+    tekst= null;
+    break;
+  case 'regioner':
+    tekst= null;
+    break;
+  case 'landsdele':
+    tekst= null;
+    break;
+  case 'kommuner':
+    tekst= `
+      <h1 class="display-5">Danmarks kommuner</h1>
+      <p class="lead">Danmark er inddelt i <a href='https://info.aws.dk/kommuner'>98 kommuner</a>. <a href='https://vis.aws.dk/stednavne2/1233766a-0e2c-6b98-e053-d480220a5a3f/Ertholmene'>Ertholmene</a>, er den eneste del af Danmark, som ikke hører under en kommune, men ejes og administreres af Forsvarsministeriet.</p>
+      <hr class="my-4">
+      <p>Data og funktionalitet vedrørende kommunerne udstilles af <a href='https://dawa.aws.dk'>DAWA</a> i form af et <a href='http://dawa.aws.dk/dok/api/kommune'>kommune API</a>. API'et understøtter bl.a. opslag, indtastning med autocomplete og reverse geokodnng af kommuner, samt udstilling af deres geografiske grænser.</p>`;
+    break;
+  case 'afstemningsomraader': 
+    tekst= null;
+    break;
+  case 'menighedsraadsafstemningsomraader':
+    tekst= null;
+    break;
+  case 'opstillingskredse':
+    tekst= null;
+    break;
+  case 'storkredse':
+    tekst= null;
+    break; 
+  case 'valglandsdele':
+    tekst= null;
+    break;
+  case 'bebyggelser':
+    tekst= null;
+    break;    
+  case 'stednavne':
+    tekst= null;
+   break;    
+  case 'stednavne2':
+    tekst= null;
+    break;      
+  case 'steder':
+    tekst= null;
+    break;      
+  case 'stednavntyper':
+    tekst= null;
+    break; 
+  default:   
+    tekst= null;
+  }
+  return tekst;
 }
 
 function visListe(data, visEnkeltKort, overskrift, compare, kort=true) {
   return function() {
-    //danNavbar(overskrift);
+    danNavbar(overskrift);
     eo('table',null,null,
       'class', listetableclasses);
      //visOverskrift('<em>' + capitalizeFirstLetter(overskrift) + '</em>', kort);
@@ -741,18 +860,7 @@ function visAdresse(data) {
   return function() {
     eo('table',null,null,
       'class', tableclasses);
-      eo('thead', null, null,
-        'class', theadclasses);
-        eo('tr');
-          eo('th'); 
-            html(em('Adresse') + '<br/>' + '<strong>' + util.formatHelAdresse(data, false) + '</strong>');
-          ec('th');
-          eo('th');
-          ec('th'); 
-          badge('kort', 'badge-primary', data.href.replace('dawa','vis'), true);
-          badge('data', 'badge-primary', data.href, true);
-        ec('tr'); 
-      ec('thead')
+      danNavbar(ressource,'<h2><address>' + util.formatHelAdresse(data, false) + '</address></h2');
       eo('tbody'); 
         eo('tr');
           eo('td');
@@ -1107,19 +1215,8 @@ function getBygning(id, adgangsadresseid, indrykninger) {
 function visAdgangsadresse(data) {
   return function() {
     eo('table',null,null,
-      'class', tableclasses); //table-striped'); //) table-dark');
-      eo('thead', null, null,
-        'class', theadclasses);
-        eo('tr');
-          eo('th'); 
-            html(em('Adgangsadresse') + '<br/>' + '<strong>' + util.formatAdgangsadresse(data, false) + '</strong>');
-          ec('th');
-          eo('th');
-          ec('th')
-          badge('kort', 'badge-primary', data.href.replace('dawa','vis'), true);
-          badge('data', 'badge-primary', data.href, true);
-        ec('tr');
-      ec('thead');
+      'class', tableclasses); 
+      danNavbar(ressource,'<h2><address>' + util.formatAdgangsadresse(data, false) + '</address></h2');
       eo('tbody');
         adgangsadresseIndhold(data);
         eo('tr');
@@ -1297,18 +1394,7 @@ function visNavngivnevej(data) {
   return function() {
     eo('table',null,null,
       'class', tableclasses); //table-striped'); //) table-dark');
-      eo('thead', null, null,
-        'class', theadclasses);
-        eo('tr');
-          eo('th'); 
-            html(em('Navngiven vej') + '<br/>' + strong(data.navn + ' (' + data.administrerendekommune.kode + ' ' +  data.administrerendekommune.navn + ')'));
-          ec('th');
-          eo('th');
-          ec('th');
-          badge('kort', 'badge-primary', data.href.replace('dawa','vis'), true);
-          badge('data', 'badge-primary', data.href, true);
-        ec('tr');
-      ec('thead');
+      danNavbar(ressource,'<h2>' + data.navn + ' (' + data.administrerendekommune.kode + ' ' +  data.administrerendekommune.navn + ')' + '</h2');
       eo('tbody');
         eo('tr');
           eo('td');
@@ -1448,18 +1534,7 @@ function visBygning(data) {
   return function() {
     eo('table',null,null,
       'class', tableclasses); //table-striped'); //) table-dark');
-      eo('thead', null, null,
-        'class', theadclasses);
-        eo('tr');
-          eo('th'); 
-            html(em('Bygning') + '<br/>' + strong(data.id));
-          ec('th');
-          eo('th');
-          ec('th');
-          badge('kort', 'badge-primary', data.href.replace('dawa','vis'), true);
-          badge('data', 'badge-primary', data.href, true);
-        ec('tr');
-      ec('thead');
+      danNavbar(ressource,'<h2>' + em('Bygning: ') + strong(data.id) + '</h2');
       eo('tbody');          
         eo('tr');
           eo('td');
@@ -1551,18 +1626,7 @@ function visVejstykke(data) {
   return function() {
     eo('table',null,null,
       'class', tableclasses); //table-striped'); //) table-dark');
-      eo('thead', null, null,
-        'class', theadclasses);
-        eo('tr');
-          eo('th'); 
-            html(em('Vejstykke') + '<br/>' + strong(data.kode + ' ' + data.navn + ' (' + data.kommune.kode + ' ' +  data.kommune.navn + ')'));
-          ec('th');
-          eo('th');
-          ec('th');
-          badge('kort', 'badge-primary', data.href.replace('dawa','vis'), true);
-          badge('data', 'badge-primary', data.href, true);
-        ec('tr');
-      ec('thead'); 
+      danNavbar(ressource,'<h2>' + data.kode + ' ' + data.navn + ' (' + data.kommune.kode + ' ' +  data.kommune.navn + ')' + '</h2');
       eo('tbody'); 
         eo('tr');
           eo('td');
@@ -1653,19 +1717,7 @@ function visVejnavn(data) {
   return function() {
     eo('table',null,null,
       'class', tableclasses); //table-striped'); //) table-dark');
-      eo('thead', null, null,
-        'class', theadclasses);
-        eo('tr');
-          eo('th'); 
-            html(em('Vejnavn') + '<br/>' + strong(data.navn));
-          ec('th');
-          eo('th');
-          ec('th');
-          eo('th');
-          ec('th');
-          badge('data', 'badge-primary', data.href, true);
-        ec('tr');
-      ec('thead'); 
+      danNavbar(ressource,'<h2>' + data.navn + '</h2');
       eo('tbody');                       
         eo('tr');
           eo('td');
@@ -1723,18 +1775,7 @@ function visSupplerendeBynavn(data) {
   return function() {
     eo('table',null,null,
       'class', tableclasses); //table-striped'); //) table-dark');
-      eo('thead', null, null,
-        'class', theadclasses);
-        eo('tr');
-          eo('th');
-            html(em('Supplerende bynavn') + '<br/>' +strong(data.navn));
-          ec('th');
-          eo('th');
-          ec('th');
-          badge('kort', 'badge-primary', data.href.replace('dawa','vis'), true);
-          badge('data', 'badge-primary', data.href, true);
-        ec('tr'); 
-      ec('thead');  
+      danNavbar(ressource,'<h2>' + data.navn + '</h2'); 
       eo('tbody');
         eo('tr');
           eo('td');
@@ -1792,18 +1833,7 @@ function visEjerlavet(data) {
   return function() {
     eo('table',null,null,
       'class', tableclasses); //table-striped'); //) table-dark');
-      eo('thead', null, null,
-        'class', theadclasses);
-        eo('tr');
-          eo('th');
-            html(em('Ejerlav') + '<br/>' + strong(data.kode + ' ' +data.navn));
-          ec('th');
-          eo('th');
-          ec('th');
-          badge('kort', 'badge-primary', data.href.replace('dawa','vis'), true);
-          badge('data', 'badge-primary', data.href, true);
-        ec('tr'); 
-      ec('thead'); 
+      danNavbar(ressource,'<h2>' + data.kode + ' ' +data.navn + '</h2'); 
       eo('tbody'); 
       ec('tbody'); 
     ec('table');
@@ -1826,18 +1856,7 @@ function visJordstykke(data) {
   return function() {
     eo('table',null,null,
       'class', tableclasses); //table-striped'); //) table-dark');
-      eo('thead', null, null,
-        'class', theadclasses);
-        eo('tr');
-          eo('th');
-            html(em('Jordstykke') + '<br/>' + strong(data.matrikelnr + ' ' + data.ejerlav.navn));
-          ec('th');
-          eo('th');
-          ec('th');
-          badge('kort', 'badge-primary', data.href.replace('dawa','vis'), true);
-          badge('data', 'badge-primary', data.href, true);
-        ec('tr');
-      ec('thead'); 
+      danNavbar(ressource,'<h2>' + data.matrikelnr + ' ' + data.ejerlav.navn + '</h2'); 
       eo('tbody');  
         eo('tr');
           let ændret= new Date(data.ændret);
@@ -1972,18 +1991,7 @@ function visDAGI(ressource) {
     return function() {
       eo('table',null,null,
         'class', tableclasses); //table-striped'); //) table-dark');
-        eo('thead', null, null,
-          'class', theadclasses);
-          eo('tr');
-            eo('th');
-              html(em(capitalizeFirstLetter(ental(ressource))) + '<br/>' + strong(data.kode + ' ' + data.navn));
-            ec('th');
-            eo('th');
-            ec('th');
-            badge('kort', 'badge-primary', data.href.replace('dawa','vis'), true);
-            badge('data', 'badge-primary', data.href, true);
-          ec('tr'); 
-        ec('thead');
+      danNavbar(ressource,'<h2>' + data.kode + ' ' + data.navn + '</h2');
         eo('tbody');          
           eo('tr');
             eo('td');
@@ -2017,18 +2025,7 @@ function visKommune(data) {
   return function() {
     eo('table',null,null,
       'class', tableclasses); //table-striped'); //) table-dark');
-      eo('thead', null, null,
-        'class', theadclasses);
-        eo('tr');
-          eo('th');
-            html(em('Kommune') + '<br/>' + strong(data.kode + ' ' + data.navn));
-          ec('th');
-          eo('th');
-          ec('th');
-          badge('kort', 'badge-primary', data.href.replace('dawa','vis'), true);
-          badge('data', 'badge-primary', data.href, true);
-        ec('tr');
-      ec('thead'); 
+      danNavbar(ressource,'<h2>' + data.kode + ' ' + data.navn + '</h2'); 
       eo('tbody');   
         eo('tr');
           eo('td');
@@ -2090,18 +2087,7 @@ function visLandsdel(data) {
   return function() {
     eo('table',null,null,
       'class', tableclasses); //table-striped'); //) table-dark');
-      eo('thead', null, null,
-        'class', theadclasses);
-        eo('tr');
-          eo('th');
-            html(em('Landsdel') + '<br/>' +strong(data.navn));
-          ec('th');
-          eo('th');
-          ec('th');
-          badge('kort', 'badge-primary', data.href.replace('dawa','vis'), true);
-          badge('data', 'badge-primary', data.href, true);
-        ec('tr'); 
-      ec('thead');  
+      danNavbar(ressource,'<h2>' + data.navn + '</h2');   
       eo('tbody');        
         eo('tr');
           eo('td');
@@ -2142,18 +2128,7 @@ function visRegion(data) {
   return function() {
     eo('table',null,null,
       'class', tableclasses); //table-striped'); //) table-dark');
-      eo('thead', null, null,
-        'class', theadclasses);
-        eo('tr');
-          eo('th');
-            html(em('Region') + '<br/>' + strong(data.kode + ' ' + data.navn));
-          ec('th');
-          eo('th');
-          ec('th');
-          badge('kort', 'badge-primary', data.href.replace('dawa','vis'), true);
-          badge('data', 'badge-primary', data.href, true);
-        ec('tr');
-      ec('thead'); 
+      danNavbar(ressource,'<h2>' + data.kode + ' ' + data.navn + '</h2');   
       eo('tbody');   
         eo('tr');
           eo('td');
@@ -2215,18 +2190,7 @@ function visAfstemningsområde(data) {
   return function() {
     eo('table',null,null,
       'class', tableclasses); //table-striped'); //) table-dark');
-      eo('thead', null, null,
-        'class', theadclasses);
-        eo('tr');
-          eo('th');
-            html(em('Afstemningsområde') + '<br/>' + strong(data.nummer + ' ' + data.navn));
-          ec('th');
-          eo('th');
-          ec('th');
-          badge('kort', 'badge-primary', data.href.replace('dawa','vis'), true);
-          badge('data', 'badge-primary', data.href, true);
-        ec('tr');       
-      ec('thead'); 
+      danNavbar(ressource,'<h2>' + data.nummer + ' ' + data.navn + '</h2'); 
       eo('tbody');          
         eo('tr');
           eo('td');

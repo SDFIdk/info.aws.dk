@@ -18,7 +18,7 @@
 
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="#">Kommuner</a>
+      <a id="navoverskrift" class="navbar-brand" href="#"></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -30,34 +30,29 @@
               Download data
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">JSON</a>
+              <a id="json" class="dropdown-item" href="#">JSON</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">GeoJSON</a>
+              <a id="geojson" class="dropdown-item" href="#">GeoJSON</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">NDJSON</a>
+              <a id="ndjson" class="dropdown-item" href="#">NDJSON</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">CSV</a>
+              <a id="csv" class="dropdown-item" href="#">CSV</a>
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Vis på kort</a>
+            <a id="vispåkort" class="nav-link" href="#">Vis på kort</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">API dokumentation<span class="sr-only">(current)</span></a>
-          </li>
+            <a id="apidokumentation" class="nav-link" href="#">API dokumentation<span class="sr-only">(current)</span></a>
+          </li> <!--
           <li class="nav-item">
             <a class="nav-link" href="#">Om<span class="sr-only">(current)</span></a>
-          </li>
+          </li> -->
         </ul>
       </div>
     </nav>
 
-    <div class="jumbotron">
-      <h1 class="display-5">Danmarks kommuner</h1>
-      <p class="lead">Danmark er inddelt i <a href='https://info.aws.dk/kommuner'>98 kommuner</a>. <a href='https://vis.aws.dk/stednavne2/1233766a-0e2c-6b98-e053-d480220a5a3f/Ertholmene'>Ertholmene</a>, er den eneste del af Danmark, som ikke hører under en kommune, men ejes og administreres af Forsvarsministeriet.</p>
-      <hr class="my-4">
-      <p>Data og funktionalitet vedrørende kommunerne udstilles af <a href='https://dawa.aws.dk'>DAWA</a> i form af et <a href='http://dawa.aws.dk/dok/api/kommune'>kommune API</a>. API'et understøtter bl.a. opslag, indtastning med autocomplete og reverse geokodnng af kommuner, samt udstilling af deres geografiske grænser.</p>
-    </div>
+    <div id="jumbotron" class="jumbotron" hidden></div>
 
     <div id="side">
     </div>
