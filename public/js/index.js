@@ -780,7 +780,7 @@ function jumbotrontekst(ressource) {
   case 'kommuner':
     tekst= `
       <h1 class="display-5">Danmarks kommuner</h1>
-      <p class="lead">Danmark er inddelt i <a href='https://info.aws.dk/kommuner'>98 kommuner</a>. <a href='https://vis.aws.dk/stednavne2/1233766a-0e2c-6b98-e053-d480220a5a3f/Ertholmene'>Ertholmene</a>, er den eneste del af Danmark, som ikke hører under en kommune, men ejes og administreres af Forsvarsministeriet.</p>
+      <p class="lead">Danmark er inddelt i <a href='https://info.aws.dk/kommuner?udenforkommuneinddeling=false'>98 kommuner</a>. <a href='https://vis.aws.dk/stednavne2/1233766a-0e2c-6b98-e053-d480220a5a3f/Ertholmene'>Ertholmene</a>, er den eneste del af Danmark, som ikke hører under en kommune, men ejes og administreres af Forsvarsministeriet.</p>
       <hr class="my-4">
       <p>Data og funktionalitet vedrørende kommunerne udstilles af <a href='https://dawa.aws.dk'>DAWA</a> i form af et <a href='http://dawa.aws.dk/dok/api/kommune'>kommune API</a>. API'et understøtter bl.a. opslag, indtastning med autocomplete og reverse geokodnng af kommuner, samt udstilling af deres geografiske grænser.</p>`;
     break;
