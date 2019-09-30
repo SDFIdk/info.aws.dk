@@ -919,7 +919,7 @@ function jumbotrontekst(ressource) {
 
 function visListe(data, visEnkeltKort, overskrift, compare, kort=true) {
   return function() {
-    danNavbar(overskrift, null, false);
+    danNavbar(overskrift, null, kort);
     eo('table',null,null,
       'class', listetableclasses);
      //visOverskrift('<em>' + capitalizeFirstLetter(overskrift) + '</em>', kort);
