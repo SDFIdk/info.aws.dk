@@ -250,6 +250,7 @@ function flertal(ressource) {
     break;   
   case 'vejnavne':      
     tekst= 'vejnavne'; 
+    break;
   case 'supplerendebynavne2': 
     tekst= 'supplerende bynavne';
     break;  
@@ -299,7 +300,7 @@ function flertal(ressource) {
     tekst= 'valglandsdele';
     break;
   case 'bebyggelser':
-    tekst= 'bebyggelse';
+    tekst= 'bebyggelser';
     break;    
   case 'stednavne':
     tekst= 'stednavne';
@@ -668,7 +669,7 @@ function visOverskrift(overskrift, kort=true) {
   ec('thead');
 }
 
-function danNavbar(overskrift, infotekst) {  
+function danNavbar(overskrift, infotekst, viskortmenu=true) {  
   const navoverskrift = document.getElementById('navoverskrift');
   navoverskrift.innerText= capitalizeFirstLetter(flertal(ressource));
   navoverskrift.href= url; 
@@ -700,7 +701,12 @@ function danNavbar(overskrift, infotekst) {
   csv.href= href.toString();
 
   const vispåkort = document.getElementById('vispåkort');
-  vispåkort.href= dawaUrl.toString().replace('dawa','vis');
+  if (viskortmenu) {
+    vispåkort.href= dawaUrl.toString().replace('dawa','vis');
+  }
+  else {
+    vispåkort.hidden= true;
+  }
 
   const apidokumentation = document.getElementById('apidokumentation');
   apidokumentation.href= 'https://dawa.aws.dk/dok/api/' + ental(ressource); 
@@ -816,7 +822,7 @@ function jumbotrontekst(ressource) {
 
 function visListe(data, visEnkeltKort, overskrift, compare, kort=true) {
   return function() {
-    danNavbar(overskrift);
+    danNavbar(overskrift, null, false);
     eo('table',null,null,
       'class', listetableclasses);
      //visOverskrift('<em>' + capitalizeFirstLetter(overskrift) + '</em>', kort);
@@ -1717,7 +1723,7 @@ function visVejnavn(data) {
   return function() {
     eo('table',null,null,
       'class', tableclasses); //table-striped'); //) table-dark');
-      danNavbar(ressource,'<h2>' + data.navn + '</h2');
+      danNavbar(ressource,'<h2>' + data.navn + '</h2', false);
       eo('tbody');                       
         eo('tr');
           eo('td');
@@ -2111,8 +2117,6 @@ function visLandsdel(data) {
   }
 }
 
-
-
 function visRegionKort(data) {  
   eo('tr');
     eo('td');
@@ -2236,18 +2240,7 @@ function visMenighedsraadsafstemningsområde(data) {
   return function() {
     eo('table',null,null,
       'class', tableclasses); //table-striped'); //) table-dark');
-      eo('thead', null, null,
-        'class', theadclasses);
-        eo('tr');
-          eo('th');
-            html(em('Menighedsrådsafstemningsområde') + '<br/>' + strong(data.nummer + ' ' + data.navn));
-          ec('th');
-          eo('th');
-          ec('th');
-          badge('kort', 'badge-primary', data.href.replace('dawa','vis'), true);
-          badge('data', 'badge-primary', data.href, true);
-        ec('tr');       
-      ec('thead'); 
+      danNavbar(ressource,'<h2>' + data.nummer + ' ' + data.navn + '</h2'); 
       eo('tbody');        
         eo('tr');
           eo('td');
@@ -2282,18 +2275,7 @@ function visOpstillingskreds(data) {
   return function() {
     eo('table',null,null,
       'class', tableclasses); //table-striped'); //) table-dark');
-      eo('thead', null, null,
-        'class', theadclasses);
-        eo('tr');
-          eo('th');
-            html(em('Opstillingskreds') + '<br/>' + strong(data.nummer + ' ' + data.navn));
-          ec('th');
-          eo('th');
-          ec('th');
-          badge('kort', 'badge-primary', data.href.replace('dawa','vis'), true);
-          badge('data', 'badge-primary', data.href, true);
-        ec('tr');       
-      ec('thead');  
+      danNavbar(ressource,'<h2>' + data.nummer + ' ' + data.navn + '</h2');
       eo('tbody');        
         eo('tr');
           eo('td');
@@ -2379,19 +2361,7 @@ function visStorkreds(data) {
   return function() {
     eo('table',null,null,
       'class', tableclasses); //table-striped'); //) table-dark');
-      eo('thead', null, null,
-        'class', theadclasses);
-        eo('tr');
-          eo('th');
-            html(em('Storkreds') + '<br/>' + strong(data.nummer + ' ' + data.navn));
-          ec('th');          
-          eo('th');
-          ec('th');
-         // badge('Opstillingskredse', 'badge-primary', origin + '/opstillingskredse?storkredsnummer='+data.nummer);
-          badge('kort', 'badge-primary', data.href.replace('dawa','vis'), true);
-          badge('data', 'badge-primary', data.href, true);
-        ec('tr');    
-      ec('thead'); 
+      danNavbar(ressource,'<h2>' + data.nummer + ' ' + data.navn + '</h2');
       eo('tbody'); 
         eo('tr');
           let ændret= new Date(data.ændret);
@@ -2450,19 +2420,7 @@ function visValglandsdel(data) {
   return function() {
     eo('table',null,null,
       'class', tableclasses); //table-striped'); //) table-dark');
-      eo('thead', null, null,
-        'class', theadclasses);
-        eo('tr');
-          eo('th');
-            html(em('Valglandsdel') + '<br/>' + strong(data.bogstav + ' ' + data.navn));
-          ec('th');
-          eo('th');
-          ec('th');
-        //  badge('Storkredse', 'badge-primary', origin + '/storkredse?Valglandsdelnummer='+data.nummer);
-          badge('kort', 'badge-primary', data.href.replace('dawa','vis'), true);
-          badge('data', 'badge-primary', data.href, true);
-        ec('tr');  
-      ec('thead');
+      danNavbar(ressource,'<h2>' + data.bogstav + ' ' + data.navn + '</h2');
       eo('tbody'); 
         eo('tr');
           let ændret= new Date(data.ændret);
@@ -2519,18 +2477,7 @@ function visPostnummer(data) {
   return function() {
     eo('table',null,null,
       'class', tableclasses); //table-striped'); //) table-dark');
-      eo('thead', null, null,
-        'class', theadclasses);
-        eo('tr');
-          eo('th');
-            html(em('Postnummer') + '<br/>' + strong(data.nr + ' ' + data.navn));
-          ec('th');
-          eo('th');
-          ec('th');
-          badge('kort', 'badge-primary', data.href.replace('dawa','vis'), true);
-          badge('data', 'badge-primary', data.href,true);
-        ec('tr');   
-      ec('thead');  
+      danNavbar(ressource,'<h2>' + data.nr + ' ' + data.navn + '</h2');
       eo('tbody');
         if (data.stormodtageradresser) {                      
           eo('tr');
@@ -2599,18 +2546,7 @@ function visStednavn(data) {
   return function() {
     eo('table',null,null,
       'class', tableclasses); //table-striped'); //) table-dark');
-      eo('thead', null, null,
-        'class', theadclasses);   
-      ec('thead');
-        eo('tr');
-          eo('th');
-            html(em('Stednavn') + '<br/>' + strong(data.navn));
-          ec('th');
-          eo('th');
-          ec('th');
-          badge('kort', 'badge-primary', data.href.replace('dawa','vis'), true);
-          badge('data', 'badge-primary', data.href, true);
-        ec('tr'); 
+      danNavbar(ressource,'<h2>' + data.navn + '</h2');
       eo('tbody');          
         eo('tr');
           eo('td');
@@ -2682,18 +2618,7 @@ function visBebyggelse(data) {
   return function() {
     eo('table',null,null,
       'class', tableclasses); //table-striped'); //) table-dark');
-      eo('thead', null, null,
-        'class', theadclasses); 
-        eo('tr');
-          eo('th');
-            html(em('Bebyggelse') + '<br/>' + strong(data.navn));
-          ec('th');
-          eo('th');
-          ec('th');
-          badge('kort', 'badge-primary', data.href.replace('dawa','vis'), true);
-          badge('data', 'badge-primary', data.href, true);
-        ec('tr'); 
-      ec('thead');      
+      danNavbar(ressource,'<h2>' + data.navn + '</h2');
       eo('tbody');         
         eo('tr');
           eo('td');
@@ -2732,18 +2657,7 @@ function visStednavn2(data) {
   return function() {
     eo('table',null,null,
       'class', tableclasses); //table-striped'); //) table-dark');
-      eo('thead', null, null,
-        'class', theadclasses);
-        eo('tr');
-          eo('th');
-            html(em('Stednavn') + '<br/>' + strong(data.navn));
-          ec('th');
-          eo('th');
-          ec('th');
-          badge('kort', 'badge-primary', data.href.replace('dawa','vis'), true);
-          badge('data', 'badge-primary', data.href, true);
-        ec('tr');
-      ec('thead');  
+      danNavbar(ressource,'<h2>' + data.navn + '</h2');
       eo('tbody');    
         eo('tr');
           eo('td');
@@ -2861,18 +2775,7 @@ function visSted(data) {
   return function() {
     eo('table',null,null,
       'class', tableclasses); //table-striped'); //) table-dark');
-      eo('thead', null, null,
-        'class', theadclasses);
-        eo('tr');
-          eo('th');
-            html(em('Sted') + '<br/>' + strong(data.primærtnavn));
-          ec('th');
-          eo('th');
-          ec('th');
-          badge('kort', 'badge-primary', data.href.replace('dawa','vis'), true);
-          badge('data', 'badge-primary', data.href, true);
-        ec('tr');  
-      ec('thead'); 
+      danNavbar(ressource,'<h2>' + data.primærtnavn + '</h2');
       eo('tbody');
         stedIndhold(data, 0);
       ec('tbody'); 
@@ -2895,19 +2798,7 @@ function visStednavntype(data) {
   return function() {
     eo('table',null,null,
       'class', tableclasses); //table-striped'); //) table-dark');
-      eo('thead', null, null,
-        'class', theadclasses);
-        eo('tr');
-          eo('th');
-            html(em('Stednavntype') + '<br/>' + strong(data.hovedtype));
-          ec('th');
-          eo('th');
-          ec('th');
-          eo('th');
-          ec('th');
-          badge('data', 'badge-primary', data.href, true);
-        ec('tr');  
-      ec('thead'); 
+      danNavbar(ressource,'<h2>' + data.hovedtype + '</h2', false);
       eo('tbody');                          
         eo('tr');
           eo('td');
