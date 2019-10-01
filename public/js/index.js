@@ -738,32 +738,60 @@ function danNavbar(overskrift, infotekst, viskortmenu=true) {
 function jumbotrontekst(ressource) {
   let tekst= "";
   switch (ressource) {
-  case 'adresser':
-    tekst= null;
+  case 'adresser': 
+    tekst= `
+      <h1 class="display-5">Danmarks adresser</h1>
+      <p class="lead">En adresse er en sammensat betegnelse, som udpeger og benævner en bestemt adgangsvej til et ubebygget areal, en bygning, en del af en bygning, et teknisk anlæg el.lign. Den sammensatte betegnelse, som en adresse udgør, består af vejnavn, husnummer, en eventuel etagebetegnelse og en eventuel dørbetegnelse, et eventuelt supplerende bynavn samt det postnummer med tilhørende navn på postnummerområdet, som adressen er beliggende i. (<a href="https://www.retsinformation.dk/Forms/R0710.aspx?id=186325">Adresselovens §6</a>)</p>
+      <hr class="my-4">
+      <p><a href='https://dawa.aws.dk'>DAWA</a> udstiller adressedata og -funktionalitet via et <a href='http://dawa.aws.dk/dok/api/adresse'>adresse API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete, datavask og reverse geokodnng af adresser samt udstilling af deres geografiske placering.</p>`;
     break;
   case 'adgangsadresser':
-    tekst= null;
-    break;    
-  case 'navngivneveje':  
-    tekst= null;
-    break;  
-  case 'vejstykker':  
-    tekst= null;
-    break;   
-  case 'supplerendebynavne2': 
-    tekst= null;
-    break;  
+    tekst= `
+      <h1 class="display-5">Danmarks adgangsadresser</h1>
+      <p class="lead">En adgangsadresse er populært sagt en adresse uden etagebetegnelse og dørbetegnelse</p>
+      <hr class="my-4">
+      <p><a href='https://dawa.aws.dk'>DAWA</a> udstiller adgangsadressedata og -funktionalitet via et <a href='http://dawa.aws.dk/dok/api/adresse'>adgangsadresse API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete, datavask og reverse geokodnng af adgangsadresser samt udstilling af deres geografiske placering.</p>`;
+    break;
+  case 'navngivneveje': 
+    tekst= `
+      <h1 class="display-5">Danmarks navngivne veje</h1>
+      <p class="lead">En navngiven vej er et samlet færdselsareal, uafhængigt af kommunegrænser, for hvilket der er fastsat ét vejnavn.</p>
+      <hr class="my-4">
+      <p><a href='https://dawa.aws.dk'>DAWA</a> udstiller data og funktionalitet om navngivne veje via et <a href='http://dawa.aws.dk/dok/api/navngivenvej'>navngiven vej API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodnng af navngivne veje samt udstilling af deres geografiske placering.</p>`;
+    break;
+  case 'vejstykker': 
+    tekst= `
+      <h1 class="display-5">Danmarks vejstykker</h1>
+      <p class="lead">Et vejstykke er en vej begrænset en kommunes kommunegrænser, for hvilket der er fastsat ét vejnavn.</p>
+      <hr class="my-4">
+      <p><a href='https://dawa.aws.dk'>DAWA</a> udstiller data og funktionalitet om vejstykker via et <a href='http://dawa.aws.dk/dok/api/vejstykke'>vejstykke API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodnng af vejstykker samt udstilling af deres geografiske placering.</p>`;
+    break;
+  case 'supplerendebynavne2':  
+    tekst= `
+      <h1 class="display-5">Danmarks supplerende bynavne</h1>
+      <p class="lead">Et supplerende bynavn er et lokalt stednavn som indgår i adressebetegnelsen for at præcisere den geografiske beliggenhed af en gruppe adresser.</p>
+      <hr class="my-4">
+      <p><a href='https://dawa.aws.dk'>DAWA</a> udstiller data og funktionalitet om supplerende bynavne via et <a href='http://dawa.aws.dk/dok/api/vejstykke'>supplerende bynavne API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodnng af supplerende bynavn samt udstilling af deres geografiske grænser.</p>`;
+    break;
   case 'ejerlav': 
     tekst= null;
     break;
   case 'jordstykker':
     tekst= null;
     break;  
-  case 'postnumre': 
-    tekst= null;
+  case 'postnumre':  
+    tekst= `
+      <h1 class="display-5">Danmarks postnumre</h1>
+      <p class="lead">Danmark er inddelt i <a href='https://info.aws.dk/postnumre'>postnumre</a>, hvis oprindelige formål var at lette sorteringen af posten. Et postnummer er i Danmark et firecifret tal, som knyttes til et geografisk område.</p>
+      <hr class="my-4">
+      <p><a href='https://dawa.aws.dk'>DAWA</a> udstiller postnummerdata og -funktionalitet via et <a href='http://dawa.aws.dk/dok/api/postnummer'>postnummer API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodnng af postnumre samt udstilling af deres geografiske grænser.</p>`;
     break;
-  case 'sogne':
-    tekst= null;
+  case 'sogne': 
+    tekst= `
+      <h1 class="display-5">Danmarks sogne</h1>
+      <p class="lead"><a href='https://info.aws.dk/sogne'>Sogne i Danmark</a> betegner Folkekirkens sogne. Sogn er betegnelsen for et geografisk område med en fælles kirke. Normalt hører der én kirke til hver sogn, men enkelte sogn har dog mere end en kirke.</p>
+      <hr class="my-4">
+      <p><a href='https://dawa.aws.dk'>DAWA</a> udstiller sognedata og -funktionalitet via et <a href='http://dawa.aws.dk/dok/api/sogn'>sogne API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodnng af sogne samt udstilling af deres geografiske grænser.</p>`;
     break;
   case 'politikredse':
     tekst= null;
@@ -782,7 +810,7 @@ function jumbotrontekst(ressource) {
       <h1 class="display-5">Danmarks kommuner</h1>
       <p class="lead">Danmark er inddelt i <a href='https://info.aws.dk/kommuner?udenforkommuneinddeling=false'>98 kommuner</a>. <a href='https://vis.aws.dk/stednavne2/1233766a-0e2c-6b98-e053-d480220a5a3f/Ertholmene'>Ertholmene</a>, er den eneste del af Danmark, som ikke hører under en kommune, men ejes og administreres af Forsvarsministeriet.</p>
       <hr class="my-4">
-      <p>Data og funktionalitet vedrørende kommunerne udstilles af <a href='https://dawa.aws.dk'>DAWA</a> i form af et <a href='http://dawa.aws.dk/dok/api/kommune'>kommune API</a>. API'et understøtter bl.a. opslag, indtastning med autocomplete og reverse geokodnng af kommuner, samt udstilling af deres geografiske grænser.</p>`;
+      <p>Data og funktionalitet vedrørende kommunerne udstilles af <a href='https://dawa.aws.dk'>DAWA</a> via et <a href='http://dawa.aws.dk/dok/api/kommune'>kommune API</a>. API'et understøtter bl.a. opslag, indtastning med autocomplete og reverse geokodnng af kommuner samt udstilling af deres geografiske grænser.</p>`;
     break;
   case 'afstemningsomraader': 
     tekst= null;
