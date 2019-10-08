@@ -3027,6 +3027,7 @@ function visStednavntype(data) {
 
 function BBRStatusFarve(status) {
   let tekst= "";
+  status= parseInt(status);
   switch (status) {
   case 1:
     // "Start";
@@ -3115,18 +3116,43 @@ function BBRStatusFarve(status) {
 function getAdgangsadresse(id, adgangsadresseid) {
   const url= dawaUrl.origin + "/adgangsadresser/" + adgangsadresseid;
   fetch(url).then( function(response) {
-    response.json().then( function ( adgangsadresse ) {
-      dom.patch(document.getElementById(id), () => {
-        eo('tr'); 
-          eo('td');
-            html('Adgangsadresse: ' + strong(util.formatAdgangsadresse(adgangsadresse, true)));
-          ec('td');
-          badge('info', 'badge-primary', adgangsadresse.href.replace('dawa.aws.dk',host));
-          badge('kort', 'badge-primary', adgangsadresse.href.replace('dawa','vis'));
-          badge('data', 'badge-primary', adgangsadresse.href);
-        ec('tr');
+    if (response.ok) {
+      response.json().then( function ( adgangsadresse ) {
+        dom.patch(document.getElementById(id), () => {
+          eo('tr'); 
+            eo('td');
+              html('Adgangsadresse: ' + strong(util.formatAdgangsadresse(adgangsadresse, true)));
+            ec('td');
+            badge('info', 'badge-primary', adgangsadresse.href.replace('dawa.aws.dk',host));
+            badge('kort', 'badge-primary', adgangsadresse.href.replace('dawa','vis'));
+            badge('data', 'badge-primary', adgangsadresse.href);
+          ec('tr');
+        });
       });
-    });
+    }
+  });
+} 
+
+function getJordstykke(label, id) {
+  const url= dawaUrl.origin + "/jordstykker?featureid=" + id;
+  fetch(url).then( function(response) {
+    if (response.ok) {
+      response.json().then( function ( jordstykker ) {
+        if (jordstykker.length === 1) {
+          let jordstykke= jordstykker[0]; 
+          dom.patch(document.getElementById(label), () => {
+            eo('tr'); 
+              eo('td');
+                html('Jordstykke: ' + strong(jordstykke.matrikelnr + ' ' + jordstykke.ejerlav.navn));
+              ec('td');
+              badge('info', 'badge-primary', jordstykke.href.replace('dawa.aws.dk',host));
+              badge('kort', 'badge-primary', jordstykke.href.replace('dawa','vis'));
+              badge('data', 'badge-primary', jordstykke.href);
+            ec('tr');
+          });
+        }
+      });
+    }
   });
 }         
 
@@ -3187,10 +3213,18 @@ function BBRBygningIndhold(data, indrykninger= 0)
       html('Id: ' + strong(data.id));
     ec('td');
   ec('tr');
-  let adgangsadresse= 'adgangsadresse';
-  eo('tbody', null, null, 'id', adgangsadresse);
-    getAdgangsadresse(adgangsadresse, data.husnummer.id);
-  ec('tbody'); 
+  if (data.husnummer) {
+    ec('tbody'); 
+    let adgangsadresse= 'adgangsadresse';
+    eo('tbody', null, null, 'id', adgangsadresse);
+      getAdgangsadresse(adgangsadresse, data.husnummer.id);
+  }
+  if (data.jordstykke) {
+    ec('tbody'); 
+    let label= 'jordstykke';
+    eo('tbody', null, null, 'id', label);
+      getJordstykke(label, data.jordstykke.id);
+  }
   //visKodeNavn('Kommune', data.kommune, indrykninger);
   //visKodeNavn('Sogn', data.sogn, indrykninger);
 }
