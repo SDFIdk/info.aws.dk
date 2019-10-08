@@ -688,6 +688,8 @@ export function getBygAfloebsforhold(kode) {
 }
 
 export function getBygAnvendelse(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 110:
 		navn= "Stuehus til landbrugsejendom";
@@ -3093,6 +3095,8 @@ export function getKvalitetAfKoordinatsaet(kode) {
 }
 
 export function getLivscyklus(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 1:
 		navn= "Start";
