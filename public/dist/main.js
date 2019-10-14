@@ -3114,7 +3114,7 @@ function BBRStatusFarve(status) {
 
 
 function getAdgangsadresse(id, adgangsadresseid) {
-  const url= dawaUrl.origin + "/adgangsadresser/" + adgangsadresseid;
+  const url= dawaUrl.origin + "/adgangsadresser/" + adgangsadresseid + "?medtagnedlagte";
   fetch(url).then( function(response) {
     if (response.ok) {
       response.json().then( function ( adgangsadresse ) {
@@ -3218,15 +3218,125 @@ function BBRBygningIndhold(data, indrykninger= 0)
     let adgangsadresse= 'adgangsadresse';
     eo('tbody', null, null, 'id', adgangsadresse);
       getAdgangsadresse(adgangsadresse, data.husnummer.id);
+    ec('tbody'); 
+    eo('tbody'); 
   }
   if (data.jordstykke) {
     ec('tbody'); 
     let label= 'jordstykke';
     eo('tbody', null, null, 'id', label);
       getJordstykke(label, data.jordstykke.id);
+    ec('tbody');
+    eo('tbody');  
   }
-  //visKodeNavn('Kommune', data.kommune, indrykninger);
+  //visKodeNavn('Kommune', data.kommunekode, indrykninger);
   //visKodeNavn('Sogn', data.sogn, indrykninger);
+  if (data.byg007Bygningsnummer > 0) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Bygningsnummer: ' + strong(data.byg007Bygningsnummer));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg021BygningensAnvendelse) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Anvendelse: ' + strong(bbr.getBygAnvendelse(data.byg021BygningensAnvendelse)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg024AntalLejlighederMedKøkken) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Antal lejligheder med køkken: ' + strong(data.byg024AntalLejlighederMedKøkken));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg025AntalLejlighederUdenKøkken) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Antal lejligheder uden køkken: ' + strong(data.byg025AntalLejlighederUdenKøkken));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg026Opførelsesår) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Opførelsesår: ' + strong(data.byg026Opførelsesår));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg027OmTilbygningsår) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Ombygningsår: ' + strong(data.byg027OmTilbygningsår));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg029DatoForMidlertidigOpførtBygning) {
+    eo('tr');
+      eotd(indrykninger);
+        let dato= new Date(data.byg029DatoForMidlertidigOpførtBygning);
+        html('Midlertidig opført d.: ' + strong(dato.toLocaleString()));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg030Vandforsyning) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Vandforsyning: ' + strong(bbr.getBygVandforsyning(data.byg030Vandforsyning)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg031Afløbsforhold) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Afløbsforhold: ' + strong(bbr.getAfloebsforhold(data.byg031Afløbsforhold)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg032YdervæggensMateriale) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Ydervæg: ' + strong(bbr.getYdervaeggenesMateriale(data.byg032YdervæggensMateriale)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg033Tagdækningsmateriale) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Tagdækning: ' + strong(bbr.getTagdaekningsmateriale(data.byg033Tagdækningsmateriale)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg034SupplerendeYdervæggensMateriale) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Supplerende ydervæg: ' + strong(bbr.getYdervaeggenesMateriale(data.byg034SupplerendeYdervæggensMateriale)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg035SupplerendeTagdækningsMateriale) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Supplerende tagdækning: ' + strong(bbr.getTagdaekningsmateriale(data.byg035SupplerendeTagdækningsMateriale)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg036AsbestholdigtMateriale) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Asbest: ' + strong(bbr.getAsbestholdigtMateriale(data.byg036AsbestholdigtMateriale)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg037KildeTilBygningensMaterialer) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Kilde til materialer: ' + strong(bbr.getKildeTilOplysninger(data.byg037KildeTilBygningensMaterialer)));
+      ec('td');
+    ec('tr');
+  }
 }
 
 //-----------------------------------------------------------------------------------------------------------
@@ -6373,6 +6483,8 @@ function getAdressestatus(kode) {
 }
 
 function getAfloebsforhold(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 1:
 		navn= "Fælleskloakeret: spildevand + tag- og overfladevand";
@@ -6690,6 +6802,8 @@ function getArtskode(kode) {
 }
 
 function getAsbestholdigtMateriale(kode) {
+	let navn= "";
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 1:
 		navn= "Asbestholdigt ydervægsmateriale";
@@ -7548,6 +7662,8 @@ function getBygSupplerendeVarme(kode) {
 }
 
 function getBygVandforsyning(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 1:
 		navn= "Alment vandforsyningsanlæg (tidligere offentligt)";
@@ -8857,6 +8973,8 @@ function getKildeTilKoordinatsaet(kode) {
 }
 
 function getKildeTilOplysninger(kode) {
+	let navn= "";
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 1:
 		navn= "Oplyst af ejer (eller dennes repræsentant)";
@@ -10162,6 +10280,8 @@ function getSupplerendeVarme(kode) {
 }
 
 function getTagdaekningsmateriale(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 1:
 		navn= "Built-up";
@@ -10517,6 +10637,8 @@ function getVarmeinstallation(kode) {
 }
 
 function getYdervaeggenesMateriale(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 1:
 		navn= "Mursten (tegl, kalksten, cementsten)";

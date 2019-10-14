@@ -31,6 +31,8 @@ export function getAdressestatus(kode) {
 }
 
 export function getAfloebsforhold(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 1:
 		navn= "Fælleskloakeret: spildevand + tag- og overfladevand";
@@ -348,6 +350,8 @@ export function getArtskode(kode) {
 }
 
 export function getAsbestholdigtMateriale(kode) {
+	let navn= "";
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 1:
 		navn= "Asbestholdigt ydervægsmateriale";
@@ -1206,6 +1210,8 @@ export function getBygSupplerendeVarme(kode) {
 }
 
 export function getBygVandforsyning(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 1:
 		navn= "Alment vandforsyningsanlæg (tidligere offentligt)";
@@ -2515,6 +2521,8 @@ export function getKildeTilKoordinatsaet(kode) {
 }
 
 export function getKildeTilOplysninger(kode) {
+	let navn= "";
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 1:
 		navn= "Oplyst af ejer (eller dennes repræsentant)";
@@ -3820,6 +3828,8 @@ export function getSupplerendeVarme(kode) {
 }
 
 export function getTagdaekningsmateriale(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 1:
 		navn= "Built-up";
@@ -4175,6 +4185,8 @@ export function getVarmeinstallation(kode) {
 }
 
 export function getYdervaeggenesMateriale(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 1:
 		navn= "Mursten (tegl, kalksten, cementsten)";

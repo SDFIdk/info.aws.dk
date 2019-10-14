@@ -1,0 +1,1 @@
+Henlagt parcelhus: http://localhost:3000/bbr/bygninger?id=fc038523-7c0e-402e-ab63-6a457e3098f6&m=dawa-p1
