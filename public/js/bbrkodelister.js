@@ -476,6 +476,8 @@ export function getBBRMessageType(kode) {
 }
 
 export function getBeregningsprincipForArealAfCarport(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 1:
 		navn= "Carportareal er målt efter tagflade";
@@ -1034,6 +1036,8 @@ export function getByggesagskode(kode) {
 }
 
 export function getByggeskadeforsikringsselskab(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 0:
 		navn= "Ingen byggeskadeforsikring";
@@ -1241,6 +1245,8 @@ export function getBygVandforsyning(kode) {
 }
 
 export function getBygVarmeinstallation(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 1:
 		navn= "Fjernvarme/blokvarme (radiatorsystemer el. varmluftanlæg)";
@@ -1276,6 +1282,8 @@ export function getBygVarmeinstallation(kode) {
 }
 
 export function getDispensationFritagelseIftKollektivVarmeforsyning(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 1:
 		navn= "Dispensation er tidsbegrænset";
@@ -2046,6 +2054,8 @@ export function getForretningsProcessUIBygningEnhed(kode) {
 }
 
 export function getFredning(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 1:
 		navn= "Bygningen fredet iht. bygningsfredningsloven";
@@ -2343,6 +2353,8 @@ export function getGruVandforsyning(kode) {
 }
 
 export function getGulvbelaegning(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 1:
 		navn= "Beton";
@@ -2501,6 +2513,7 @@ export function getKilde(kode) {
 }
 
 export function getKildeTilKoordinatsaet(kode) {
+	let navn= '';
 	switch (kode) { 
 	case "E":
 		navn= "Ejer";
@@ -3035,6 +3048,8 @@ export function getKondemneretBoligenhed(kode) {
 }
 
 export function getKonstruktion(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 1:
 		navn= "Åben konstruktion";
@@ -3049,6 +3064,8 @@ export function getKonstruktion(kode) {
 }
 
 export function getKonstruktionsforhold(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 1:
 		navn= "Bygningen har jernbetonskelet";
@@ -3063,6 +3080,8 @@ export function getKonstruktionsforhold(kode) {
 }
 
 export function getKoordinatsystem(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 1:
 		navn= "System 34";
@@ -3086,6 +3105,8 @@ export function getKoordinatsystem(kode) {
 }
 
 export function getKvalitetAfKoordinatsaet(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 1:
 		navn= "Sikker geokodning";
@@ -3213,6 +3234,8 @@ export function getMateriale(kode) {
 }
 
 export function getMedlemsskabAfSplidevandforsyning(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 0:
 		navn= "Ikke oplyst";
@@ -3346,6 +3369,8 @@ export function getOffentligStoette(kode) {
 }
 
 export function getOmfattetAfByggeskadeforsikring(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 0:
 		navn= "Bygningen er ikke omfattet af byggeskadeforsikring";
@@ -3392,6 +3417,8 @@ export function getOpgangSortering(kode) {
 }
 
 export function getOpvarmningsmiddel(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 1:
 		navn= "Elektricitet";
@@ -3421,6 +3448,8 @@ export function getOpvarmningsmiddel(kode) {
 }
 
 export function getOversvoemmelsesselvrisiko(kode) {
+	let navn= '';
+	kode=parseInt(kode);
 	switch (kode) { 
 	case 0:
 		navn= "Ingen udbetalt erstatning fra Stormrådet";
@@ -3441,6 +3470,8 @@ export function getOversvoemmelsesselvrisiko(kode) {
 }
 
 export function getPaaSoeTerritorie(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 0:
 		navn= "Ikke på søterritorie";
@@ -3501,6 +3532,8 @@ export function getPlaceringAfCursor(kode) {
 }
 
 export function getRensningspaabud(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 0:
 		navn= "Ikke oplyst";
@@ -3761,6 +3794,8 @@ export function getSupplerendeIndvendigKorrosionsbeskyttelse(kode) {
 }
 
 export function getSupplerendeOplysningerOmKoordinatsaet(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 11:
 		navn= "Koordinatsæt ligger i bygningen/anlægget (over jorden)";
@@ -3787,6 +3822,8 @@ export function getSupplerendeOplysningerOmKoordinatsaet(kode) {
 }
 
 export function getSupplerendeVarme(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 0:
 		navn= "Ikke oplyst";
@@ -3978,6 +4015,8 @@ export function getTilladelsesart(kode) {
 }
 
 export function getTilladelseTilAlternativBortskaffelseEllerAfledning(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 0:
 		navn= "Ikke oplyst";
@@ -3995,6 +4034,8 @@ export function getTilladelseTilAlternativBortskaffelseEllerAfledning(kode) {
 }
 
 export function getTilladelseTilUdtraeden(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 0:
 		navn= "Ikke oplyst";
@@ -4052,6 +4093,8 @@ export function getTypeAfVaegge(kode) {
 }
 
 export function getUdledningstilladelse(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 0:
 		navn= "Ikke oplyst";

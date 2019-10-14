@@ -1187,6 +1187,12 @@ function adgangsadresseIndhold(data, indrykninger= 0)
     eo('td'); ec('td');
     eo('td'); ec('td');
   ec('tr');
+  ec('tbody'); 
+  let visBBRBygning= 'visBBRBygning';
+  eo('tbody', null, null, 'id', visBBRBygning);
+    getBBRBygningFraAdgangsadresseid(visBBRBygning,data.id);
+  ec('tbody'); 
+  eo('tbody'); 
   eo('tr');    
     eotd(indrykninger);;
       html('Jordstykke: ' + strong(data.jordstykke.matrikelnr + " " + data.jordstykke.ejerlav.navn));
@@ -2282,6 +2288,24 @@ function getKommuner(id, regionskode) {
       });
     });
   });
+}
+
+function getKommune(id, kode) {
+  const url= dawaUrl.origin + '/kommuner/' + kode;;
+  fetch(url).then( function(response) {
+    response.json().then( function ( kommune ) {
+      dom.patch(document.getElementById(id), () => {
+        eo('tr'); 
+          eo('td');
+            html('Kommune: ' + strong(kommune.kode + " " + kommune.navn));
+          ec('td');
+          badge('info', 'badge-primary', kommune.href.replace('dawa.aws.dk',host));
+          badge('kort', 'badge-primary', kommune.href.replace('dawa','vis'));
+          badge('data', 'badge-primary', kommune.href);
+        ec('tr');
+      });
+    });
+  });
 }                 
 
 function visAfstemningsområdeKort(data) {  
@@ -3057,7 +3081,32 @@ function getJordstykke(label, id) {
       });
     }
   });
-}         
+} 
+
+
+function getBBRBygningFraAdgangsadresseid(id, adgangsadresseid) {
+  const url= dawaUrl.origin + "/bbr/bygninger?husnummer_id=" + adgangsadresseid + "&medtagnedlagte";
+  fetch(url).then( function(response) {
+    if (response.ok) {
+      response.json().then( function ( bygninger ) {
+        if (bygninger.length > 0) {
+          let bygning= bygninger[0];
+          dom.patch(document.getElementById(id), () => {
+            eo('tr'); 
+              eo('td');
+                html('BBR bygning');
+              ec('td');
+              badge('info', 'badge-primary', bygning.href.replace('dawa.aws.dk',host));
+              badge('kort', 'badge-primary', bygning.href.replace('dawa','vis'));
+              badge('data', 'badge-primary', bygning.href);
+            ec('tr');
+          });
+        }
+      });
+    }
+  });
+} 
+
 
 function visBBRBygningKort(bygning) {  
   eo('tr');
@@ -3129,6 +3178,14 @@ function BBRBygningIndhold(data, indrykninger= 0)
     let label= 'jordstykke';
     eo('tbody', null, null, 'id', label);
       getJordstykke(label, data.jordstykke.id);
+    ec('tbody');
+    eo('tbody');  
+  }
+  if (data.kommune) {
+    ec('tbody'); 
+    let label= 'kommune';
+    eo('tbody', null, null, 'id', label);
+      getKommune(label, data.kommune.kode);
     ec('tbody');
     eo('tbody');  
   }
@@ -3237,6 +3294,414 @@ function BBRBygningIndhold(data, indrykninger= 0)
     eo('tr');
       eotd(indrykninger);
         html('Kilde til materialer: ' + strong(bbr.getKildeTilOplysninger(data.byg037KildeTilBygningensMaterialer)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg038SamletBygningsareal>0) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Samlet bygningsareal: ' + strong(data.byg038SamletBygningsareal));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg039BygningensSamledeBoligAreal>0) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Samlet boligareal: ' + strong(data.byg039BygningensSamledeBoligAreal));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg040BygningensSamledeErhvervsAreal>0) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Samlet erhvervsareal: ' + strong(data.byg040BygningensSamledeErhvervsAreal));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg041BebyggetAreal>0) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Samlet bebygget areal: ' + strong(data.byg041BebyggetAreal));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg042ArealIndbyggetGarage>0) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Areal af indbygget garage: ' + strong(data.byg042ArealIndbyggetGarage));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg043ArealIndbyggetCarport>0) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Areal af indbygget carport: ' + strong(data.byg043ArealIndbyggetCarport));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg044ArealIndbyggetUdhus>0) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Areal af indbygget udhus: ' + strong(data.byg044ArealIndbyggetUdhus));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg045ArealIndbyggetUdestueEllerLign>0) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Areal af indbygget udestue el.: ' + strong(data.byg045ArealIndbyggetUdestueEllerLign));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg046SamletArealAfLukkedeOverdækningerPåBygningen>0) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Samlet areal af lukkede overdækninger: ' + strong(data.byg046SamletArealAfLukkedeOverdækningerPåBygningen));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg047ArealAfAffaldsrumITerrænniveau>0) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Areal af affaldsrum i terrænniveau: ' + strong(data.byg047ArealAfAffaldsrumITerrænniveau));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg048AndetAreal>0) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Andet areal: ' + strong(data.byg048AndetAreal));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg049ArealAfOverdækketAreal>0) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Overdækket areal: ' + strong(data.byg049ArealAfOverdækketAreal));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg050ArealÅbneOverdækningerPåBygningenSamlet>0) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Samlet areal af åbne overdækninger: ' + strong(data.byg050ArealÅbneOverdækningerPåBygningenSamlet));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg051Adgangsareal>0) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Adgangsareal: ' + strong(data.byg051Adgangsareal));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg052BeregningsprincipCarportAreal) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Beregningsprincip af carportareal: ' + strong(bbr.getBeregningsprincipForArealAfCarport(data.byg052BeregningsprincipCarportAreal)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg053BygningsarealerKilde) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Kilde til bygningsarealer: ' + strong(bbr.getKildeTilOplysninger(data.byg053BygningsarealerKilde)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg054AntalEtager>0) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Antal etager: ' + strong(data.byg054AntalEtager));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg055AfvigendeEtager) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Afvigende etager: ' + strong(bbr.getAfvigendeEtager(data.byg055AfvigendeEtager)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg056Varmeinstallation) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Varmeinstallation: ' + strong(bbr.getBygVarmeinstallation(data.byg056Varmeinstallation)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg057Opvarmningsmiddel) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Opvarmningsmiddel: ' + strong(bbr.getOpvarmningsmiddel(data.byg057Opvarmningsmiddel)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg058SupplerendeVarme) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Supplerende varme: ' + strong(bbr.getSupplerendeVarme(data.byg058SupplerendeVarme)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg069Sikringsrumpladser>0) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Sikringsrumpladser: ' + strong(data.byg069Sikringsrumpladser));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg070Fredning) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Fredning: ' + strong(bbr.getFredning(data.byg070Fredning)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg071BevaringsværdighedReference) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Bevaringsværdighedsreference: ' + strong(data.byg071BevaringsværdighedReference));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg094Revisionsdato) {
+    eo('tr');
+      eotd(indrykninger);
+        let dato= new Date(data.byg094Revisionsdato);
+        html('Revisionsdato: ' + strong(dato.toLocaleString()));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg111StormrådetsOversvømmelsesSelvrisiko) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Stormrådets oversvømmelses selvrisiko: ' + strong(bbr.getOversvoemmelsesselvrisiko(data.byg111StormrådetsOversvømmelsesSelvrisiko)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg112DatoForRegistreringFraStormrådet) {
+    eo('tr');
+      eotd(indrykninger);
+        let dato= new Date(data.byg112DatoForRegistreringFraStormrådet);
+        html('Registrering fra stormrådet d.: ' + strong(dato.toLocaleString()));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg113Byggeskadeforsikringsselskab) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Byggeskadeforsikringsselskab: ' + strong(bbr.getByggeskadeforsikringsselskab(data.byg113Byggeskadeforsikringsselskab)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg114DatoForByggeskadeforsikring) {
+    eo('tr');
+      eotd(indrykninger);
+        let dato= new Date(data.byg114DatoForByggeskadeforsikring);
+        html('Byggeskadeforsikring d.: ' + strong(dato.toLocaleString()));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg119Udledningstilladelse) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Udledningstilladelse: ' + strong(bbr.getUdledningstilladelse(data.byg119Udledningstilladelse)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg121OmfattetAfByggeskadeforsikring) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Omfattet af byggeskadeforsikring: ' + strong(bbr.getOmfattetAfByggeskadeforsikring(data.byg121OmfattetAfByggeskadeforsikring)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg122Gyldighedsdato) {
+    eo('tr');
+      eotd(indrykninger);
+        let dato= new Date(data.byg122Gyldighedsdato);
+        html('Gyldighedsdato: ' + strong(dato.toLocaleString()));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg123MedlemskabAfSpildevandsforsyning) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Medlemsskab af aplidevandforsyning: ' + strong(bbr.getMedlemsskabAfSplidevandforsyning(data.byg123MedlemskabAfSpildevandsforsyning)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg124PåbudVedrSpildevandsafledning) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Påbud vedr. spildevandsafledning: ' + strong(bbr.getRensningspaabud(data.byg124PåbudVedrSpildevandsafledning)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg125FristVedrSpildevandsafledning) {
+    eo('tr');
+      eotd(indrykninger);
+        let dato= new Date(data.byg125FristVedrSpildevandsafledning);
+        html('Frist vedr. spildevandsafledning: ' + strong(dato.toLocaleString()));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg126TilladelseTilUdtræden) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Tilladelse til udtræden: ' + strong(bbr.getTilladelseTilUdtraeden(data.byg126TilladelseTilUdtræden)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg127DatoForTilladelseTilUdtræden) {
+    eo('tr');
+      eotd(indrykninger);
+        let dato= new Date(data.byg127DatoForTilladelseTilUdtræden);
+        html('Tilladelse til udtræden d.: ' + strong(dato.toLocaleString()));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg128TilladelseTilAlternativBortskaffelseEllerAfledning) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Tilladelse til alternativ bortskaffelse: ' + strong(bbr.getTilladelseTilAlternativBortskaffelseEllerAfledning(data.byg128TilladelseTilAlternativBortskaffelseEllerAfledning)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg129DatoForTilladelseTilAlternativBortskaffelseEllerAfledning) {
+    eo('tr');
+      eotd(indrykninger);
+        let dato= new Date(data.byg129DatoForTilladelseTilAlternativBortskaffelseEllerAfledning);
+        html('Tilladelse til alternativ bortskaffelse d.: ' + strong(dato.toLocaleString()));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg130ArealAfUdvendigEfterisolering>0) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Areal af udvendig efterisolering: ' + strong(data.byg130ArealAfUdvendigEfterisolering));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg131DispensationFritagelseIftKollektivVarmeforsyning) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Tilladelse til alternativ bortskaffelse: ' + strong(bbr.getDispensationFritagelseIftKollektivVarmeforsyning(data.byg131DispensationFritagelseIftKollektivVarmeforsyning)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg132DatoForDispensationFritagelseIftKollektivVarmeforsyning) {
+    eo('tr');
+      eotd(indrykninger);
+        let dato= new Date(data.byg132DatoForDispensationFritagelseIftKollektivVarmeforsyning);
+        html('Dispensationsfritagelse ift. kollektivvarmeforsyning d.: ' + strong(dato.toLocaleString()));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg133KildeTilKoordinatsæt) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Kilde til koordinatsæt: ' + strong(bbr.getKildeTilKoordinatsaet(data.byg133KildeTilKoordinatsæt)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg134KvalitetAfKoordinatsæt) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Kvalitet af koordinatsæt: ' + strong(bbr.getKvalitetAfKoordinatsaet(data.byg134KvalitetAfKoordinatsæt)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg135SupplerendeOplysningOmKoordinatsæt) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Supplerende oplysning om koordinatsæt: ' + strong(bbr.getSupplerendeOplysningerOmKoordinatsaet(data.byg135SupplerendeOplysningOmKoordinatsæt)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg136PlaceringPåSøterritorie) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Placering: ' + strong(bbr.getPaaSoeTerritorie(data.byg136PlaceringPåSøterritorie)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg137BanedanmarkBygværksnummer) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Banedanmarks bygværksnummer: ' + strong(data.byg137BanedanmarkBygværksnummer));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg140ServitutForUdlejningsEjendomDato) {
+    eo('tr');
+      eotd(indrykninger);
+        let dato= new Date(data.byg140ServitutForUdlejningsEjendomDato);
+        html('Servitut for udlejningsejendom d.: ' + strong(dato.toLocaleString()));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg150Gulvbelægning) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Gulvbelægning: ' + strong(bbr.getSupplerendeOplysningerOmKoordinatsaet(data.byg150Gulvbelægning)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg151Frihøjde) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Frihøjde: ' + strong(data.byg151Frihøjde));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg152ÅbenLukketKonstruktion) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Konstruktion: ' + strong(bbr.getKonstruktion(data.byg152ÅbenLukketKonstruktion)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg153Konstruktionsforhold) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Konstruktionsforhold: ' + strong(bbr.getKonstruktionsforhold(data.byg153Konstruktionsforhold)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg301TypeAfFlytning) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Type af flytning: ' + strong(data.byg301TypeAfFlytning));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg302Tilflytterkommune>0) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Tilflytterkommune: ' + strong(data.byg302Tilflytterkommune));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg403ØvrigeBemærkningerFraStormrådet>0) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Øvrige bemærkninger fra stormrådet: ' + strong(data.byg403ØvrigeBemærkningerFraStormrådet));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg406Koordinatsystem) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Koordinatsystem: ' + strong(bbr.getKoordinatsystem(data.byg406Koordinatsystem)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg500Notatlinjer) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Notatlinjer: ' + strong(data.byg500Notatlinjer));
       ec('td');
     ec('tr');
   }
