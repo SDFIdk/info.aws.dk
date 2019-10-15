@@ -76,6 +76,9 @@ function visInfo(container, ressource, data) {
   case 'bbr/bygninger':
     visData(data, visBBRBygningKort, visBBRBygning, ressource, null);
     break;
+  case 'bbr/tekniskeanlaeg':
+    visData(data, visBBRTekniskeAnlægKort, visBBRTekniskeAnlæg, ressource, null);
+    break;
   case 'adresser':
     visData(data, visAdresseKort, visAdresse, ressource, adresseCompare);
     break;
@@ -160,6 +163,9 @@ function ental(ressource) {
   switch (ressource) {
   case 'bbr/bygninger':
     tekst= 'BBR bygning';
+    break;
+  case 'bbr/tekniskeanlaeg':
+    tekst= 'BBR teknisk anlæg';
     break;
   case 'adresser':
     tekst= 'adresse';
@@ -250,6 +256,9 @@ function flertal(ressource) {
   switch (ressource) {
   case 'bbr/bygninger':
     tekst= 'BBR bygninger';
+    break;
+  case 'bbr/tekniskeanlaeg':
+    tekst= 'BBR tekniske anlæg';
     break;
   case 'adresser':
     tekst= 'adresser';
@@ -753,6 +762,9 @@ function jumbotrontekst(ressource) {
   let tekst= "";
   switch (ressource) {
   case 'bbr/bygninger':
+    tekst= null;
+    break;
+  case 'bbr/tekniskeanlaeg  ':
     tekst= null;
     break;
   case 'adresser': 
@@ -1830,7 +1842,13 @@ function visBygning(data) {
           eo('td');
             html('Overlap: ' + strong(data.overlap?'ja':'nej'));
           ec('td');
-        ec('tr');                         
+        ec('tr');
+        ec('tbody'); 
+        let visBBRBygning= 'visBBRBygning';
+        eo('tbody', null, null, 'id', visBBRBygning);
+          getBBRBygning(visBBRBygning,data.bbrbygning.id);
+        ec('tbody'); 
+        eo('tbody');                          
         eo('tr');
           eo('td');
             html('Kommuner: ');
@@ -3084,14 +3102,14 @@ function getJordstykke(label, id) {
 } 
 
 
-function getBBRBygningFraAdgangsadresseid(id, adgangsadresseid) {
-  const url= dawaUrl.origin + "/bbr/bygninger?husnummer_id=" + adgangsadresseid + "&medtagnedlagte";
+function getBBRBygningFraAdgangsadresseid(label, adgangsadresseid ) {
+  const url= dawaUrl.origin + "/bbr/bygninger?husnummer_label=" + adgangsadresseid   + "&medtagnedlagte";
   fetch(url).then( function(response) {
     if (response.ok) {
       response.json().then( function ( bygninger ) {
         if (bygninger.length > 0) {
           let bygning= bygninger[0];
-          dom.patch(document.getElementById(id), () => {
+          dom.patch(document.getElementById(label), () => {
             eo('tr'); 
               eo('td');
                 html('BBR bygning');
@@ -3105,6 +3123,26 @@ function getBBRBygningFraAdgangsadresseid(id, adgangsadresseid) {
       });
     }
   });
+}
+
+function getBBRBygning(label, id  ) {
+  const url= dawaUrl.origin + "/bbr/bygninger/" + id;
+  fetch(url).then( function(response) {
+    if (response.ok) {
+      response.json().then( function ( bygning ) {
+        dom.patch(document.getElementById(label), () => {
+          eo('tr'); 
+            eo('td');
+              html('BBR bygning');
+            ec('td');
+            badge('info', 'badge-primary', bygning.href.replace('dawa.aws.dk',host));
+            badge('kort', 'badge-primary', bygning.href.replace('dawa','vis'));
+            badge('data', 'badge-primary', bygning.href);
+          ec('tr');
+        });
+      });
+    }
+  });
 } 
 
 
@@ -3115,7 +3153,7 @@ function visBBRBygningKort(bygning) {
         'class', 'badge badge-pill '+BBRStatusFarve(bygning.status));
         text(bbr.getLivscyklus(bygning.status));
       ec('span');
-      html('<br/>' + 'Bygning fra ' + bygning.byg026Opførelsesår);
+      html('<br/>' + bbr.getBygAnvendelse(bygning.byg021BygningensAnvendelse) + ' fra ' + bygning.byg026Opførelsesår);
     ec('td');
     let href= 'https://' + host + '/bbr/bygninger/' + bygning.id;
     badge('info', 'badge-primary', href.replace('dawa.aws.dk',host));
@@ -3131,19 +3169,6 @@ function visBBRBygning(data) {
       'class', tableclasses); 
       eo('tbody');
         BBRBygningIndhold(data);
-      //   eo('tr');
-      //     eo('td');
-      //       html('Tilknyttede adresser');
-      //     ec('td');
-      //     let adrurl= origin + "/adresser?adgangsadresseid=" + data.id;
-      //     badge('info', 'badge-primary', adrurl);
-      //     badge('kort', 'badge-primary', adrurl.replace('info','vis'));
-      //     badge('data', 'badge-primary', adrurl.replace('info','dawa'));
-      //   ec('tr');
-      // ec('tbody'); 
-      // let adgangsadressensadresser= 'adgangsadressensadresser';
-      // eo('tbody', null, null, 'id', adgangsadressensadresser);
-      //     getAdresser(adgangsadressensadresser, data.id);
       ec('tbody'); 
     ec('table');
   }
@@ -3707,6 +3732,399 @@ function BBRBygningIndhold(data, indrykninger= 0)
   }
 }
 
+
+function visBBRTekniskeAnlægKort(tekanl) {  
+  eo('tr');
+    eo('td');
+      eo('span', null, null,
+        'class', 'badge badge-pill '+BBRStatusFarve(tekanl.status));
+        text(bbr.getLivscyklus(tekanl.status));
+      ec('span');
+      html('<br/>' + bbr.getKlassifikation(tekanl.tek020Klassifikation) + ' fra ' + tekanl.tek024Etableringsår);
+    ec('td');
+    let href= 'https://' + host + '/bbr/tekniskeanlaeg/' + tekanl.id;
+    badge('info', 'badge-primary', href.replace('dawa.aws.dk',host));
+    badge('kort', 'badge-primary', href.replace('dawa','vis'));
+    badge('data', 'badge-primary', href);
+  ec('tr');
+}
+
+function visBBRTekniskeAnlæg(data) {
+  return function() {
+    danNavbar(ressource,'<h2>' + bbr.getKlassifikation(data.tek020Klassifikation) + '</h2');
+    eo('table',null,null,
+      'class', tableclasses); 
+      eo('tbody');
+        BBRTekniskAnlægIndhold(data);
+      ec('tbody'); 
+    ec('table');
+  }
+}
+
+function BBRTekniskAnlægIndhold(data, indrykninger= 0)
+{    
+  eo('tr');
+    eotd(indrykninger);
+      html('Status: ');
+      eo('span', null, null,
+              'class', 'badge badge-pill '+BBRStatusFarve(data.status));
+              text(bbr.getLivscyklus(data.status));
+      ec('span');
+    ec('td');
+  ec('tr');       
+  eo('tr');
+    eotd(indrykninger);
+      html('Id: ' + strong(data.id));
+    ec('td');
+  ec('tr');
+  if (data.husnummer) {
+    ec('tbody'); 
+    let adgangsadresse= 'adgangsadresse';
+    eo('tbody', null, null, 'id', adgangsadresse);
+      getAdgangsadresse(adgangsadresse, data.husnummer.id);
+    ec('tbody'); 
+    eo('tbody'); 
+  }
+  if (data.jordstykke) {
+    ec('tbody'); 
+    let label= 'jordstykke';
+    eo('tbody', null, null, 'id', label);
+      getJordstykke(label, data.jordstykke.id);
+    ec('tbody');
+    eo('tbody');  
+  }
+  if (data.kommune) {
+    ec('tbody'); 
+    let label= 'kommune';
+    eo('tbody', null, null, 'id', label);
+      getKommune(label, data.kommune.kode);
+    ec('tbody');
+    eo('tbody');  
+  }
+  //visKodeNavn('Kommune', data.kommunekode, indrykninger);
+  //visKodeNavn('Sogn', data.sogn, indrykninger);
+  if (data.tek007Anlægsnummer > 0) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Anlægsnummer: ' + strong(data.tek007Anlægsnummer));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek020Klassifikation) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Klassifikation: ' + strong(bbr.getKlassifikation(data.tek020Klassifikation)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek021FabrikatType) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Fabrikattype: ' + strong(data.tek021FabrikatType));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek022EksternDatabase) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Ekstern database: ' + strong(data.tek022EksternDatabase));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek023EksternNøgle) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Ekstern nøgle: ' + strong(data.tek023EksternNøgle));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek024Etableringsår) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Etableringsår: ' + strong(data.tek024Etableringsår));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek025TilOmbygningsår) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Til-/Ombygningsår: ' + strong(data.tek025TilOmbygningsår));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek026StørrelsesklasseOlietank) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Olietankens størrelsesklasse: ' + strong(bbr.getStoerrelsesklasse(data.tek026StørrelsesklasseOlietank)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek027Placering) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Placering: ' + strong(bbr.getStoerrelsesklasse(data.tek027Placering)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek028SløjfningOlietank) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Sløjfning af Olietank: ' + strong(bbr.getStoerrelsesklasse(data.tek028SløjfningOlietank)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek030Fabrikationsnummer) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Tankens fabrikationsnummer: ' + strong(data.tek030Fabrikationsnummer));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek031Typegodkendelsesnummer) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Tankens typegodkendelsesnummer: ' + strong(data.tek031Typegodkendelsesnummer));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek032Størrelse) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Tankens størrelse: ' + strong(data.tek032Størrelse));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek033Type) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Tankens type: ' + strong(bbr.getTypeAfVaegge(data.tek033Type)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek034IndholdOlietank) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Tankens indhold: ' + strong(bbr.getTypeAfVaegge(data.tek034IndholdOlietank)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek035SløjfningsfristOlietank) {
+    eo('tr');
+      eotd(indrykninger);
+        let dato= new Date(data.tek035SløjfningsfristOlietank);
+        html('Sløjfningsfrist d.: ' + strong(dato.toLocaleString()));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek036Rumfang) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Rumfang: ' + strong(data.tek036Rumfang));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek037Areal) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Areal: ' + strong(data.tek037Areal));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek038Højde) {
+    eo('tr');
+      eotd(indrykninger);
+        html('højde: ' + strong(data.tek038Højde));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek039Effekt) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Efekt: ' + strong(data.tek039Effekt));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek040Fredning) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Fredningstype: ' + strong(bbr.getFredning(data.tek040Fredning)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek042Revisionsdato) {
+    eo('tr');
+      eotd(indrykninger);
+        let dato= new Date(data.tek042Revisionsdato);
+        html('Geometrirevision d.: ' + strong(dato.toLocaleString()));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek045Koordinatsystem) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Koordinatsystem: ' + strong(bbr.getKoordinatsystem(data.tek045Koordinatsystem)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek067Fabrikationsår) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Tankens fabrikationssår: ' + strong(data.tek067Fabrikationsår));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek068Materiale) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Tankens materiale: ' + strong(bbr.getMateriale(data.tek068Materiale)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek069SupplerendeIndvendigKorrosionsbeskyttelse) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Korresionsbeskyttelse: ' + strong(bbr.getSupplerendeIndvendigKorrosionsbeskyttelse(data.tek069SupplerendeIndvendigKorrosionsbeskyttelse)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek070DatoForSenestUdførteSupplerendeIndvendigKorrosionsbeskyttelse) {
+    eo('tr');
+      eotd(indrykninger);
+        let dato= new Date(data.tek070DatoForSenestUdførteSupplerendeIndvendigKorrosionsbeskyttelse);
+        html('Korrosionsbeskyttelse d.: ' + strong(dato.toLocaleString()));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek072Sløjfningsår) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Tankens sløjfningsår: ' + strong(data.tek072Sløjfningsår));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek073Navhøjde) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Vindnøllens højde ved nav: ' + strong(data.tek073Navhøjde));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek074Vindmøllenummer) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Vindmøllenummer: ' + strong(data.tek074Vindmøllenummer));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek075Rotordiameter) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Rotordiameter: ' + strong(data.tek075Rotordiameter));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek076KildeTilKoordinatsæt) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Kilde til koordinatsæt: ' + strong(bbr.getKildeTilKoordinatsaet(data.tek076KildeTilKoordinatsæt)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek077KvalitetAfKoordinatsæt) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Kvalitet af koordinatsæt: ' + strong(bbr.getKvalitetAfKoordinatsaet(data.tek077KvalitetAfKoordinatsæt)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek078SupplerendeOplysningOmKoordinatsæt) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Supplerende oplysning om koordinatsæt: ' + strong(bbr.getSupplerendeOplysningerOmKoordinatsaet(data.tek078SupplerendeOplysningOmKoordinatsæt)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek101Gyldighedsdato) {
+    eo('tr');
+      eotd(indrykninger);
+        let dato= new Date(data.tek101Gyldighedsdato);
+        html('Vurderingsgyldighedsdato d.: ' + strong(dato.toLocaleString()));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek102FabrikatVindmølle) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Vindmøllens fabrikat: ' + strong(data.tek102FabrikatVindmølle));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek103FabrikatOliefyr) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Oliefyrets fabrikat: ' + strong(data.tek103FabrikatOliefyr));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek104FabrikatSolcelleanlægSolvarme) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Solcelle- eller solvarmeanlægs fabrikat: ' + strong(data.tek104FabrikatSolcelleanlægSolvarme));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek105OverdækningTank) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Overdækning af tank: ' + strong(data.tek105OverdækningTank));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek106InspektionsdatoTank) {
+    eo('tr');
+      eotd(indrykninger);
+        let dato= new Date(data.tek106InspektionsdatoTank);
+        html('Tank inspiceret d.: ' + strong(dato.toLocaleString()));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek107PlaceringPåSøterritorie) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Placering: ' + strong(bbr.getPaaSoeTerritorie(data.tek107PlaceringPåSøterritorie)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek110Driftstatus) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Placering: ' + strong(bbr.getDriftstatus(data.tek110Driftstatus)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek111DatoForSenesteInspektion) {
+    eo('tr');
+      eotd(indrykninger);
+        let dato= new Date(data.tek111DatoForSenesteInspektion);
+        html('Seneste inspektionsdato d.: ' + strong(dato.toLocaleString()));
+      ec('td');
+    ec('tr');
+  }
+  if (data.tek112InspicerendeVirksomhed) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Inspectionsvirksomhed: ' + strong(data.tek112InspicerendeVirksomhed));
+      ec('td');
+    ec('tr');
+  }
+  if (data.byg500Notatlinjer) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Notatlinjer: ' + strong(data.byg500Notatlinjer));
+      ec('td');
+    ec('tr');
+  }
+}
 //-----------------------------------------------------------------------------------------------------------
 // Main
 

@@ -1298,6 +1298,8 @@ export function getDispensationFritagelseIftKollektivVarmeforsyning(kode) {
 }
 
 export function getDriftstatus(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 1:
 		navn= "I drift";
@@ -2452,6 +2454,8 @@ export function getIndberetningRolle(kode) {
 }
 
 export function getIndhold(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 10:
 		navn= "Mineralske olieprodukter (Olietankbekendtgørelsens §6, stk. 1 nr. 13)";
@@ -2559,6 +2563,8 @@ export function getKildeTilOplysninger(kode) {
 }
 
 export function getKlassifikation(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 1110:
 		navn= "Tank (Produkt på væskeform)";
@@ -3217,6 +3223,8 @@ export function getLovligAnvendelse(kode) {
 }
 
 export function getMateriale(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 1:
 		navn= "Plast";
@@ -3701,6 +3709,8 @@ export function getStartside(kode) {
 }
 
 export function getStoerrelsesklasse(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 1:
 		navn= "Under 6.000 l";
@@ -3774,6 +3784,8 @@ export function getSupplerendeAnvendelseskode(kode) {
 }
 
 export function getSupplerendeIndvendigKorrosionsbeskyttelse(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 1:
 		navn= "Glasfiberbelægning";
@@ -4070,6 +4082,8 @@ export function getToiletforhold(kode) {
 }
 
 export function getTypeAfVaegge(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 1:
 		navn= "Enkeltvægget";
