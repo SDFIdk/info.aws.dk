@@ -77,7 +77,13 @@ function visInfo(container, ressource, data) {
     visData(data, visBBRBygningKort, visBBRBygning, ressource, null);
     break;
   case 'bbr/tekniskeanlaeg':
-    visData(data, visBBRTekniskeAnlægKort, visBBRTekniskeAnlæg, ressource, null);
+    visData(data, visBBRTekniskAnlægKort, visBBRTekniskAnlæg, ressource, null);
+    break;
+  case 'bbr/opgange':
+    visData(data, visBBROpgangKort, visBBROpgang, ressource, null, false);
+    break;
+  case 'bbr/enheder':
+    visData(data, visBBREnhedKort, visBBREnhed, ressource, null, false);
     break;
   case 'adresser':
     visData(data, visAdresseKort, visAdresse, ressource, adresseCompare);
@@ -166,6 +172,12 @@ function ental(ressource) {
     break;
   case 'bbr/tekniskeanlaeg':
     tekst= 'BBR teknisk anlæg';
+    break;
+  case 'bbr/opgange':
+    tekst= 'BBR opgang';
+    break;
+  case 'bbr/enheder':
+    tekst= 'BBR enhed';
     break;
   case 'adresser':
     tekst= 'adresse';
@@ -259,6 +271,12 @@ function flertal(ressource) {
     break;
   case 'bbr/tekniskeanlaeg':
     tekst= 'BBR tekniske anlæg';
+    break;
+  case 'bbr/opgange':
+    tekst= 'BBR opgange';
+    break;
+  case 'bbr/enheder':
+    tekst= 'BBR enheder';
     break;
   case 'adresser':
     tekst= 'adresser';
@@ -767,6 +785,12 @@ function jumbotrontekst(ressource) {
   case 'bbr/tekniskeanlaeg  ':
     tekst= null;
     break;
+  case 'bbr/opgange':
+    tekst= null;
+    break;
+  case 'bbr/enheder':
+    tekst= null;
+    break;
   case 'adresser': 
     tekst= `
       <h1 class="display-5">Danmarks adresser</h1>
@@ -1032,6 +1056,12 @@ function visAdresse(data) {
             ec('td');
           ec('tr');
         }
+        ec('tbody'); 
+        let visBBREnhed= 'visBBREnhed';
+        eo('tbody', null, null, 'id', visBBREnhed);
+          getBBREnhedFraAdresseid(visBBREnhed,data.id);
+        ec('tbody'); 
+        eo('tbody'); 
         eo('tr');
           eo('td');
             html('Adgangsadresse: ');
@@ -1152,6 +1182,29 @@ function adgangsadresseIndhold(data, indrykninger= 0)
     ec('tr');
   }
   visKodeNavn('Kommune', data.kommune, indrykninger);
+  let txtBygningsid= 'bygning';
+  eo('tr', null, null, 'id', txtBygningsid, 'style', 'display: none'); 
+    getBygning(txtBygningsid, data.id, indrykninger);
+    eo('td'); ec('td');
+    eo('td'); ec('td');
+    eo('td'); ec('td');
+    eo('td'); ec('td');
+  ec('tr');
+  ec('tbody'); 
+  let visBBRBygning= 'visBBRBygning';
+  eo('tbody', null, null, 'id', visBBRBygning);
+    getBBRBygningViaOpgang(visBBRBygning,data.id, indrykninger);
+  ec('tbody'); 
+  eo('tbody'); 
+  eo('tr');    
+    eotd(indrykninger);;
+      html('Jordstykke: ' + strong(data.jordstykke.matrikelnr + " " + data.jordstykke.ejerlav.navn));
+    ec('td');
+    badge('info', 'badge-primary', data.jordstykke.href.replace('dawa.aws.dk',host));
+    badge('kort', 'badge-primary', data.jordstykke.href.replace('dawa','vis'));
+    badge('data', 'badge-primary', data.jordstykke.href);
+  ec('tr');
+  visKodeNavn('Ejerlav', data.jordstykke.ejerlav, indrykninger);
   visKodeNavn('Sogn', data.sogn, indrykninger);
   if (data.landsdel) {
     eo('tr');    
@@ -1191,29 +1244,6 @@ function adgangsadresseIndhold(data, indrykninger= 0)
     badge('kort', 'badge-primary', data.valglandsdel.href.replace('dawa','vis'));
     badge('data', 'badge-primary', data.valglandsdel.href);
   ec('tr');
-  let txtBygningsid= 'bygning';
-  eo('tr', null, null, 'id', txtBygningsid, 'style', 'display: none'); 
-    getBygning(txtBygningsid, data.id, indrykninger);
-    eo('td'); ec('td');
-    eo('td'); ec('td');
-    eo('td'); ec('td');
-    eo('td'); ec('td');
-  ec('tr');
-  ec('tbody'); 
-  let visBBRBygning= 'visBBRBygning';
-  eo('tbody', null, null, 'id', visBBRBygning);
-    getBBRBygningFraAdgangsadresseid(visBBRBygning,data.id);
-  ec('tbody'); 
-  eo('tbody'); 
-  eo('tr');    
-    eotd(indrykninger);;
-      html('Jordstykke: ' + strong(data.jordstykke.matrikelnr + " " + data.jordstykke.ejerlav.navn));
-    ec('td');
-    badge('info', 'badge-primary', data.jordstykke.href.replace('dawa.aws.dk',host));
-    badge('kort', 'badge-primary', data.jordstykke.href.replace('dawa','vis'));
-    badge('data', 'badge-primary', data.jordstykke.href);
-  ec('tr');
-  visKodeNavn('Ejerlav', data.jordstykke.ejerlav, indrykninger);
   if (data.bebyggelser) {
     data.bebyggelser.forEach(bebyggelse => {          
       eo('tr');        
@@ -1320,7 +1350,7 @@ function getBygning(id, adgangsadresseid, indrykninger) {
           element.style.display = "table-row";
           dom.patch(element, () => {
             eotd(indrykninger);
-                html('Bygning: ');
+                html('GeoDanmark bygning: ');
             ec('td');
             badge('info', 'badge-primary', url.replace('dawa.aws.dk',host));
             badge('kort', 'badge-primary', url.replace('dawa','vis'));
@@ -3058,14 +3088,14 @@ function BBRStatusFarve(status) {
 }
 
 
-function getAdgangsadresse(id, adgangsadresseid) {
+function getAdgangsadresse(id, adgangsadresseid, indrykninger= 0) {
   const url= dawaUrl.origin + "/adgangsadresser/" + adgangsadresseid + "?medtagnedlagte";
   fetch(url).then( function(response) {
     if (response.ok) {
       response.json().then( function ( adgangsadresse ) {
         dom.patch(document.getElementById(id), () => {
           eo('tr'); 
-            eo('td');
+            eotd(indrykninger);
               html('Adgangsadresse: ' + strong(util.formatAdgangsadresse(adgangsadresse, true)));
             ec('td');
             badge('info', 'badge-primary', adgangsadresse.href.replace('dawa.aws.dk',host));
@@ -3078,7 +3108,65 @@ function getAdgangsadresse(id, adgangsadresseid) {
   });
 } 
 
-function getJordstykke(label, id) {
+function getAdresse(id, adresseid, indrykninger= 0) {
+  const url= dawaUrl.origin + "/adresser/" + adresseid + "?medtagnedlagte";
+  fetch(url).then( function(response) {
+    if (response.ok) {
+      response.json().then( function ( adresse ) {
+        dom.patch(document.getElementById(id), () => {
+          eo('tr'); 
+            eotd(indrykninger);
+              html('Adresse: ' + strong(adresse.adressebetegnelse));
+            ec('td');
+            badge('info', 'badge-primary', adresse.href.replace('dawa.aws.dk',host));
+            badge('kort', 'badge-primary', adresse.href.replace('dawa','vis'));
+            badge('data', 'badge-primary', adresse.href);
+          ec('tr');
+        });
+      });
+    }
+  });
+}
+
+function getEtage(id, href, indrykninger= 0) {
+  fetch(href).then( function(response) {
+    if (response.ok) {
+      response.json().then( function ( etage ) {
+        dom.patch(document.getElementById(id), () => {
+          eo('tr'); 
+            eotd(indrykninger);
+              html('Etage: ' + strong(etage.eta006BygningensEtagebetegnelse));
+            ec('td');
+            badge('info', 'badge-primary', etage.href.replace('dawa.aws.dk',host));
+            badge('kort', 'badge-primary', etage.href.replace('dawa','vis'));
+            badge('data', 'badge-primary', etage.href);
+          ec('tr');
+        });
+      });
+    }
+  });
+} 
+
+function getOpgang(id, href, indrykninger= 0) {
+  fetch(href).then( function(response) {
+    if (response.ok) {
+      response.json().then( function ( opgang ) {
+        dom.patch(document.getElementById(id), () => {
+          eo('tr'); 
+            eotd(indrykninger);
+              html('Opgang');
+            ec('td');
+            badge('info', 'badge-primary', opgang.href.replace('dawa.aws.dk',host));
+            badge('kort', 'badge-primary', opgang.href.replace('dawa','vis'));
+            badge('data', 'badge-primary', opgang.href);
+          ec('tr');
+        });
+      });
+    }
+  });
+} 
+
+function getJordstykke(label, id, indrykninger= 0) {
   const url= dawaUrl.origin + "/jordstykker?featureid=" + id;
   fetch(url).then( function(response) {
     if (response.ok) {
@@ -3087,7 +3175,7 @@ function getJordstykke(label, id) {
           let jordstykke= jordstykker[0]; 
           dom.patch(document.getElementById(label), () => {
             eo('tr'); 
-              eo('td');
+              eotd(indrykninger);
                 html('Jordstykke: ' + strong(jordstykke.matrikelnr + ' ' + jordstykke.ejerlav.navn));
               ec('td');
               badge('info', 'badge-primary', jordstykke.href.replace('dawa.aws.dk',host));
@@ -3101,9 +3189,8 @@ function getJordstykke(label, id) {
   });
 } 
 
-
-function getBBRBygningFraAdgangsadresseid(label, adgangsadresseid ) {
-  const url= dawaUrl.origin + "/bbr/bygninger?husnummer_label=" + adgangsadresseid   + "&medtagnedlagte";
+function getBBRBygningFraAdgangsadresseid(label, adgangsadresseid, indrykninger= 0) {
+  const url= dawaUrl.origin + "/bbr/bygninger?husnummer_id=" + adgangsadresseid   + "&medtagnedlagte";
   fetch(url).then( function(response) {
     if (response.ok) {
       response.json().then( function ( bygninger ) {
@@ -3111,8 +3198,8 @@ function getBBRBygningFraAdgangsadresseid(label, adgangsadresseid ) {
           let bygning= bygninger[0];
           dom.patch(document.getElementById(label), () => {
             eo('tr'); 
-              eo('td');
-                html('BBR bygning');
+              eotd(indrykninger);
+              html('BBR bygning: ' + strong(bbr.getBygAnvendelse(bygning.byg021BygningensAnvendelse)));
               ec('td');
               badge('info', 'badge-primary', bygning.href.replace('dawa.aws.dk',host));
               badge('kort', 'badge-primary', bygning.href.replace('dawa','vis'));
@@ -3125,15 +3212,67 @@ function getBBRBygningFraAdgangsadresseid(label, adgangsadresseid ) {
   });
 }
 
-function getBBRBygning(label, id  ) {
+function getBBREnhedFraAdresseid(label, adresseid, indrykninger= 0) {
+  const url= dawaUrl.origin + "/bbr/enheder?adresseIdentificerer_id=" + adresseid   + "&medtagnedlagte";
+  fetch(url).then( function(response) {
+    if (response.ok) {
+      response.json().then( function ( enheder ) {
+        if (enheder.length > 0) {
+          let enhed= enheder[0];
+          dom.patch(document.getElementById(label), () => {
+            eo('tr'); 
+              eotd(indrykninger);
+              html('BBR enhed: ' + strong(bbr.getEnhAnvendelse(enhed.enh020EnhedensAnvendelse)));
+              ec('td');
+              badge('info', 'badge-primary', enhed.href.replace('dawa.aws.dk',host));
+              badge('kort', 'badge-primary', enhed.href.replace('dawa','vis'));
+              badge('data', 'badge-primary', enhed.href);
+            ec('tr');
+          });
+        }
+      });
+    }
+  });
+}
+
+function getBBRBygningViaOpgang(label, adgangsadresseid, indrykninger= 0) {
+  const url= dawaUrl.origin + "/bbr/opgange?adgangFraHusnummer_id=" + adgangsadresseid;
+  fetch(url).then( function(response) {
+    if (response.ok) {
+      response.json().then( function ( opgange ) {
+        if (opgange.length > 0) {
+          let opgang= opgange[0];
+          fetch(opgang.bygning.href).then( function(response) {
+            if (response.ok) {
+              response.json().then( function ( bygning ) {
+                dom.patch(document.getElementById(label), () => {
+                  eo('tr'); 
+                    eotd(indrykninger);
+                    html('BBR bygning: ' + strong(bbr.getBygAnvendelse(bygning.byg021BygningensAnvendelse)));
+                    ec('td');
+                    badge('info', 'badge-primary', bygning.href.replace('dawa.aws.dk',host));
+                    badge('kort', 'badge-primary', bygning.href.replace('dawa','vis'));
+                    badge('data', 'badge-primary', bygning.href);
+                  ec('tr');
+                });
+              });
+            };
+          });
+        }
+      });
+    }
+  });
+}
+
+function getBBRBygning(label, id, indrykninger= 0) {
   const url= dawaUrl.origin + "/bbr/bygninger/" + id;
   fetch(url).then( function(response) {
     if (response.ok) {
       response.json().then( function ( bygning ) {
         dom.patch(document.getElementById(label), () => {
           eo('tr'); 
-            eo('td');
-              html('BBR bygning');
+              eotd(indrykninger);
+              html('BBR bygning: ' + strong(bbr.getBygAnvendelse(bygning.byg021BygningensAnvendelse) + ' fra ' + bygning.byg026Opførelsesår));
             ec('td');
             badge('info', 'badge-primary', bygning.href.replace('dawa.aws.dk',host));
             badge('kort', 'badge-primary', bygning.href.replace('dawa','vis'));
@@ -3733,7 +3872,7 @@ function BBRBygningIndhold(data, indrykninger= 0)
 }
 
 
-function visBBRTekniskeAnlægKort(tekanl) {  
+function visBBRTekniskAnlægKort(tekanl) {  
   eo('tr');
     eo('td');
       eo('span', null, null,
@@ -3749,7 +3888,7 @@ function visBBRTekniskeAnlægKort(tekanl) {
   ec('tr');
 }
 
-function visBBRTekniskeAnlæg(data) {
+function visBBRTekniskAnlæg(data) {
   return function() {
     danNavbar(ressource,'<h2>' + bbr.getKlassifikation(data.tek020Klassifikation) + '</h2');
     eo('table',null,null,
@@ -3784,6 +3923,14 @@ function BBRTekniskAnlægIndhold(data, indrykninger= 0)
       getAdgangsadresse(adgangsadresse, data.husnummer.id);
     ec('tbody'); 
     eo('tbody'); 
+  }  
+  if (data.bygning) {
+    ec('tbody'); 
+    let visBBRBygning= 'visBBRBygning';
+    eo('tbody', null, null, 'id', visBBRBygning);
+      getBBRBygning(visBBRBygning,data.bygning.id);
+    ec('tbody'); 
+    eo('tbody');
   }
   if (data.jordstykke) {
     ec('tbody'); 
@@ -4124,6 +4271,498 @@ function BBRTekniskAnlægIndhold(data, indrykninger= 0)
       ec('td');
     ec('tr');
   }
+}
+
+
+function visBBROpgangKort(data) {  
+  eo('tr');
+    eo('td');
+      eo('span', null, null,
+        'class', 'badge badge-pill '+BBRStatusFarve(data.status));
+        text(bbr.getLivscyklus(data.status));
+      ec('span');
+      html('<br/>' + data.adgangFraHusnummer.id + ' <-> ' + data.bygning.id);
+    ec('td');
+    let href= data.href;
+    badge('info', 'badge-primary', href.replace('dawa.aws.dk',host));
+    eo('td'); ec('td');
+    badge('data', 'badge-primary', href);
+  ec('tr');
+}
+
+function visBBROpgang(data) {
+  return function() {
+    danNavbar(ressource,'<h2>Husnummer id:' + data.adgangFraHusnummer.id + ' <-> Bygnings id: ' + data.bygning.id + '</h2');
+    eo('table',null,null,
+      'class', tableclasses); 
+      eo('tbody');
+        BBROpgangIndhold(data);
+      ec('tbody'); 
+    ec('table');
+  }
+}
+
+function BBROpgangIndhold(data, indrykninger= 0)
+{    
+  eo('tr');
+    eotd(indrykninger);
+      html('Status: ');
+      eo('span', null, null,
+              'class', 'badge badge-pill '+BBRStatusFarve(data.status));
+              text(bbr.getLivscyklus(data.status));
+      ec('span');
+    ec('td');
+  ec('tr');       
+  eo('tr');
+    eotd(indrykninger);
+      html('Id: ' + strong(data.id));
+    ec('td');
+  ec('tr');
+  if (data.adgangFraHusnummer.id) {
+    ec('tbody'); 
+    let adgangsadresse= 'adgangsadresse';
+    eo('tbody', null, null, 'id', adgangsadresse);
+      getAdgangsadresse(adgangsadresse, data.adgangFraHusnummer.id);
+    ec('tbody'); 
+    eo('tbody'); 
+  }  
+  if (data.bygning) {
+    ec('tbody'); 
+    let visBBRBygning= 'visBBRBygning';
+    eo('tbody', null, null, 'id', visBBRBygning);
+      getBBRBygning(visBBRBygning,data.bygning.id);
+    ec('tbody'); 
+    eo('tbody');
+  }
+  if (data.kommune) {
+    ec('tbody'); 
+    let label= 'kommune';
+    eo('tbody', null, null, 'id', label);
+      getKommune(label, data.kommune.kode);
+    ec('tbody');
+    eo('tbody');  
+  }
+  if (data.opg020Elevator) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Elevator: ' + strong(bbr.getElevator(data.opg020Elevator)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.opg021HusnummerFunktion) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Husnummerets funktion: ' + strong(bbr.getHusnummerRolle(data.opg021HusnummerFunktion)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.opg500Notatlinjer) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Notatlinjer: ' + strong(data.opg500Notatlinjer));
+      ec('td');
+    ec('tr');
+  }
+}
+
+function visBBREnhedKort(enhed) {  
+  eo('tr');
+    eo('td');
+      eo('span', null, null,
+        'class', 'badge badge-pill '+BBRStatusFarve(enhed.status));
+        text(bbr.getLivscyklus(enhed.status));
+      ec('span');
+      html('<br/>' + bbr.getEnhAnvendelse(enhed.enh020EnhedensAnvendelse));
+    ec('td');
+    let href= 'https://' + host + '/bbr/enheder/' + enhed.id;
+    badge('info', 'badge-primary', href.replace('dawa.aws.dk',host));
+    eo('td'); ec('td');
+    badge('data', 'badge-primary', href);
+  ec('tr');
+}
+
+function visBBREnhed(enhed) {
+  return function() {
+    danNavbar(ressource,'<h2>' + bbr.getEnhAnvendelse(enhed.enh020EnhedensAnvendelse) + '</h2');
+    eo('table',null,null,
+      'class', tableclasses); 
+      eo('tbody');
+        BBREnhedIndhold(enhed);
+      ec('tbody'); 
+    ec('table');
+  }
+}
+
+function BBREnhedIndhold(data, indrykninger= 0)
+{    
+  eo('tr');
+    eotd(indrykninger);
+      html('Status: ');
+      eo('span', null, null,
+              'class', 'badge badge-pill '+BBRStatusFarve(data.status));
+              text(bbr.getLivscyklus(data.status));
+      ec('span');
+    ec('td');
+  ec('tr');       
+  eo('tr');
+    eotd(indrykninger);
+      html('Id: ' + strong(data.id));
+    ec('td');
+  ec('tr');
+  if (data.adresseIdentificerer) {
+    ec('tbody'); 
+    let adresse= 'adresse';
+    eo('tbody', null, null, 'id', adresse);
+      getAdresse(adresse, data.adresseIdentificerer.id);
+    ec('tbody'); 
+    eo('tbody'); 
+  }
+  if (data.etage) {
+    ec('tbody'); 
+    let etage= 'etage';
+    eo('tbody', null, null, 'id', etage);
+      getEtage(etage, data.etage.href);
+    ec('tbody'); 
+    eo('tbody'); 
+  }
+  if (data.opgang) {
+    ec('tbody'); 
+    let opgang= 'opgang';
+    eo('tbody', null, null, 'id', opgang);
+      getOpgang(opgang, data.opgang.href);
+    ec('tbody'); 
+    eo('tbody'); 
+  }
+  if (data.kommune) {
+    ec('tbody'); 
+    let label= 'kommune';
+    eo('tbody', null, null, 'id', label);
+      getKommune(label, data.kommune.kode);
+    ec('tbody');
+    eo('tbody');  
+  }
+  if (data.enh020EnhedensAnvendelse) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Anvendelse: ' + strong(bbr.getEnhAnvendelse(data.enh020EnhedensAnvendelse)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.enh023Boligtype) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Boligtype: ' + strong(bbr.getBoligtype(data.enh023Boligtype)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.enh024KondemneretBoligenhed) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Kondemneret?: ' + strong(bbr.getKondemneretBoligenhed(data.enh024KondemneretBoligenhed)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.enh025OprettelsesdatoForEnhedensIdentifikation) {
+    eo('tr');
+      eotd(indrykninger);
+        let dato= new Date(data.enh025OprettelsesdatoForEnhedensIdentifikation);
+        html('Oprettet d.: ' + strong(dato.toLocaleString()));
+      ec('td');
+    ec('tr');
+  }
+  if (data.enh026EnhedensSamledeAreal) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Samlet areal: ' + strong(data.enh026EnhedensSamledeAreal));
+      ec('td');
+    ec('tr');
+  }
+  if (data.enh027ArealTilBeboelse) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Beboelsesareal: ' + strong(data.enh027ArealTilBeboelse));
+      ec('td');
+    ec('tr');
+  }
+  if (data.enh028ArealTilErhverv) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Erhvervsareal: ' + strong(data.enh028ArealTilErhverv));
+      ec('td');
+    ec('tr');
+  }  
+  if (data.enh030KildeTilEnhedensArealer) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Kilde til areal: ' + strong(bbr.getKildeTilOplysninger(data.enh030KildeTilEnhedensArealer)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.enh031AntalVærelser) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Antal værelser: ' + strong(data.enh031AntalVærelser));
+      ec('td');
+    ec('tr');
+  } 
+  if (data.enh032Toiletforhold) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Toiletforhold: ' + strong(bbr.getToiletforhold(data.enh032Toiletforhold)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.enh033Badeforhold) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Badeforhold: ' + strong(bbr.getBadeforhold(data.enh033Badeforhold)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.enh034Køkkenforhold) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Køkkenforhold: ' + strong(bbr.getKoekkenforhold(data.enh034Køkkenforhold)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.enh035Energiforsyning) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Energiforsyning: ' + strong(bbr.getEnergiforsyning(data.enh035Energiforsyning)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.enh039AndetAreal) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Andet areal: ' + strong(data.enh039AndetAreal));
+      ec('td');
+    ec('tr');
+  }  
+  if (data.enh041LovligAnvendelse) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Lovlig anvendelse: ' + strong(bbr.getLovligAnvendelse(data.enh041LovligAnvendelse)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.enh042DatoForTidsbegrænsetDispensation) {
+    eo('tr');
+      eotd(indrykninger);
+        let dato= new Date(data.enh042DatoForTidsbegrænsetDispensation);
+        html('Tidsbegrænset dispensation d.: ' + strong(dato.toLocaleString()));
+      ec('td');
+    ec('tr');
+  }
+  if (data.enh044DatoForDelvisIbrugtagningsTilladelse) {
+    eo('tr');
+      eotd(indrykninger);
+        let dato= new Date(data.enh044DatoForDelvisIbrugtagningsTilladelse);
+        html('Delvis ibrugtagningstilladelse d.: ' + strong(dato.toLocaleString()));
+      ec('td');
+    ec('tr');
+  } 
+  if (data.enh045Udlejningsforhold) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Udlejningsforhold : ' + strong(bbr.getUdlejningsforhold(data.enh045Udlejningsforhold)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.enh046OffentligStøtte) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Offentlig støtte: ' + strong(bbr.getOffentligStoette(data.enh046OffentligStøtte)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.enh047IndflytningDato) {
+    eo('tr');
+      eotd(indrykninger);
+        let dato= new Date(data.enh047IndflytningDato);
+        html('Indflyningsdato: ' + strong(dato.toLocaleString()));
+      ec('td');
+    ec('tr');
+  }
+  if (data.enh048GodkendtTomBolig) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Godkendt tom bolig: ' + strong(bbr.getGodkendtTomBolig(data.enh048GodkendtTomBolig)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.enh051Varmeinstallation) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Varmeinstalation: ' + strong(bbr.getVarmeinstallation(data.enh051Varmeinstallation)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.enh052Opvarmningsmiddel) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Opvarmningsmiddel: ' + strong(bbr.getOpvarmningsmiddel(data.enh052Opvarmningsmiddel)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.enh053SupplerendeVarme) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Supplerende varme: ' + strong(bbr.getSupplerendeVarme(data.enh053SupplerendeVarme)));
+      ec('td');
+    ec('tr');
+  }  
+  if (data.enh060EnhedensAndelFællesAdgangsareal) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Andel i fælles adgangsareal: ' + strong(data.enh060EnhedensAndelFællesAdgangsareal));
+      ec('td');
+    ec('tr');
+  }   
+  if (data.enh061ArealAfÅbenOverdækning) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Areal af åben overdækning: ' + strong(data.enh061ArealAfÅbenOverdækning));
+      ec('td');
+    ec('tr');
+  }    
+  if (data.enh062ArealAfLukketOverdækningUdestue) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Areal af lukket overdækning: ' + strong(data.enh062ArealAfLukketOverdækningUdestue));
+      ec('td');
+    ec('tr');
+  }      
+  if (data.enh063AntalVærelserTilErhverv) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Antal værelser til erhverv: ' + strong(data.enh063AntalVærelserTilErhverv));
+      ec('td');
+    ec('tr');
+  }        
+  if (data.enh065AntalVandskylledeToiletter) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Antal vandskyllende toiletter: ' + strong(data.enh065AntalVandskylledeToiletter));
+      ec('td');
+    ec('tr');
+  }          
+  if (data.enh066AntalBadeværelser) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Antal badeværelser: ' + strong(data.enh066AntalBadeværelser));
+      ec('td');
+    ec('tr');
+  }             
+  if (data.enh067Støjisolering) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Støjisolering år: ' + strong(data.enh067Støjisolering));
+      ec('td');
+    ec('tr');
+  }  
+  if (data.enh068FlexboligTilladelsesart) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Flexboligtilladelsesart: ' + strong(bbr.getTilladelsesart(data.enh068FlexboligTilladelsesart)));
+      ec('td');
+    ec('tr');
+  } 
+  if (data.enh069FlexboligOphørsdato) {
+    eo('tr');
+      eotd(indrykninger);
+        let dato= new Date(data.enh069FlexboligOphørsdato);
+        html('Flexbolig ophørt d.: ' + strong(dato.toLocaleString()));
+      ec('td');
+    ec('tr');
+  }            
+  if (data.enh070ÅbenAltanTagterrasseAreal) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Areal af åben altan: ' + strong(data.enh070ÅbenAltanTagterrasseAreal));
+      ec('td');
+    ec('tr');
+  }   
+  if (data.enh071AdresseFunktion) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Adressens funktion: ' + strong(bbr.getAdresseRolle(data.enh071AdresseFunktion)));
+      ec('td');
+    ec('tr');
+  } 
+  if (data.enh101Gyldighedsdato) {
+    eo('tr');
+      eotd(indrykninger);
+        let dato= new Date(data.enh101Gyldighedsdato);
+        html('Gyldighedsdato: ' + strong(dato.toLocaleString()));
+      ec('td');
+    ec('tr');
+  }            
+  if (data.enh102HerafAreal1) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Heraf areal 1: ' + strong(data.enh102HerafAreal1));
+      ec('td');
+    ec('tr');
+  }                 
+  if (data.enh102HerafAreal2) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Heraf areal 2: ' + strong(data.enh102HerafAreal2));
+      ec('td');
+    ec('tr');
+  }                 
+  if (data.enh128FysiskArealTilErhverv) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Heraf areal 3: ' + strong(data.enh302HerafAreal1));
+      ec('td');
+    ec('tr');
+  } 
+  if (data.enh105SupplerendeAnvendelseskode1) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Supperende anvendelse 1: ' + strong(bbr.getEnhAnvendelse(data.enh105SupplerendeAnvendelseskode1)));
+      ec('td');
+    ec('tr');
+  }   
+  if (data.enh105SupplerendeAnvendelseskode2) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Supperende anvendelse 2: ' + strong(bbr.getEnhAnvendelse(data.enh105SupplerendeAnvendelseskode2)));
+      ec('td');
+    ec('tr');
+  }   
+  if (data.enh105SupplerendeAnvendelseskode3) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Supperende anvendelse 3: ' + strong(bbr.getEnhAnvendelse(data.enh105SupplerendeAnvendelseskode3)));
+      ec('td');
+    ec('tr');
+  }                 
+  if (data.enh127FysiskArealTilBeboelse) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Fysisk areal til beboelse: ' + strong(data.enh127FysiskArealTilBeboelse));
+      ec('td');
+    ec('tr');
+  }                  
+  if (data.enh128FysiskArealTilErhverv) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Fysisk areal til erhverv: ' + strong(data.enh128FysiskArealTilErhverv));
+      ec('td');
+    ec('tr');
+  } 
+  if (data.enh500Notatlinjer) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Notatlinjer: ' + strong(data.enh500Notatlinjer));
+      ec('td');
+    ec('tr');
+  }    
+
 }
 //-----------------------------------------------------------------------------------------------------------
 // Main

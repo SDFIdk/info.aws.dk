@@ -1,5 +1,7 @@
 
 export function getAdresseRolle(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 0:
 		navn= "Fastsat til denne";
@@ -369,6 +371,7 @@ export function getAsbestholdigtMateriale(kode) {
 }
 
 export function getBadeforhold(kode) {
+	let navn= '';
 	switch (kode) { 
 	case "C":
 		navn= "Adgang til badeværelse";
@@ -492,6 +495,8 @@ export function getBeregningsprincipForArealAfCarport(kode) {
 }
 
 export function getBoligtype(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case "E":
 		navn= "Andet (bl.a. institutioner og erhverv)";
@@ -1369,6 +1374,8 @@ export function getEjerforholdskode(kode) {
 }
 
 export function getElevator(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 0:
 		navn= "Der er ikke elevator i opgangen/bygningen";
@@ -1383,6 +1390,8 @@ export function getElevator(kode) {
 }
 
 export function getEnergiforsyning(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 1:
 		navn= "Gas fra værk";
@@ -1409,6 +1418,8 @@ export function getEnergiforsyning(kode) {
 }
 
 export function getEnhAnvendelse(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 110:
 		navn= "Stuehus til landbrugsejendom";
@@ -2093,6 +2104,8 @@ export function getFredning(kode) {
 }
 
 export function getGodkendtTomBolig(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 0:
 		navn= "Krav om persontilmelding";
@@ -2391,6 +2404,8 @@ export function getHenvendelserDirekteIndberetning(kode) {
 }
 
 export function getHusnummerRolle(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 0:
 		navn= "Fastsat til denne";
@@ -2689,6 +2704,7 @@ export function getKodeForMereEndEnLejlighed(kode) {
 }
 
 export function getKoekkenforhold(kode) {
+	let navn= '';
 	switch (kode) { 
 	case "E":
 		navn= "Eget køkken (med afløb og kogeinstallation)";
@@ -3040,6 +3056,8 @@ export function getKommunekode(kode) {
 }
 
 export function getKondemneretBoligenhed(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 0:
 		navn= "Ikke kondemneret boligenhed";
@@ -3197,6 +3215,7 @@ export function getLivscyklus(kode) {
 }
 
 export function getLovligAnvendelse(kode) {
+	let navn= '';
 	switch (kode) { 
 	case "A":
 		navn= "Gammelt helårshus eller ikke-personlig disp. til helårsbeboelse";
@@ -3342,6 +3361,8 @@ export function getNiveauType(kode) {
 }
 
 export function getOffentligStoette(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 0:
 		navn= "Ingen offentlig støtte";
@@ -4007,6 +4028,8 @@ export function getTekniskAnlaegMatrikelSortering(kode) {
 }
 
 export function getTilladelsesart(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 1:
 		navn= "Upersonlig tilladelse uden tidsbegrænsning";
@@ -4065,6 +4088,7 @@ export function getTilladelseTilUdtraeden(kode) {
 }
 
 export function getToiletforhold(kode) {
+	let navn= '';
 	switch (kode) { 
 	case "A":
 		navn= "Vandskyllende toilet udenfor enheden";
@@ -4141,6 +4165,8 @@ export function getUdledningstilladelse(kode) {
 }
 
 export function getUdlejningsforhold(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 1:
 		navn= "Udlejet";
@@ -4207,6 +4233,8 @@ export function getVandforsyning(kode) {
 }
 
 export function getVarmeinstallation(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 1:
 		navn= "Fjernvarme/blokvarme (radiatorsystemer el. varmluftanlæg)";
