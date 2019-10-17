@@ -1869,6 +1869,8 @@ export function getEtageSortering(kode) {
 }
 
 export function getEtageType(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 0:
 		navn= "Ikke tagetage";
