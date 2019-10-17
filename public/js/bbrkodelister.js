@@ -1336,6 +1336,8 @@ export function getEjendomstype(kode) {
 }
 
 export function getEjerforholdskode(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 10:
 		navn= "Privatpersoner eller interessentskab";
@@ -2339,6 +2341,8 @@ export function getGrundViewType(kode) {
 }
 
 export function getGruVandforsyning(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 1:
 		navn= "Alment vandforsyningsanlæg (tidligere offentligt)";
