@@ -1885,6 +1885,8 @@ export function getEtageType(kode) {
 }
 
 export function getFordelingsnoegle(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 1:
 		navn= "Manuel fordeling";

@@ -197,6 +197,12 @@ function visInfo(container, ressource, data) {
   case 'bbr/grundjordstykke':
     visData(data, visBBRGrundJordstykkeKort, visBBRGrundJordstykke, ressource, null, false);
     break;
+  case 'bbr/fordelingsarealer':
+    visData(data, visBBRFordelingsarealKort, visBBRFordelingsareal, ressource, null, false);
+    break;
+  case 'bbr/fordelingaffordelingsarealer':
+    visData(data, visBBRFordelingAfFordelingsarealKort, visBBRFordelingAfFordelingsareal, ressource, null, false);
+    break;
   case 'adresser':
     visData(data, visAdresseKort, visAdresse, ressource, adresseCompare);
     break;
@@ -305,6 +311,12 @@ function ental(ressource) {
     break;
   case 'bbr/grundjordstykke':
     tekst= 'BBR grundjordstykke';
+    break;
+  case 'bbr/fordelingsarealer':
+    tekst= 'BBR fordelingsareal';
+    break;
+  case 'bbr/fordelingaffordelingsarealer':
+    tekst= 'BBR fordeling af fordelingsarealer';
     break;
   case 'adresser':
     tekst= 'adresse';
@@ -419,6 +431,12 @@ function flertal(ressource) {
     break;
   case 'bbr/grundjordstykke':
     tekst= 'BBR grundjordstykker';
+    break;
+  case 'bbr/fordelingsarealer':
+    tekst= 'BBR fordelingsarealer';
+    break;
+  case 'bbr/fordelingaffordelingsarealer':
+    tekst= 'BBR fordelinger af fordelingsarealer';
     break;
   case 'adresser':
     tekst= 'adresser';
@@ -946,6 +964,12 @@ function jumbotrontekst(ressource) {
     tekst= null;
     break;
   case 'bbr/grundjordstykke':
+    tekst= null;
+    break;
+  case 'bbr/fordelingsarealer':
+    tekst= null;
+    break;
+  case 'bbr/fordelingaffordelingsarealer':
     tekst= null;
     break;
   case 'adresser': 
@@ -3417,6 +3441,30 @@ function getBBRBygningFraAdgangsadresseid(label, adgangsadresseid, indrykninger=
   });
 }
 
+function getBBREnhed(label, url, indrykninger= 0) {
+  try {
+    fetch(url).then( function(response) {
+      if (response.ok) {
+        response.json().then( function ( enhed ) {
+          dom.patch(document.getElementById(label), () => {
+            eo('tr'); 
+              eotd(indrykninger);
+              html('BBR enhed: ' + strong(bbr.getEnhAnvendelse(enhed.enh020EnhedensAnvendelse)));
+              ec('td');
+              badge('info', 'badge-primary', enhed.href.replace('dawa.aws.dk',host));
+              badge('kort', 'badge-primary', enhed.href.replace('dawa','vis'));
+              badge('data', 'badge-primary', enhed.href);
+            ec('tr');
+          });
+        });
+      }
+    });
+  }
+  catch (e) {
+    console.log(e);
+  }
+}
+
 function getBBREnhedFraAdresseid(label, adresseid, indrykninger= 0) {
   const url= dawaUrl.origin + "/bbr/enheder?adresseIdentificerer_id=" + adresseid   + "&medtagnedlagte";
   fetch(url).then( function(response) {
@@ -3501,6 +3549,47 @@ function getBBRGrund(label, url, indrykninger= 0) {
             badge('info', 'badge-primary', grund.href.replace('dawa.aws.dk',host));
             badge('kort', 'badge-primary', grund.href.replace('dawa','vis'));
             badge('data', 'badge-primary', grund.href);
+          ec('tr');
+        });
+      });
+    }
+  });
+} 
+
+function getBBRBygningsFordelingsareal(label, id, indrykninger= 0) {
+  const url= dawaUrl.origin + "/bbr/fordelingsarealer?bygning_id=" + id;
+  fetch(url).then( function(response) {
+    if (response.ok) {
+      response.json().then( function ( data ) {
+        if (data.length > 0) {
+          dom.patch(document.getElementById(label), () => {
+            eo('tr'); 
+                eotd(indrykninger);
+                html('BBR Fordelingsareal: ' + strong(data[0].for005Navn));
+              ec('td');
+              badge('info', 'badge-primary', data[0].href.replace('dawa.aws.dk',host));
+              badge('kort', 'badge-primary', data[0].href.replace('dawa','vis'));
+              badge('data', 'badge-primary', data[0].href);
+            ec('tr');
+          });
+        }
+      });
+    }
+  });
+}
+
+function getBBRFordelingsareal(label, url, indrykninger= 0) {
+  fetch(url).then( function(response) {
+    if (response.ok) {
+      response.json().then( function ( data ) {
+        dom.patch(document.getElementById(label), () => {
+          eo('tr'); 
+              eotd(indrykninger);
+              html('BBR Fordelingsareal: ' + strong(data.for005Navn));
+            ec('td');
+            badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
+            badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+            badge('data', 'badge-primary', data.href);
           ec('tr');
         });
       });
@@ -3624,6 +3713,14 @@ function BBRBygningIndhold(data, indrykninger= 0)
       getJordstykke(label, data.jordstykke.id);
     ec('tbody');
     eo('tbody');  
+  }
+  if (data.grund) {
+    ec('tbody'); 
+    let label= 'bbrgrund';
+    eo('tbody', null, null, 'id', label);
+      getBBRGrund(label, data.grund.href);
+    ec('tbody');
+    eo('tbody'); 
   }
   if (data.kommune) {
     ec('tbody'); 
@@ -4155,6 +4252,12 @@ function BBRBygningIndhold(data, indrykninger= 0)
     getBBRBygningsEjendomsrelation(label, data.id);
   ec('tbody');
   eo('tbody'); 
+  ec('tbody'); 
+  label= 'fordelingsareal';
+  eo('tbody', null, null, 'id', label);
+    getBBRBygningsFordelingsareal(label, data.id);
+  ec('tbody');
+  eo('tbody');
 }
 
 
@@ -4578,7 +4681,7 @@ function visBBROpgangKort(data) {
 
 function visBBROpgang(data) {
   return function() {
-    danNavbar(ressource,'<h2>Husnummer id:' + data.adgangFraHusnummer.id + ' <-> Bygnings id: ' + data.bygning.id + '</h2');
+    danNavbar(ressource,'<h2>Husnummer id:' + data.adgangFraHusnummer.id + ' <-> Bygnings id: ' + data.bygning.id + '</h2', false);
     eo('table',null,null,
       'class', tableclasses); 
       eo('tbody');
@@ -4669,7 +4772,7 @@ function visBBREtageKort(data) {
 
 function visBBREtage(data) {
   return function() {
-    danNavbar(ressource,'<h2>Etage: ' + data.eta006BygningensEtagebetegnelse + '</h2');
+    danNavbar(ressource,'<h2>Etage: ' + data.eta006BygningensEtagebetegnelse + '</h2', false);
     eo('table',null,null,
       'class', tableclasses); 
       eo('tbody');
@@ -4794,7 +4897,7 @@ function visBBREnhedKort(enhed) {
 
 function visBBREnhed(enhed) {
   return function() {
-    danNavbar(ressource,'<h2>' + bbr.getEnhAnvendelse(enhed.enh020EnhedensAnvendelse) + '</h2');
+    danNavbar(ressource,'<h2>' + bbr.getEnhAnvendelse(enhed.enh020EnhedensAnvendelse) + '</h2', false);
     eo('table',null,null,
       'class', tableclasses); 
       eo('tbody');
@@ -5194,7 +5297,7 @@ function visBBRBygningPåFremmedGrundKort(data) {
 
 function visBBRBygningPåFremmedGrund(data) {
   return function() {
-    danNavbar(ressource,'<h2>Bygning id:' + data.bygning.id + ' <-> Ejendomsrelations id: ' + data.bygningPåFremmedGrund.id + '</h2');
+    danNavbar(ressource,'<h2>Bygning id:' + data.bygning.id + ' <-> Ejendomsrelations id: ' + data.bygningPåFremmedGrund.id + '</h2', false);
     eo('table',null,null,
       'class', tableclasses); 
       eo('tbody');
@@ -5256,7 +5359,7 @@ function visBBREjendomsRelationKort(data) {
 
 function visBBREjendomsRelation(data) {
   return function() {
-    danNavbar(ressource,'<h2>Ejendomsrelation: ' + data.id + '</h2');
+    danNavbar(ressource,'<h2>Ejendomsrelation: ' + data.id + '</h2', false);
     eo('table',null,null,
       'class', tableclasses); 
       eo('tbody');
@@ -5375,7 +5478,7 @@ function visBBRGrundKort(grund) {
 
 function visBBRGrund(data) {
   return function() {
-    danNavbar(ressource,'<h2>' + 'Grund' + '</h2');
+    danNavbar(ressource,'<h2>' + 'Grund' + '</h2', false);
     eo('table',null,null,
       'class', tableclasses); 
       eo('tbody');
@@ -5546,7 +5649,7 @@ function visBBRGrundJordstykkeKort(data) {
 
 function visBBRGrundJordstykke(data) {
   return function() {
-    danNavbar(ressource,'<h2>Grund id:' + data.grund.id + ' <-> Jordstykke featureid: ' + data.jordstykke.id + '</h2');
+    danNavbar(ressource,'<h2>Grund id:' + data.grund.id + ' <-> Jordstykke featureid: ' + data.jordstykke.id + '</h2', false);
     eo('table',null,null,
       'class', tableclasses); 
       eo('tbody');
@@ -5598,6 +5701,193 @@ function BBRGrundJordstykkeIndhold(data, indrykninger= 0)
   }
 }
 
+function visBBRFordelingsarealKort(data) {  
+  eo('tr');
+    eo('td');
+      eo('span', null, null,
+        'class', 'badge badge-pill '+BBRStatusFarve(data.status));
+        text(bbr.getLivscyklus(data.status));
+      ec('span');
+      html('<br/>Fordelingsareal: ' + data.for005Navn);
+    ec('td');
+    let href= data.href;
+    badge('info', 'badge-primary', href.replace('dawa.aws.dk',host));
+    eo('td'); ec('td');
+    badge('data', 'badge-primary', href);
+  ec('tr');
+}
+
+function visBBRFordelingsareal(data) {
+  return function() {
+    danNavbar(ressource,'<h2>Fordelingsareal: ' + data.for005Navn + '</h2', false);
+    eo('table',null,null,
+      'class', tableclasses); 
+      eo('tbody');
+        BBRFordelingsarealIndhold(data);
+      ec('tbody'); 
+    ec('table');
+  }
+}
+
+function BBRFordelingsarealIndhold(data, indrykninger= 0)
+{    
+  eo('tr');
+    eotd(indrykninger);
+      html('Status: ');
+      eo('span', null, null,
+              'class', 'badge badge-pill '+BBRStatusFarve(data.status));
+              text(bbr.getLivscyklus(data.status));
+      ec('span');
+    ec('td');
+  ec('tr');       
+  eo('tr');
+    eotd(indrykninger);
+      html('Id: ' + strong(data.id));
+    ec('td');
+  ec('tr');
+  if (data.for005Navn) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Navn: ' + strong(data.for005Navn));
+      ec('td');
+    ec('tr');
+  }
+  if (data.for002Fordelingsarealnummer) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Fordelingsarealnummer: ' + strong(data.for002Fordelingsarealnummer));
+      ec('td');
+    ec('tr');
+  }
+  if (data.for003ArealTilFordeling) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Areal til fordeling: ' + strong(data.for003ArealTilFordeling));
+      ec('td');
+    ec('tr');
+  }
+  if (data.for004FordelingsNøgle) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Fordelingsnøgle: ' + strong(bbr.getFordelingsnoegle(data.for004FordelingsNøgle)));
+      ec('td');
+    ec('tr');
+  }
+  if (data.for006Rest) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Rest: ' + strong(data.for006Rest));
+      ec('td');
+    ec('tr');
+  }
+  if (data.for500Notatlinjer) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Notatlinjer: ' + strong(data.for500Notatlinjer));
+      ec('td');
+    ec('tr');
+  }
+  if (data.bygning) {
+    ec('tbody'); 
+    let visBBRBygning= 'visBBRBygning';
+    eo('tbody', null, null, 'id', visBBRBygning);
+      getBBRBygning(visBBRBygning,data.bygning.id);
+    ec('tbody'); 
+    eo('tbody');
+  }
+  if (data.kommune) {
+    ec('tbody'); 
+    let label= 'kommune';
+    eo('tbody', null, null, 'id', label);
+      getKommune(label, data.kommune.kode);
+    ec('tbody');
+    eo('tbody');  
+  }
+}
+
+function visBBRFordelingAfFordelingsarealKort(data) {  
+  eo('tr');
+    eo('td');
+      // eo('span', null, null,
+      //   'class', 'badge badge-pill '+BBRStatusFarve(data.status));
+      //   text(bbr.getLivscyklus(data.status));
+      // ec('span');
+      html('<br/>Fordeling af fordelingsareal: ' + data.id);
+    ec('td');
+    let href= data.href;
+    badge('info', 'badge-primary', href.replace('dawa.aws.dk',host));
+    eo('td'); ec('td');
+    badge('data', 'badge-primary', href);
+  ec('tr');
+}
+
+function visBBRFordelingAfFordelingsareal(data) {
+  return function() {
+    danNavbar(ressource,'<h2>Fordeling af fordelingsareal: ' + data.id + '</h2', false);
+    eo('table',null,null,
+      'class', tableclasses); 
+      eo('tbody');
+        BBRFordelingAfFordelingsarealIndhold(data);
+      ec('tbody'); 
+    ec('table');
+  }
+}
+
+function BBRFordelingAfFordelingsarealIndhold(data, indrykninger= 0)
+{    
+  // eo('tr');
+  //   eotd(indrykninger);
+  //     html('Status: ');
+  //     eo('span', null, null,
+  //             'class', 'badge badge-pill '+BBRStatusFarve(data.status));
+  //             text(bbr.getLivscyklus(data.status));
+  //     ec('span');
+  //   ec('td');
+  // ec('tr');       
+  eo('tr');
+    eotd(indrykninger);
+      html('Id: ' + strong(data.id));
+    ec('td');
+  ec('tr');
+  if (data.beboelsesArealFordeltTilEnhed) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Beboelsesareal fordelt til enhed: ' + strong(data.beboelsesArealFordeltTilEnhed));
+      ec('td');
+    ec('tr');
+  }
+  if (data.erhvervsArealFordeltTilEnhed) {
+    eo('tr');
+      eotd(indrykninger);
+        html('Erhversareal fordelt til enhed: ' + strong(data.erhvervsArealFordeltTilEnhed));
+      ec('td');
+    ec('tr');
+  }
+  if (data.fordelingsareal) {
+    ec('tbody'); 
+    let label= 'visBBRFordelingsareal';
+    eo('tbody', null, null, 'id', label);
+      getBBRFordelingsareal(label,data.fordelingsareal.href);
+    ec('tbody'); 
+    eo('tbody');
+  }
+  if (data.enhed) {
+    ec('tbody'); 
+    let label= 'visBBREnhed';
+    eo('tbody', null, null, 'id', label);
+      getBBREnhed(label,data.enhed.href);
+    ec('tbody'); 
+    eo('tbody');
+  }
+  if (data.kommune) {
+    ec('tbody'); 
+    let label= 'kommune';
+    eo('tbody', null, null, 'id', label);
+      getKommune(label, data.kommune.kode);
+    ec('tbody');
+    eo('tbody');  
+  }
+}
 //-----------------------------------------------------------------------------------------------------------
 // Main
 
@@ -10596,6 +10886,8 @@ function getEtageType(kode) {
 }
 
 function getFordelingsnoegle(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 1:
 		navn= "Manuel fordeling";
