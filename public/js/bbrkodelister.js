@@ -211,6 +211,8 @@ export function getAfloebsforhold(kode) {
 }
 
 export function getAfvigendeEtager(kode) {
+	let navn= '';
+	kode= parseInt(kode);
 	switch (kode) { 
 	case 0:
 		navn= "Bygningen har ikke afvigende etager";
@@ -496,24 +498,24 @@ export function getBeregningsprincipForArealAfCarport(kode) {
 
 export function getBoligtype(kode) {
 	let navn= '';
-	kode= parseInt(kode);
+	//kode= parseInt(kode);
 	switch (kode) { 
 	case "E":
 		navn= "Andet (bl.a. institutioner og erhverv)";
 		break;
-	case 1:
+	case '1':
 		navn= "Egentlig beboelseslejlighed (boligenhed med eget køkken)";
 		break;
-	case 2:
+	case '2':
 		navn= "Blandet erhverv og bolig med eget køkken";
 		break;
-	case 3:
+	case '3':
 		navn= "Enkeltværelse (boligenhed med fast kogeinstallation, fælles køkken eller intet køkken).";
 		break;
-	case 4:
+	case '4':
 		navn= "Fællesbolig eller fælleshusholdning";
 		break;
-	case 5:
+	case '5':
 		navn= "Sommer-/fritidsbolig";
 		break;
 	default:

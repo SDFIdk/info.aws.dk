@@ -106,6 +106,9 @@ function visInfo(container, ressource, data) {
   case 'bbr/fordelingaffordelingsarealer':
     visData(data, visBBRFordelingAfFordelingsarealKort, visBBRFordelingAfFordelingsareal, ressource, null, false);
     break;
+  case 'bbr/enhedejerlejlighed':
+    visData(data, visBBREnhedEjerlejlighedKort, visBBREnhedEjerlejlighed, ressource, null, false);
+    break;
   case 'adresser':
     visData(data, visAdresseKort, visAdresse, ressource, adresseCompare);
     break;
@@ -220,6 +223,9 @@ function ental(ressource) {
     break;
   case 'bbr/fordelingaffordelingsarealer':
     tekst= 'BBR fordeling af fordelingsarealer';
+    break;
+  case 'bbr/enhedejerlejlighed':
+    tekst= 'BBR enhedejerlejlighed';
     break;
   case 'adresser':
     tekst= 'adresse';
@@ -340,6 +346,9 @@ function flertal(ressource) {
     break;
   case 'bbr/fordelingaffordelingsarealer':
     tekst= 'BBR fordelinger af fordelingsarealer';
+    break;
+  case 'bbr/enhedejerlejlighed':
+    tekst= 'BBR enhedejerlejligheder';
     break;
   case 'adresser':
     tekst= 'adresser';
@@ -873,6 +882,9 @@ function jumbotrontekst(ressource) {
     tekst= null;
     break;
   case 'bbr/fordelingaffordelingsarealer':
+    tekst= null;
+    break;
+  case 'bbr/enhedejerlejlighed':
     tekst= null;
     break;
   case 'adresser': 
@@ -3321,6 +3333,98 @@ async function getGrundJordstykker(label, grund_id, indrykninger= 0) {
   }
 } 
 
+async function getBBRBygningsOpgange(label, id, indrykninger= 0) {
+  let url= dawaUrl.origin + "/bbr/opgange?bygning_id=" + id;
+  let response = await fetch(url);
+  if (response.ok) {
+    let opgange= await response.json();
+    if (opgange.length === 0) return; 
+    let adgangsadresserequests= [];
+    for (let i= 0; i<opgange.length; i++) {
+      adgangsadresserequests.push(fetch(opgange[i].adgangFraHusnummer.href))
+    }
+    let responses= await Promise.all(adgangsadresserequests);
+    for (let i= 0; i<responses.length; i++) {      
+      responses[i]= responses[i].json();
+    }    
+    let adgangsadresser= await Promise.all(responses);
+    for (let i= 0; i<adgangsadresser.length; i++) {
+      adgangsadresser[i].opgang= opgange[i];
+    }
+    adgangsadresser.sort(adgangsadresseCompare);
+    dom.patch(document.getElementById(label), () => {
+      eo('tr');  
+        eotd(indrykninger);
+          html('Opgange:');
+        ec('td');
+      ec('tr');  
+      for (let i= 0; i<adgangsadresser.length; i++) {
+        eo('tr'); 
+          eotd(indrykninger+1);
+            html(strong(util.formatAdgangsadresse(adgangsadresser[i], true)));
+          ec('td');
+          badge('info', 'badge-primary', adgangsadresser[i].opgang.href.replace('dawa.aws.dk',host));
+          badge('kort', 'badge-primary', adgangsadresser[i].opgang.href.replace('dawa','vis'));
+          badge('data', 'badge-primary', adgangsadresser[i].opgang.href);
+        ec('tr');
+      }
+    });
+  }
+} 
+
+async function getBBRBygningsEtager(label, id, indrykninger= 0) {
+  let url= dawaUrl.origin + "/bbr/etager?bygning_id=" + id;
+  let response = await fetch(url);
+  if (response.ok) {
+    let etager= await response.json();
+    if (etager.length === 0) return; 
+    dom.patch(document.getElementById(label), () => {
+      eo('tr');  
+        eotd(indrykninger);
+          html('Etager:');
+        ec('td');
+      ec('tr'); 
+      etager.sort(bbrEtageCompare); 
+      for (let i= 0; i<etager.length; i++) {
+        eo('tr'); 
+          eotd(indrykninger+1);
+            html(strong(etager[i].eta006BygningensEtagebetegnelse));
+          ec('td');
+          badge('info', 'badge-primary', etager[i].href.replace('dawa.aws.dk',host));
+          badge('kort', 'badge-primary', etager[i].href.replace('dawa','vis'));
+          badge('data', 'badge-primary', etager[i].href);
+        ec('tr');
+      }
+    });
+  }
+} 
+
+async function getBBRBygningsTekniskeAnlæg(label, id, qparameter, indrykninger= 0) {
+  let url= dawaUrl.origin + "/bbr/tekniskeanlaeg?" + qparameter + '=' + id;
+  let response = await fetch(url);
+  if (response.ok) {
+    let tekniskeanlæg= await response.json();
+    if (tekniskeanlæg.length === 0) return; 
+    dom.patch(document.getElementById(label), () => {
+      eo('tr');  
+        eotd(indrykninger);
+          html('Tekniske anlæg:');
+        ec('td');
+      ec('tr'); 
+      for (let i= 0; i<tekniskeanlæg.length; i++) {
+        eo('tr'); 
+          eotd(indrykninger+1);
+            html(strong(bbr.getKlassifikation(tekniskeanlæg[i].tek020Klassifikation) + ' fra ' + tekniskeanlæg[i].tek024Etableringsår));
+          ec('td');
+          badge('info', 'badge-primary', tekniskeanlæg[i].href.replace('dawa.aws.dk',host));
+          badge('kort', 'badge-primary', tekniskeanlæg[i].href.replace('dawa','vis'));
+          badge('data', 'badge-primary', tekniskeanlæg[i].href);
+        ec('tr');
+      }
+    });
+  }
+} 
+
 function getBBRBygningFraAdgangsadresseid(label, adgangsadresseid, indrykninger= 0) {
   const url= dawaUrl.origin + "/bbr/bygninger?husnummer_id=" + adgangsadresseid   + "&medtagnedlagte";
   fetch(url).then( function(response) {
@@ -3507,6 +3611,40 @@ function getBBRBygningsEjendomsrelation(label, id, indrykninger= 0) {
       response.json().then( function ( data ) {
         if (data.length > 0) {
           fetch(data[0].bygningPåFremmedGrund.href).then( function(response) {
+            if (response.ok) {
+              response.json().then( function ( data ) {
+                dom.patch(document.getElementById(label), () => {
+                  eo('tr'); 
+                    eotd(indrykninger);
+                      html('BFE nummer: ' + strong(data.bfeNummer));
+                    ec('td');
+                    badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
+                    badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+                    badge('data', 'badge-primary', data.href);
+                  ec('tr');
+                }); 
+                // ec('tbody');
+                // eo('tbody');
+                //   BBREjendomsRelationIndhold(data, indrykninger+1);
+                // ec('tbody');
+                // eo('tbody');
+              });
+            }
+          });
+        }
+      });
+    }
+  });
+} 
+
+
+function getBBREnhedsEjendomsrelation(label, id, indrykninger= 0) {
+  const url= dawaUrl.origin + "/bbr/enhedejerlejlighed?enhed_id=" + id;
+  fetch(url).then( function(response) {
+    if (response.ok) {
+      response.json().then( function ( data ) {
+        if (data.length > 0) {
+          fetch(data[0].enhedejerlejlighed.href).then( function(response) {
             if (response.ok) {
               response.json().then( function ( data ) {
                 dom.patch(document.getElementById(label), () => {
@@ -4159,6 +4297,24 @@ function BBRBygningIndhold(data, indrykninger= 0)
   label= 'fordelingsareal';
   eo('tbody', null, null, 'id', label);
     getBBRBygningsFordelingsareal(label, data.id);
+  ec('tbody');
+  eo('tbody'); 
+  ec('tbody'); 
+  label= 'opgange';
+  eo('tbody', null, null, 'id', label);
+    getBBRBygningsOpgange(label, data.id);
+  ec('tbody');
+  eo('tbody'); 
+  ec('tbody'); 
+  label= 'etager';
+  eo('tbody', null, null, 'id', label);
+    getBBRBygningsEtager(label, data.id);
+  ec('tbody');
+  eo('tbody'); 
+  ec('tbody'); 
+  label= 'tekniskeanlæg';
+  eo('tbody', null, null, 'id', label);
+    getBBRBygningsTekniskeAnlæg(label, data.id, 'bygning_id');
   ec('tbody');
   eo('tbody');
 }
@@ -5179,6 +5335,18 @@ function BBREnhedIndhold(data, indrykninger= 0)
       ec('td');
     ec('tr');
   } 
+  ec('tbody'); 
+  let label= 'tekniskeanlæg';
+  eo('tbody', null, null, 'id', label);
+    getBBRBygningsTekniskeAnlæg(label, data.id, 'enhed_id');
+  ec('tbody');
+  eo('tbody');
+  ec('tbody'); 
+  label= 'ejendomsrelation';
+  eo('tbody', null, null, 'id', label);
+    getBBREnhedsEjendomsrelation(label, data.id);
+  ec('tbody');
+  eo('tbody'); 
 }
 
 
@@ -5233,6 +5401,14 @@ function BBRBygningPåFremmedGrundIndhold(data, indrykninger= 0)
       getBBRBygning(visBBRBygning,data.bygning.id);
     ec('tbody'); 
     eo('tbody');
+  }
+  if (data.bygningPåFremmedGrund) {
+    ec('tbody'); 
+    let label= 'Ejendomsrelation';
+    eo('tbody', null, null, 'id', label);
+      getBBREjendomsrelation(label, data.bygningPåFremmedGrund.href);
+    ec('tbody');
+    eo('tbody');  
   }
   if (data.kommune) {
     ec('tbody'); 
@@ -5532,6 +5708,12 @@ function BBRGrundIndhold(data, indrykninger= 0)
     getGrundJordstykker(label, data.id, indrykninger);
   ec('tbody');
   eo('tbody'); 
+  ec('tbody'); 
+  label= 'tekniskeanlæg';
+  eo('tbody', null, null, 'id', label);
+    getBBRBygningsTekniskeAnlæg(label, data.id, 'grund_id');
+  ec('tbody');
+  eo('tbody'); 
 }
 
 function visBBRGrundJordstykkeKort(data) {  
@@ -5781,6 +5963,85 @@ function BBRFordelingAfFordelingsarealIndhold(data, indrykninger= 0)
       getBBREnhed(label,data.enhed.href);
     ec('tbody'); 
     eo('tbody');
+  }
+  if (data.kommune) {
+    ec('tbody'); 
+    let label= 'kommune';
+    eo('tbody', null, null, 'id', label);
+      getKommune(label, data.kommune.kode);
+    ec('tbody');
+    eo('tbody');  
+  }
+}
+
+
+function visBBREnhedEjerlejlighedKort(data) {  
+  eo('tr');
+    eo('td');
+      // eo('span', null, null,
+      //   'class', 'badge badge-pill '+BBRStatusFarve(data.status));
+      //   text(bbr.getLivscyklus(data.status));
+      // ec('span');
+      html('<br/>EnhedEjerlejlighed: ' + data.id);
+    ec('td');
+    let href= data.href;
+    badge('info', 'badge-primary', href.replace('dawa.aws.dk',host));
+    eo('td'); ec('td');
+    badge('data', 'badge-primary', href);
+  ec('tr');
+}
+
+function visBBREnhedEjerlejlighed(data) {
+  return function() {
+    danNavbar(ressource,'<h2>EnhedEjerlejlighed: ' + data.id + '</h2', false);
+    eo('table',null,null,
+      'class', tableclasses); 
+      eo('tbody');
+        BBREnhedEjerlejlighedIndhold(data);
+      ec('tbody'); 
+    ec('table');
+  }
+}
+
+function BBREnhedEjerlejlighedIndhold(data, indrykninger= 0)
+{    
+  // eo('tr');
+  //   eotd(indrykninger);
+  //     html('Status: ');
+  //     eo('span', null, null,
+  //             'class', 'badge badge-pill '+BBRStatusFarve(data.status));
+  //             text(bbr.getLivscyklus(data.status));
+  //     ec('span');
+  //   ec('td');
+  // ec('tr');       
+  eo('tr');
+    eotd(indrykninger);
+      html('Id: ' + strong(data.id));
+    ec('td');
+  ec('tr');
+  if (data.ejerlejlighed) {
+    ec('tbody'); 
+    let label= 'Ejendomsrelation';
+    eo('tbody', null, null, 'id', label);
+      getBBREjendomsrelation(label, data.ejerlejlighed.href);
+    ec('tbody');
+    eo('tbody');  
+  }
+  if (data.enhed) {
+    ec('tbody'); 
+    let label= 'visBBREnhed';
+    eo('tbody', null, null, 'id', label);
+      getBBREnhed(label,data.enhed.href);
+    ec('tbody'); 
+    eo('tbody');
+  }
+  if (data.bestemtFastEjendom) {
+    ec('tbody'); 
+    let label= 'Ejendomsrelation';
+    eo('tbody', null, null, 'id', label);
+      getBBREjendomsrelation(label, data.bestemtFastEjendom.href);
+    ec('tbody');
+    eo('tbody');  
   }
   if (data.kommune) {
     ec('tbody'); 
