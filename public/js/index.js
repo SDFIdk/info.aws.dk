@@ -3637,6 +3637,30 @@ function getBBRBygningsEjendomsrelation(label, id, indrykninger= 0) {
   });
 } 
 
+function getBBRBygningsEjerlejlighed(label, url, indrykninger= 0) {
+  fetch(url).then( function(response) {
+    if (response.ok) {
+      response.json().then( function ( data ) {
+        dom.patch(document.getElementById(label), () => {
+          eo('tr'); 
+            eotd(indrykninger);
+              html('Ejerlejligheds BFE nummer: ' + strong(data.bfeNummer));
+            ec('td');
+            badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
+            badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+            badge('data', 'badge-primary', data.href);
+          ec('tr');
+        }); 
+        // ec('tbody');
+        // eo('tbody');
+        //   BBREjendomsRelationIndhold(data, indrykninger+1);
+        // ec('tbody');
+        // eo('tbody');
+      });
+    }
+  });
+} 
+
 
 function getBBREnhedsEjendomsrelation(label, id, indrykninger= 0) {
   const url= dawaUrl.origin + "/bbr/enhedejerlejlighed?enhed_id=" + id;
@@ -4291,6 +4315,12 @@ function BBRBygningIndhold(data, indrykninger= 0)
   let label= 'ejendomsrelation';
   eo('tbody', null, null, 'id', label);
     getBBRBygningsEjendomsrelation(label, data.id);
+  ec('tbody');
+  eo('tbody'); 
+  ec('tbody'); 
+  label= 'ejerlejlighed';
+  eo('tbody', null, null, 'id', label);
+    getBBRBygningsEjerlejlighed(label, data.ejerlejlighed.href);
   ec('tbody');
   eo('tbody'); 
   ec('tbody'); 
