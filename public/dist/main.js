@@ -4820,7 +4820,7 @@ function BBRTekniskAnlægIndhold(data, indrykninger= 0)
   if (data.tek110Driftstatus) {
     eo('tr');
       eotd(indrykninger);
-        html('Placering: ' + strong(bbr.getDriftstatus(data.tek110Driftstatus)));
+        html('Driftsstatus: ' + strong(bbr.getDriftstatus(data.tek110Driftstatus)));
       ec('td');
     ec('tr');
   }
