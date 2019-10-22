@@ -2229,6 +2229,11 @@ function visJordstykke(data) {
           eo('td');
             html('SFE ejendomsnnummer: ' + strong(data.sfeejendomsnr));
           ec('td');
+        ec('tr');            
+        eo('tr');
+          eo('td');
+            html('BFE nummer: ' + strong(data.bfenummer));
+          ec('td');
         ec('tr');              
       ec('tbody');
       let tilknyttedeJordstykker= 'tilknyttedeJordstykker';
