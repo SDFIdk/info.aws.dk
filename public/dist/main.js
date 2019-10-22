@@ -3839,7 +3839,7 @@ function visBBRBygningKort(bygning) {
 
 function visBBRBygning(data) {
   return function() {
-    danNavbar(ressource,'<h2>' + bbr.getBygAnvendelse(data.byg021BygningensAnvendelse) + '</h2');
+    danNavbar(ressource,'<h2>' + bbr.getBygAnvendelse(data.byg021BygningensAnvendelse) + ' fra ' + data.byg026Opførelsesår + '</h2');
     eo('table',null,null,
       'class', tableclasses); 
       eo('tbody');
