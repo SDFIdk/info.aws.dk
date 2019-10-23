@@ -3346,7 +3346,7 @@ async function getBBRBygningsOpgange(label, id, indrykninger= 0) {
     if (opgange.length === 0) return; 
     let adgangsadresserequests= [];
     for (let i= 0; i<opgange.length; i++) {
-      adgangsadresserequests.push(fetch(opgange[i].adgangFraHusnummer.href))
+      adgangsadresserequests.push(fetch(opgange[i].husnummer.href))
     }
     let responses= await Promise.all(adgangsadresserequests);
     for (let i= 0; i<responses.length; i++) {      
@@ -3501,7 +3501,7 @@ function getBBREnhedFraAdresseid(label, adresseid, indrykninger= 0) {
 }
 
 function getBBRBygningViaOpgang(label, adgangsadresseid, indrykninger= 0) {
-  const url= dawaUrl.origin + "/bbr/opgange?adgangFraHusnummer_id=" + adgangsadresseid;
+  const url= dawaUrl.origin + "/bbr/opgange?husnummer_id=" + adgangsadresseid;
   fetch(url).then( function(response) {
     if (response.ok) {
       response.json().then( function ( opgange ) {
@@ -4321,13 +4321,15 @@ function BBRBygningIndhold(data, indrykninger= 0)
   eo('tbody', null, null, 'id', label);
     getBBRBygningsEjendomsrelation(label, data.id);
   ec('tbody');
-  eo('tbody'); 
-  ec('tbody'); 
-  label= 'ejerlejlighed';
-  eo('tbody', null, null, 'id', label);
-    getBBRBygningsEjerlejlighed(label, data.ejerlejlighed.href);
-  ec('tbody');
-  eo('tbody'); 
+  eo('tbody');
+  if (data.ejerlejlighed) {
+    ec('tbody'); 
+    label= 'ejerlejlighed';
+    eo('tbody', null, null, 'id', label);
+      getBBRBygningsEjerlejlighed(label, data.ejerlejlighed.href);
+    ec('tbody');
+    eo('tbody');
+  } 
   ec('tbody'); 
   label= 'fordelingsareal';
   eo('tbody', null, null, 'id', label);
@@ -4764,7 +4766,7 @@ function visBBROpgangKort(data) {
         'class', 'badge badge-pill '+BBRStatusFarve(data.status));
         text(bbr.getLivscyklus(data.status));
       ec('span');
-      html('<br/>' + data.adgangFraHusnummer.id + ' <-> ' + data.bygning.id);
+      html('<br/>' + data.husnummer.id + ' <-> ' + data.bygning.id);
     ec('td');
     let href= data.href;
     badge('info', 'badge-primary', href.replace('dawa.aws.dk',host));
@@ -4775,7 +4777,7 @@ function visBBROpgangKort(data) {
 
 function visBBROpgang(data) {
   return function() {
-    danNavbar(ressource,'<h2>Husnummer id:' + data.adgangFraHusnummer.id + ' <-> Bygnings id: ' + data.bygning.id + '</h2', false);
+    danNavbar(ressource,'<h2>Husnummer id:' + data.husnummer.id + ' <-> Bygnings id: ' + data.bygning.id + '</h2', false);
     eo('table',null,null,
       'class', tableclasses); 
       eo('tbody');
@@ -4801,11 +4803,11 @@ function BBROpgangIndhold(data, indrykninger= 0)
       html('Id: ' + strong(data.id));
     ec('td');
   ec('tr');
-  if (data.adgangFraHusnummer.id) {
+  if (data.husnummer.id) {
     ec('tbody'); 
     let adgangsadresse= 'adgangsadresse';
     eo('tbody', null, null, 'id', adgangsadresse);
-      getAdgangsadresse(adgangsadresse, data.adgangFraHusnummer.id);
+      getAdgangsadresse(adgangsadresse, data.husnummer.id);
     ec('tbody'); 
     eo('tbody'); 
   }  
