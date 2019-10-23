@@ -3253,7 +3253,7 @@ function getEtage(id, href, indrykninger= 0) {
               html('Etage: ' + strong(etage.eta006BygningensEtagebetegnelse));
             ec('td');
             badge('info', 'badge-primary', etage.href.replace('dawa.aws.dk',host));
-            badge('kort', 'badge-primary', etage.href.replace('dawa','vis'));
+            eo('td'); ec('td');
             badge('data', 'badge-primary', etage.href);
           ec('tr');
         });
@@ -3272,7 +3272,7 @@ function getOpgang(id, href, indrykninger= 0) {
               html('Opgang');
             ec('td');
             badge('info', 'badge-primary', opgang.href.replace('dawa.aws.dk',host));
-            badge('kort', 'badge-primary', opgang.href.replace('dawa','vis'));
+            eo('td'); ec('td');
             badge('data', 'badge-primary', opgang.href);
           ec('tr');
         });
@@ -3369,7 +3369,7 @@ async function getBBRBygningsOpgange(label, id, indrykninger= 0) {
             html(strong(util.formatAdgangsadresse(adgangsadresser[i], true)));
           ec('td');
           badge('info', 'badge-primary', adgangsadresser[i].opgang.href.replace('dawa.aws.dk',host));
-          badge('kort', 'badge-primary', adgangsadresser[i].opgang.href.replace('dawa','vis'));
+          eo('td'); ec('td');
           badge('data', 'badge-primary', adgangsadresser[i].opgang.href);
         ec('tr');
       }
@@ -3396,7 +3396,7 @@ async function getBBRBygningsEtager(label, id, indrykninger= 0) {
             html(strong(etager[i].eta006BygningensEtagebetegnelse));
           ec('td');
           badge('info', 'badge-primary', etager[i].href.replace('dawa.aws.dk',host));
-          badge('kort', 'badge-primary', etager[i].href.replace('dawa','vis'));
+          eo('td'); ec('td');
           badge('data', 'badge-primary', etager[i].href);
         ec('tr');
       }
@@ -3464,7 +3464,7 @@ function getBBREnhed(label, url, indrykninger= 0) {
               html('BBR enhed: ' + strong(bbr.getEnhAnvendelse(enhed.enh020EnhedensAnvendelse)));
               ec('td');
               badge('info', 'badge-primary', enhed.href.replace('dawa.aws.dk',host));
-              badge('kort', 'badge-primary', enhed.href.replace('dawa','vis'));
+              eo('td'); ec('td');
               badge('data', 'badge-primary', enhed.href);
             ec('tr');
           });
@@ -3490,7 +3490,7 @@ function getBBREnhedFraAdresseid(label, adresseid, indrykninger= 0) {
               html('BBR enhed: ' + strong(bbr.getEnhAnvendelse(enhed.enh020EnhedensAnvendelse)));
               ec('td');
               badge('info', 'badge-primary', enhed.href.replace('dawa.aws.dk',host));
-              badge('kort', 'badge-primary', enhed.href.replace('dawa','vis'));
+              eo('td'); ec('td');
               badge('data', 'badge-primary', enhed.href);
             ec('tr');
           });
@@ -3559,7 +3559,7 @@ function getBBRGrund(label, url, indrykninger= 0) {
               html('BBR grund: ' + strong(grund.id));
             ec('td');
             badge('info', 'badge-primary', grund.href.replace('dawa.aws.dk',host));
-            badge('kort', 'badge-primary', grund.href.replace('dawa','vis'));
+            eo('td'); ec('td');
             badge('data', 'badge-primary', grund.href);
           ec('tr');
         });
@@ -3580,7 +3580,7 @@ function getBBRBygningsFordelingsareal(label, id, indrykninger= 0) {
                 html('BBR Fordelingsareal: ' + strong(data[0].for005Navn));
               ec('td');
               badge('info', 'badge-primary', data[0].href.replace('dawa.aws.dk',host));
-              badge('kort', 'badge-primary', data[0].href.replace('dawa','vis'));
+              eo('td'); ec('td');
               badge('data', 'badge-primary', data[0].href);
             ec('tr');
           });
@@ -3600,7 +3600,7 @@ function getBBRFordelingsareal(label, url, indrykninger= 0) {
               html('BBR Fordelingsareal: ' + strong(data.for005Navn));
             ec('td');
             badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
-            badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+            eo('td'); ec('td');
             badge('data', 'badge-primary', data.href);
           ec('tr');
         });
@@ -3624,7 +3624,7 @@ function getBBRBygningsEjendomsrelation(label, id, indrykninger= 0) {
                       html('BFE nummer: ' + strong(data.bfeNummer));
                     ec('td');
                     badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
-                    badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+                    eo('td'); ec('td');
                     badge('data', 'badge-primary', data.href);
                   ec('tr');
                 }); 
@@ -3652,7 +3652,7 @@ function getBBRBygningsEjerlejlighed(label, url, indrykninger= 0) {
               html('Ejerlejligheds BFE nummer: ' + strong(data.bfeNummer));
             ec('td');
             badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
-            badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+            eo('td'); ec('td');
             badge('data', 'badge-primary', data.href);
           ec('tr');
         }); 
@@ -3682,7 +3682,7 @@ function getBBREnhedsEjendomsrelation(label, id, indrykninger= 0) {
                       html('BFE nummer: ' + strong(data.bfeNummer));
                     ec('td');
                     badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
-                    badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+                    eo('td'); ec('td');
                     badge('data', 'badge-primary', data.href);
                   ec('tr');
                 }); 
@@ -3710,7 +3710,7 @@ function getBBREjendomsrelation(label, url, indrykninger= 0) {
               html('BFE nummer: ' + strong(data.bfeNummer));
             ec('td');
             badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
-            badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+            eo('td'); ec('td');
             badge('data', 'badge-primary', data.href);
           ec('tr');
         }); 
@@ -5585,7 +5585,7 @@ function visBBRGrundKort(grund) {
     ec('td');
     let href= 'https://' + host + '/bbr/grunde/' + grund.id;
     badge('info', 'badge-primary', href.replace('dawa.aws.dk',host));
-    badge('kort', 'badge-primary', href.replace('dawa','vis'));
+    eo('td'); ec('td');
     badge('data', 'badge-primary', href);
   ec('tr');
 }
