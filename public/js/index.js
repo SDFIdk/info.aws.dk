@@ -3478,7 +3478,7 @@ function getBBREnhed(label, url, indrykninger= 0) {
 }
 
 function getBBREnhedFraAdresseid(label, adresseid, indrykninger= 0) {
-  const url= dawaUrl.origin + "/bbr/enheder?adresseIdentificerer_id=" + adresseid   + "&medtagnedlagte";
+  const url= dawaUrl.origin + "/bbr/enheder?adresse_id=" + adresseid   + "&medtagnedlagte";
   fetch(url).then( function(response) {
     if (response.ok) {
       response.json().then( function ( enheder ) {
