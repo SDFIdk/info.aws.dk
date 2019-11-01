@@ -3527,6 +3527,32 @@ async function getBBRBygningsTekniskeAnlæg(label, id, qparameter, indrykninger=
   }
 } 
 
+async function getBBREnheder(label, id, qparameter, indrykninger= 0) {
+  let url= dawaUrl.origin + "/bbr/enheder?" + qparameter + '=' + id;
+  let response = await fetch(url);
+  if (response.ok) {
+    let enheder= await response.json();
+    if (enheder.length === 0) return; 
+    dom.patch(document.getElementById(label), () => {
+      eo('tr');  
+        eotd(indrykninger);
+          html('Enheder:');
+        ec('td');
+      ec('tr'); 
+      for (let i= 0; i<enheder.length; i++) {
+        eo('tr'); 
+          eotd(indrykninger+1);
+            html(strong(bbr.getEnhAnvendelse(enheder[i].enh020EnhedensAnvendelse)));
+          ec('td');
+          badge('info', 'badge-primary', enheder[i].href.replace('dawa.aws.dk',host));
+          badge('kort', 'badge-primary', enheder[i].href.replace('dawa','vis'));
+          badge('data', 'badge-primary', enheder[i].href);
+        ec('tr');
+      }
+    });
+  }
+} 
+
 function getBBRBygningFraAdgangsadresseid(label, adgangsadresseid, indrykninger= 0) {
   const url= dawaUrl.origin + "/bbr/bygninger?husnummer_id=" + adgangsadresseid   + "&medtagnedlagte";
   fetch(url).then( function(response) {
@@ -3770,7 +3796,7 @@ function getBBREnhedsEjendomsrelation(label, id, indrykninger= 0) {
     if (response.ok) {
       response.json().then( function ( data ) {
         if (data.length > 0) {
-          fetch(data[0].enhedejerlejlighed.href).then( function(response) {
+          fetch(data[0].ejerlejlighed.href).then( function(response) {
             if (response.ok) {
               response.json().then( function ( data ) {
                 dom.patch(document.getElementById(label), () => {
@@ -4944,7 +4970,13 @@ function BBROpgangIndhold(data, indrykninger= 0)
         html('Notatlinjer: ' + strong(data.opg500Notatlinjer));
       ec('td');
     ec('tr');
-  }
+  } 
+  ec('tbody'); 
+  let label= 'enheder';
+  eo('tbody', null, null, 'id', label);
+    getBBREnheder(label, data.id, 'opgang_id');
+  ec('tbody');
+  eo('tbody');
 }
 
 function visBBREtageKort(data) {  
@@ -5070,6 +5102,12 @@ function BBREtageIndhold(data, indrykninger= 0)
       ec('td');
     ec('tr');
   }
+  ec('tbody'); 
+  let label= 'enheder';
+  eo('tbody', null, null, 'id', label);
+    getBBREnheder(label, data.id, 'etage_id');
+  ec('tbody');
+  eo('tbody');
 }
 
 function visBBREnhedKort(enhed) {  
@@ -5116,11 +5154,11 @@ function BBREnhedIndhold(data, indrykninger= 0)
       html('Id: ' + strong(data.id));
     ec('td');
   ec('tr');
-  if (data.adresseIdentificerer) {
+  if (data.adresse) {
     ec('tbody'); 
     let adresse= 'adresse';
     eo('tbody', null, null, 'id', adresse);
-      getAdresse(adresse, data.adresseIdentificerer.id);
+      getAdresse(adresse, data.adresse.id);
     ec('tbody'); 
     eo('tbody'); 
   }
