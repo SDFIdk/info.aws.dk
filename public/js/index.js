@@ -120,6 +120,9 @@ function visInfo(container, ressource, data) {
     break;  
   case 'vejstykker':      
     visData(data, visVejstykkeKort, visVejstykke, ressource, null);
+    break;     
+  case 'vejnavnpostnummerrelationer':      
+    visData(data, visVejnavnpostnummerrelationerKort, visVejnavnpostnummerrelationer, ressource, vejnavnpostnummerrelationerCompare);
     break;    
   case 'vejnavne':      
     visData(data, visVejnavnKort, visVejnavn, ressource, vejnavneCompare, false);
@@ -238,7 +241,10 @@ function ental(ressource) {
     break;  
   case 'vejstykker':      
     tekst= 'vejstykke';
-    break;    
+    break;     
+  case 'vejnavnpostnummerrelationer':      
+    tekst= 'vejnavnpostnummerrelation';
+    break;       
   case 'vejnavne':      
     tekst= 'vejnavn';
     break;     
@@ -361,7 +367,10 @@ function flertal(ressource) {
     break;  
   case 'vejstykker':      
     tekst= 'vejstykker';
-    break;   
+    break;      
+  case 'vejnavnpostnummerrelationer':      
+    tekst= 'vejnavnpostnummerrelationer';
+    break;     
   case 'vejnavne':      
     tekst= 'vejnavne'; 
     break;
@@ -1861,12 +1870,80 @@ function visVejstykke(data) {
   }
 }
 
+
+function visVejnavnpostnummerrelationerKort(data) {  
+  eo('tr');
+    eo('td');
+      html('<br/>' + strong(data.betegnelse));
+    ec('td');
+    badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
+    badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+    badge('data', 'badge-primary', data.href);
+  ec('tr');
+}
+
+function visVejnavnpostnummerrelationer(data) {
+  return function() {
+    eo('table',null,null,
+      'class', tableclasses); //table-striped'); //) table-dark');
+      danNavbar(ressource,'<h2>' + data.betegnelse + '</h2');
+      eo('tbody');           
+        eo('tr');
+          eo('td');
+            html('Postnummer: ' + strong(data.postnummer.nr + " " + data.postnummer.navn));
+          ec('td');
+          badge('info', 'badge-primary', data.postnummer.href.replace('dawa.aws.dk',host));
+          badge('kort', 'badge-primary', data.postnummer.href.replace('dawa','vis'));
+          badge('data', 'badge-primary', data.postnummer.href);
+        ec('tr');
+        if (data.kommuner) {                     
+          eo('tr');
+            eo('td');
+              html('Kommuner: ');
+            ec('td');
+          ec('tr');
+          data.kommuner.forEach(kommune => {          
+            eo('tr');
+              eo('td', null, null, 'style', 'padding-left:2em ');
+                html(strong(kommune.kode + " " + kommune.navn));
+              ec('td');
+              badge('info', 'badge-primary', kommune.href.replace('dawa.aws.dk',host));
+              badge('kort', 'badge-primary', kommune.href.replace('dawa','vis'));
+              badge('data', 'badge-primary', kommune.href);
+            ec('tr');  
+          }) 
+        } 
+      ec('tbody'); 
+    ec('table');
+  }
+}
+
+
 function vejnavneCompare(a, b) {
 
   if (a.navn < b.navn) {
     return -1;
   }
   if (a.navn > b.navn) {
+    return 1;
+  }
+
+  return 0;
+}
+
+function vejnavnpostnummerrelationerCompare(a, b) {
+
+  if (a.vejnavn < b.vejnavn) {
+    return -1;
+  }
+  if (a.vejnavn > b.vejnavn) {
+    return 1;
+  }
+
+  if (a.postnummer.nr < b.postnummer.nr) {
+    return -1;
+  }
+  if (a.postnummer.nr > b.postnummer.nr) {
     return 1;
   }
 
