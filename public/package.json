@@ -14,6 +14,7 @@
     "dawa-util": "^0.1.13",
     "incremental-dom": "^0.6.0",
     "query-string": "^5.1.1",
+    "underscore": "^1.9.2",
     "url-parse": "^1.4.3"
   },
   "devDependencies": {

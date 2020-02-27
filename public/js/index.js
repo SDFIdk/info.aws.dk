@@ -4,7 +4,8 @@ var util = require('dawa-util')
     , URL = require('url-parse')
     , queryString = require('query-string')
     , dom = require('incremental-dom')
-    , bbr = require('./bbrkodelister.js');
+    , bbr = require('./bbrkodelister.js')
+    , _ = require('underscore');
 
 
 var eo = dom.elementOpen,
@@ -185,7 +186,10 @@ function visInfo(container, ressource, data) {
     break;       
   case 'stednavntyper':
     visData(data, visStednavntypeKort, visStednavntype, ressource, null, false);
-    break; 
+    break;      
+  case 'darhistorik':
+    visData(data, visDarhistorikKort, visDarhistorik, ressource, null, false);
+    break;  
   default: 
     dom.patch(container, () => {html('<h1>Ukendt ressource: ' + ressource + '</h1>')});
   }
@@ -310,6 +314,9 @@ function ental(ressource) {
     break;       
   case 'stednavntyper':
     tekst= 'stednavntype';
+    break;       
+  case 'darhistorik':
+    tekst= 'darhistorik';
     break; 
   default:    
     html('<h1>Ukendt ressource: ' + ressource + '</h1>');
@@ -436,6 +443,9 @@ function flertal(ressource) {
     break;      
   case 'stednavntyper':
     tekst= 'stednavntyper';
+    break;       
+  case 'darhistorik':
+    tekst= 'darhistorik';
     break; 
   default:    
     tekst= 'Ukendt ressource: ' + ressource;
@@ -1061,7 +1071,10 @@ function jumbotrontekst(ressource) {
       <h1 class="display-5">Stednavntyper</h1>
       <p class="lead">Stednavntyper opdeler danske stednavne i hoved- og undertyper.</p>
       <p>Data og funktionalitet om stednavntyper udstilles af <a href='https://dawa.aws.dk'>DAWA</a> via et <a href='https://dawa.aws.dk/dok/api/stednavntype'>stednavntype API</a>. API'et understøtter bl.a. download og opslag af stednavntyper.</p>`;
-    break;
+    break;      
+  case 'darhistorik':
+    tekst= null;
+    break; 
   default:   
     tekst= null;
   }
@@ -2001,6 +2014,138 @@ function visVejnavn(data) {
         } 
       ec('tbody'); 
     ec('table');
+  }
+}
+
+
+function visDarhistorikKort(adresse, indrykninger= 0) {  
+  // Darhistorik er altid en og ikke en liste
+}
+
+function listobjekt(data, indrykninger= 0) {  
+  _.keys(data).forEach(key => {
+    eo('tr');
+      eo('td', null, null, 'style', indrykningsStyle(indrykninger) + '; padding-top: 0em; padding-bottom: 0em');
+        if ((data[key] instanceof Object) && ! (data[key] instanceof String)) {
+          html(key + ': ');
+          listobjekt(data[key], indrykninger+1);
+        }
+        else {
+          html(key + ': ' + strong(data[key]));
+        }
+      ec('td');
+    ec('tr');   
+  })
+}
+
+function adressebody(data) {  
+  eo('table',null,null,
+  'class', tableclasses);
+  eo('tbody');
+
+  listobjekt(data, 0);
+  
+  ec('tbody'); 
+  ec('table');
+}
+
+
+function ændringsbody(ændringer) {  
+  eo('table',null,null,
+  'class', 'table table-bordered');
+  eo('thead');
+  eo('tr');
+  eo('th');
+    html('Attribut');
+  ec('th');
+  eo('th');
+    html('Fra');
+  ec('th');
+  eo('th');
+   html('Til');
+  ec('th');
+  ec('tr');
+  ec('thead');
+  eo('tbody');
+
+  ændringer.forEach(ændring => {
+    eo('tr');
+    eo('td');
+      html(ændring.attribut);
+    ec('td');
+    eo('td');  
+      if (ændring.gammelværdi instanceof Object) {
+        listobjekt(ændring.gammelværdi, 0);
+      }
+      else {
+        html(strong(ændring.gammelværdi));
+      }    
+    ec('td');
+    eo('td');       
+    if (ændring.gammelværdi instanceof Object) {
+      listobjekt(ændring.nyværdi, 0);
+    }
+    else {
+      html(strong(ændring.nyværdi));
+    }    
+    ec('td');
+    ec('tr');
+  })
+  
+  ec('tbody'); 
+  ec('table');
+}
+
+function card(id, parentid, header, body, data) {
+  eo('div',null,null, 'class', 'card');
+    eo('div',null,null, 'id', id+'header', 'class', 'card-header');
+      eo('h2',null,null, 'class', 'mb-0');
+        eo('button',null,null, 'class', 'btn btn-link', 'type', 'button', 'data-toggle', 'collapse', 'data-target', '#'+id+'body', 'aria-expanded', 'true', 'aria-controls', id+'body');
+          html(header);
+        ec('button');
+      ec('h2');
+    ec('div');
+    eo('div',null,null, 'id', id+'body', 'class', 'collapse', 'aria-labelledby', id+'header', 'data-parent', '#'+parentid);
+      eo('div',null,null, 'class', 'card-body');
+        body(data);
+      ec('div');
+    ec('div');
+  ec('div');
+}
+
+function visDarhistorikAdresse(data) {
+  // se i https://getbootstrap.com/docs/4.4/components/collapse/
+  danNavbar(ressource,'<h2>' + 'Adresse ' + data.initielværdi.adresse_id + '</h2');
+  let oprettet= new Date(data.oprettettidspunkt);  
+  eo('div', null, null, 'id', 'darhistorik', 'class', 'accordion');
+    card('inital','darhistorik', oprettet.toLocaleString() + ' - Inital', adressebody, data.initielværdi);
+    data.historik.forEach((tidspunkt, index) => {
+      let ændret= new Date(tidspunkt.ændringstidspunkt);
+      let attributer= tidspunkt.ændringer.map(æ => æ.attribut).join(', ');        
+      card('historik'+index,'darhistorik', ændret.toLocaleString() + ' - Ændringer på: ' + strong(attributer), ændringsbody, tidspunkt.ændringer);
+    })
+    card('aktuel','darhistorik', 'Aktuel', adressebody, data.aktuelværdi);
+    if (data.fremtidigværdi) {    
+      card('fremtidig','darhistorik', 'Fremtidig', adressebody, data.fremtidigværdi);
+    }
+  ec('div');  
+}
+
+function visDarhistorik(data) {
+  return function() {
+    let entitet= query.entitet;
+    switch (entitet) {
+    case 'adresse':
+      visDarhistorikAdresse(data);
+      break;
+    case 'husnummer':
+      break;
+    case 'navngivenvej':
+      break;
+    default:
+      alert('Ukendt entitet i DarHistorik: ' + entitet);
+      break;
+    }
   }
 }
 
