@@ -899,7 +899,7 @@ function visOverskrift(overskrift, kort=true) {
   ec('thead');
 }
 
-function danNavbar(overskrift, infotekst, viskortmenu=true) {  
+function danNavbar(overskrift, infotekst, viskortmenu=true, formater=null) {  
   const navoverskrift = document.getElementById('navoverskrift');
   navoverskrift.innerText= capitalizeFirstLetter(flertal(ressource));
   navoverskrift.href= url; 
@@ -908,17 +908,27 @@ function danNavbar(overskrift, infotekst, viskortmenu=true) {
   let hrefquery= queryString.parse(href.query);
   delete hrefquery.struktur;
 
+  if (formater) {
+    let elements= document.getElementsByClassName('dropdown-divider');
+    for (let i= 0; i<elements.length; i++) {
+      elements[i].hidden= true;
+    }
+  }
+
   const json = document.getElementById('json');
+  json.hidden= !(formater === null || formater.includes('json'));
   hrefquery.format= 'json';
   href.set('query',queryString.stringify(hrefquery));
   json.href= href.toString(); 
 
   const geojson = document.getElementById('geojson');
+  geojson.hidden= !(formater === null || formater.includes('geojson'));
   hrefquery.format= 'geojson';
   href.set('query',queryString.stringify(hrefquery));
   geojson.href= href.toString();
 
   const ndjson = document.getElementById('ndjson');
+  ndjson.hidden= !(formater === null || formater.includes('ndjson'));
   hrefquery.format= 'json';
   hrefquery.ndjson= true;
   href.set('query',queryString.stringify(hrefquery));
@@ -926,6 +936,7 @@ function danNavbar(overskrift, infotekst, viskortmenu=true) {
   delete hrefquery.ndjson;
 
   const csv = document.getElementById('csv');
+  csv.hidden= !(formater === null || formater.includes('csv'));
   hrefquery.format= 'csv';
   href.set('query',queryString.stringify(hrefquery));
   csv.href= href.toString();
@@ -2119,8 +2130,12 @@ function visDarhistorikKort(adresse, indrykninger= 0) {
   // Darhistorik er altid en og ikke en liste
 }
 
-function listobjekt(data, indrykninger= 0) {  
-  _.keys(data).forEach(key => {
+function listobjekt(data, indrykninger= 0) {
+  let keys= _.keys(data); 
+  if (!Array.isArray(keys)) {
+    keys= keys.sort();
+  } 
+  keys.forEach(key => {
     eo('tr');
       eo('td', null, null, 'style', indrykningsStyle(indrykninger) + '; padding-top: 0em; padding-bottom: 0em');
         if ((data[key] instanceof Object) && ! (data[key] instanceof String)) {
@@ -2135,7 +2150,7 @@ function listobjekt(data, indrykninger= 0) {
   })
 }
 
-function adressebody(data) {  
+function databody(data) {  
   eo('table',null,null,
   'class', tableclasses);
   eo('tbody');
@@ -2210,20 +2225,20 @@ function card(id, parentid, header, body, data) {
   ec('div');
 }
 
-function visDarhistorikAdresse(data) {
+function visDarhistorikEntitet(data, titel) {
   // se i https://getbootstrap.com/docs/4.4/components/collapse/
-  danNavbar(ressource,'<h2>' + 'Adresse ' + data.initielværdi.adresse_id + '</h2');
+  danNavbar(ressource,'<h2>' + titel + '</h2', false, ['json']);
   let oprettet= new Date(data.oprettettidspunkt);  
   eo('div', null, null, 'id', 'darhistorik', 'class', 'accordion');
-    card('inital','darhistorik', oprettet.toLocaleString() + ' - Inital', adressebody, data.initielværdi);
+    card('inital','darhistorik', oprettet.toLocaleString() + ' - Oprettet', databody, data.initielværdi);
     data.historik.forEach((tidspunkt, index) => {
       let ændret= new Date(tidspunkt.ændringstidspunkt);
       let attributer= tidspunkt.ændringer.map(æ => æ.attribut).join(', ');        
       card('historik'+index,'darhistorik', ændret.toLocaleString() + ' - Ændringer på: ' + strong(attributer), ændringsbody, tidspunkt.ændringer);
     })
-    card('aktuel','darhistorik', 'Aktuel', adressebody, data.aktuelværdi);
+    card('aktuel','darhistorik', 'Aktuel', databody, data.aktuelværdi);
     if (data.fremtidigværdi) {    
-      card('fremtidig','darhistorik', 'Fremtidig', adressebody, data.fremtidigværdi);
+      card('fremtidig','darhistorik', 'Fremtidig', databody, data.fremtidigværdi);
     }
   ec('div');  
 }
@@ -2233,11 +2248,13 @@ function visDarhistorik(data) {
     let entitet= query.entitet;
     switch (entitet) {
     case 'adresse':
-      visDarhistorikAdresse(data);
+      visDarhistorikEntitet(data, 'Adresse ' + data.initielværdi.adresse_id);
       break;
     case 'husnummer':
+      visDarhistorikEntitet(data, 'Husnummer ' + data.initielværdi.husnummer_id);
       break;
     case 'navngivenvej':
+      visDarhistorikEntitet(data, 'Navngiven vej ' + data.initielværdi.navngivenvej_id);
       break;
     default:
       alert('Ukendt entitet i DarHistorik: ' + entitet);
