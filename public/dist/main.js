@@ -2131,9 +2131,29 @@ function visDarhistorikKort(adresse, indrykninger= 0) {
 }
 
 function listobjekt(data, indrykninger= 0) {
+  function compare(a,b) {
+    let aobj= data[a] instanceof Object; 
+    let bobj= data[b] instanceof Object; 
+    if (aobj === bobj) {
+      if (a < b) {
+        return -1;
+      }
+      if (a > b) {
+        return 1;
+      }
+      // a must be equal to b
+      return 0;
+    }
+    else {
+      if (aobj) {
+        return 1
+      }
+      return -1;
+    }
+  }
   let keys= _.keys(data); 
-  if (!Array.isArray(keys)) {
-    keys= keys.sort();
+  if (!Array.isArray(data)) {
+    keys= keys.sort(compare);
   } 
   keys.forEach(key => {
     eo('tr');
@@ -2179,7 +2199,27 @@ function ændringsbody(ændringer) {
   ec('tr');
   ec('thead');
   eo('tbody');
-
+  function compare(a,b) {
+    let aobj= a.gammelværdi instanceof Object; 
+    let bobj= b.gammelværdi instanceof Object; 
+    if (aobj === bobj) {
+      if (a.attribut < b.attribut) {
+        return -1;
+      }
+      if (a.attribut > b.attribut) {
+        return 1;
+      }
+      // a must be equal to b
+      return 0;
+    }
+    else {
+      if (aobj) {
+        return 1
+      }
+      return -1;
+    }
+  }
+  ændringer.sort(compare)
   ændringer.forEach(ændring => {
     eo('tr');
     eo('td');
@@ -2194,7 +2234,7 @@ function ændringsbody(ændringer) {
       }    
     ec('td');
     eo('td');       
-    if (ændring.gammelværdi instanceof Object) {
+    if (ændring.nyværdi instanceof Object) {
       listobjekt(ændring.nyværdi, 0);
     }
     else {
@@ -2212,8 +2252,10 @@ function card(id, parentid, header, body, data) {
   eo('div',null,null, 'class', 'card');
     eo('div',null,null, 'id', id+'header', 'class', 'card-header');
       eo('h2',null,null, 'class', 'mb-0');
-        eo('button',null,null, 'class', 'btn btn-link', 'type', 'button', 'data-toggle', 'collapse', 'data-target', '#'+id+'body', 'aria-expanded', 'true', 'aria-controls', id+'body');
-          html(header);
+        eo('button',null,null, 'class', 'btn btn-light', 'type', 'button', 'data-toggle', 'collapse', 'data-target', '#'+id+'body', 'aria-expanded', 'true', 'aria-controls', id+'body');
+          eo('h5',null,null, 'class', 'card-title');
+            html(header);
+          ec('h5');
         ec('button');
       ec('h2');
     ec('div');
@@ -2234,7 +2276,7 @@ function visDarhistorikEntitet(data, titel) {
     data.historik.forEach((tidspunkt, index) => {
       let ændret= new Date(tidspunkt.ændringstidspunkt);
       let attributer= tidspunkt.ændringer.map(æ => æ.attribut).join(', ');        
-      card('historik'+index,'darhistorik', ændret.toLocaleString() + ' - Ændringer på: ' + strong(attributer), ændringsbody, tidspunkt.ændringer);
+      card('historik'+index,'darhistorik', ændret.toLocaleString() + ' - Ændringer af: ' + strong(attributer), ændringsbody, tidspunkt.ændringer);
     })
     card('aktuel','darhistorik', 'Aktuel', databody, data.aktuelværdi);
     if (data.fremtidigværdi) {    
