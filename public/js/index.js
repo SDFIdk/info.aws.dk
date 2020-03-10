@@ -802,7 +802,7 @@ function visOverskrift(overskrift, kort=true) {
   ec('thead');
 }
 
-function danNavbar(overskrift, infotekst, viskortmenu=true, formater=null) {  
+function danNavbar(overskrift, infotekst, viskortmenu=true, formater=null, link=null) {  
   const navoverskrift = document.getElementById('navoverskrift');
   navoverskrift.innerText= capitalizeFirstLetter(flertal(ressource));
   navoverskrift.href= url; 
@@ -870,6 +870,9 @@ function danNavbar(overskrift, infotekst, viskortmenu=true, formater=null) {
     } 
     if (tekst) {
       jumbotron.insertAdjacentHTML('afterbegin', tekst);
+      if (link) {
+        jumbotron.insertAdjacentHTML('beforeend', link);
+      }
       jumbotron.hidden= false;
     }
     else {
@@ -1141,7 +1144,8 @@ function visAdresse(data) {
   return function() {
     eo('table',null,null,
       'class', tableclasses);
-      danNavbar(ressource,'<h2><address>' + util.formatHelAdresse(data, false) + '</address></h2');
+      let historiklink= `<a class="btn btn-primary btn-sm float-right" href="https://info.aws.dk/darhistorik?entitet=adresse&id=${data.id}" role="button">Historik</a>`;
+      danNavbar(ressource,'<h2><address>' + util.formatHelAdresse(data, false) + '</address></h2', true, null, historiklink);
       eo('tbody'); 
         eo('tr');
           eo('td');
@@ -1495,7 +1499,8 @@ function visAdgangsadresse(data) {
   return function() {
     eo('table',null,null,
       'class', tableclasses); 
-      danNavbar(ressource,'<h2><address>' + util.formatAdgangsadresse(data, false) + '</address></h2');
+      let historiklink= `<a class="btn btn-primary btn-sm float-right" href="https://info.aws.dk/darhistorik?entitet=husnummer&id=${data.id}" role="button">Historik</a>`;
+      danNavbar(ressource,'<h2><address>' + util.formatAdgangsadresse(data, false) + '</address></h2', true, null, historiklink);
       eo('tbody');
         adgangsadresseIndhold(data);
         eo('tr');
@@ -1686,8 +1691,9 @@ function visNavngivnevejKort(navngivenvej) {
 function visNavngivnevej(data) {
   return function() {
     eo('table',null,null,
-      'class', tableclasses); //table-striped'); //) table-dark');
-      danNavbar(ressource,'<h2>' + data.navn + ' (' + data.administrerendekommune.kode + ' ' +  data.administrerendekommune.navn + ')' + '</h2');
+      'class', tableclasses); //table-striped'); //) table-dark'); 
+      let historiklink= `<a class="btn btn-primary btn-sm float-right" href="https://info.aws.dk/darhistorik?entitet=navngivenvej&id=${data.id}" role="button">Historik</a>`;
+      danNavbar(ressource,'<h2>' + data.navn + ' (' + data.administrerendekommune.kode + ' ' +  data.administrerendekommune.navn + ')' + '</h2', true, null, historiklink);
       eo('tbody');
         eo('tr');
           eo('td');
@@ -2170,9 +2176,27 @@ function card(id, parentid, header, body, data) {
   ec('div');
 }
 
-function visDarhistorikEntitet(data, titel) {
+function danressourcenavn(entitet) {
+  let ressource= '';
+  switch (entitet)  {
+  case 'adresse':
+    ressource= 'adresser';
+    break;
+  case 'husnummer':
+    ressource= 'adgangsadresser';
+    break;
+  case 'navngivenvej':
+    ressource= 'navngivneveje';
+    break;    
+  }
+  return ressource;
+}
+
+function visDarhistorikEntitet(data, titel, id, entitet) {
   // se i https://getbootstrap.com/docs/4.4/components/collapse/
-  danNavbar(ressource,'<h2>' + titel + '</h2', false, ['json']);
+  let ressourcenavn= danressourcenavn(entitet);
+  let link= `<a class="btn btn-primary btn-sm float-right" href="https://info.aws.dk/${ressourcenavn}?id=${id}&medtagnedlagte" role="button">${titel}</a>`;
+  danNavbar(ressource,'<h2>' + titel + ' ' + id + '</h2', false, ['json'], link);
   let oprettet= new Date(data.oprettettidspunkt);  
   eo('div', null, null, 'id', 'darhistorik', 'class', 'accordion');
     card('inital','darhistorik', oprettet.toLocaleString() + ' - Oprettet', databody, data.initielværdi);
@@ -2193,13 +2217,13 @@ function visDarhistorik(data) {
     let entitet= query.entitet;
     switch (entitet) {
     case 'adresse':
-      visDarhistorikEntitet(data, 'Adresse ' + data.initielværdi.adresse_id);
+      visDarhistorikEntitet(data, 'Adresse', data.initielværdi.adresse_id, entitet);
       break;
     case 'husnummer':
-      visDarhistorikEntitet(data, 'Husnummer ' + data.initielværdi.husnummer_id);
+      visDarhistorikEntitet(data, 'Husnummer', data.initielværdi.husnummer_id, entitet);
       break;
     case 'navngivenvej':
-      visDarhistorikEntitet(data, 'Navngiven vej ' + data.initielværdi.navngivenvej_id);
+      visDarhistorikEntitet(data, 'Navngiven vej', data.initielværdi.navngivenvej_id, entitet);
       break;
     default:
       alert('Ukendt entitet i DarHistorik: ' + entitet);
