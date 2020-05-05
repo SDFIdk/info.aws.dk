@@ -241,7 +241,7 @@ function ental(ressource) {
     tekst= 'adgangsadresse';
     break;    
   case 'navngivneveje':    
-    tekst= 'navngiven vej';
+    tekst= 'navngivenvej';
     break;  
   case 'vejstykker':      
     tekst= 'vejstykke';
@@ -538,13 +538,13 @@ function arealberegningsmetodeTekst(bogstav) {
   let tekst= 'Ukendt arealberegningsmetode';
   switch (bogstav) {
   case 'o':
-    tekst= 'Arealet er beregnet efter opmåling';
+    tekst= 'Arealet er beregnet efter opmåling';
     break;
   case 's':
-    tekst= 'Arealet er beregnet efter konstruktion i større målforhold, dvs. større end det analoge matrikelkort';
+    tekst= 'Arealet er beregnet efter konstruktion i større målforhold, dvs. større end det analoge matrikelkort';
     break;
   case 'k':
-    tekst= 'Arealet er beregnet på grundlag af kort';
+    tekst= 'Arealet er beregnet på grundlag af kort';
     break;
   }
   return tekst;
@@ -554,13 +554,13 @@ function vejarealberegningsmetodeTekst(bogstav) {
   let tekst= 'Ukendt vejarealberegningsmetode';
   switch (bogstav) {
   case 'b':
-    tekst= 'Vejareal på jordstykket er beregnet (og kan være 0)';
+    tekst= 'Vejareal på jordstykket er beregnet (og kan være 0)';
     break;
   case 'e':
-    tekst= 'Der er konstateret vej på jordstykket, men areal er ikke beregnet';
+    tekst= 'Der er konstateret vej på jordstykket, men areal er ikke beregnet';
     break;
   case 'u':
-    tekst= 'Det er ukendt, om der findes vej på jordstykket';
+    tekst= 'Det er ukendt, om der findes vej på jordstykket';
     break;
   }
   return tekst;
@@ -570,10 +570,10 @@ function vandarealberegningsmetodeTekst(bogstav) {
   let tekst= 'Ukendt vandarealberegningsmetode';
   switch (bogstav) {
   case 'incl':
-    tekst= 'Vandareal på jordstykket et inkluderet i det registrerede areal for jordstykket';
+    tekst= 'Vandareal på jordstykket et inkluderet i det registrerede areal for jordstykket';
     break;
   case 'excl':
-    tekst= 'Vandareal på jordstykket er ikke inkluderet i det registrerede areal for jordstykket';
+    tekst= 'Vandareal på jordstykket er ikke inkluderet i det registrerede areal for jordstykket';
     break;
   case 'ukendt':
     tekst= 'Vandareal er ikke oplyst';
