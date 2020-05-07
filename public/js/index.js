@@ -256,7 +256,7 @@ function ental(ressource) {
     tekst= 'supplerende bynavn';
     break;  
   case 'ejerlav': 
-    tekst= 'ejserlav';
+    tekst= 'ejerlav';
     break;
   case 'jordstykker':
     tekst= 'jordstykke';
