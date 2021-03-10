@@ -754,8 +754,8 @@ function visKodeNavn(navn, ref, indrykninger) {
     }
       html(navn + ': ' + strong(ref.kode + " " + ref.navn));
     ec('td');
-    badge('info', 'badge-primary', ref.href.replace('dawa.aws.dk',host));
-    badge('kort', 'badge-primary', ref.href.replace('dawa','vis'));
+    badge('info', 'badge-primary', ref.href.replace('api.dataforsyningen.dk',host));
+    badge('kort', 'badge-primary', ref.href.replace('api','vis'));
     badge('data', 'badge-primary', ref.href);
   ec('tr');
 }
@@ -765,8 +765,8 @@ function visNummerNavn(navn, ref) {
     eo('td');
       html(navn + ': ' + strong(ref.nummer + " " + ref.navn));
     ec('td');
-    badge('info', 'badge-primary', ref.href.replace('dawa.aws.dk',host));
-    badge('kort', 'badge-primary', ref.href.replace('dawa','vis'));
+    badge('info', 'badge-primary', ref.href.replace('api.dataforsyningen.dk',host));
+    badge('kort', 'badge-primary', ref.href.replace('api','vis'));
     badge('data', 'badge-primary', ref.href);
   ec('tr');
 }
@@ -776,8 +776,8 @@ function visBogstavNavn(navn, ref) {
     eo('td');
       html(navn + ': ' + strong(ref.bogstav + " " + ref.navn));
     ec('td');
-    badge('info', 'badge-primary', ref.href.replace('dawa.aws.dk',host));
-    badge('kort', 'badge-primary', ref.href.replace('dawa','vis'));
+    badge('info', 'badge-primary', ref.href.replace('api.dataforsyningen.dk',host));
+    badge('kort', 'badge-primary', ref.href.replace('api','vis'));
     badge('data', 'badge-primary', ref.href);
   ec('tr');
 }
@@ -797,7 +797,7 @@ function visOverskrift(overskrift, kort=true) {
       else {               
         eo('th');ec('th');
       }
-      badge('data', 'badge-primary', url.href.replace('info','dawa'), true);
+      badge('data', 'badge-primary', url.href.replace('info','api'), true);
     ec('tr'); 
   ec('thead');
 }
@@ -846,14 +846,14 @@ function danNavbar(overskrift, infotekst, viskortmenu=true, formater=null, link=
 
   const vispåkort = document.getElementById('vispåkort');
   if (viskortmenu) {
-    vispåkort.href= dawaUrl.toString().replace('dawa','vis');
+    vispåkort.href= dawaUrl.toString().replace('api','vis');
   }
   else {
     vispåkort.hidden= true;
   }
 
   const apidokumentation = document.getElementById('apidokumentation');
-  apidokumentation.href= 'https://dawa.aws.dk/dok/api/' + ental(ressource); 
+  apidokumentation.href= 'https://dawadocs.dataforsyningen.dk/dok/api/' + ental(ressource); 
 
   let visinfoboks= true;
   if (query.infoboks) {
@@ -925,166 +925,166 @@ function jumbotrontekst(ressource) {
       <h1 class="display-5">Danmarks adresser</h1>
       <p class="lead">En adresse er en sammensat betegnelse, som udpeger og benævner en bestemt adgangsvej til et ubebygget areal, en bygning, en del af en bygning, et teknisk anlæg el.lign. Den sammensatte betegnelse, som en adresse udgør, består af vejnavn, husnummer, en eventuel etagebetegnelse og en eventuel dørbetegnelse, et eventuelt supplerende bynavn samt det postnummer med tilhørende navn på postnummerområdet, som adressen er beliggende i. (<a href="https://www.retsinformation.dk/Forms/R0710.aspx?id=186325">Adresselovens §6</a>)</p>
       <hr class="my-4">
-      <p><a href='https://dawa.aws.dk'>DAWA</a> udstiller adressedata og -funktionalitet via et <a href='http://dawa.aws.dk/dok/api/adresse'>adresse API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete, datavask og reverse geokodning af adresser samt udstilling af deres geografiske placering.</p>`;
+      <p><a href='https://dawadocs.dataforsyningen.dk'>DAWA</a> udstiller adressedata og -funktionalitet via et <a href='https://dawadocs.dataforsyningen.dk/dok/api/adresse'>adresse API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete, datavask og reverse geokodning af adresser samt udstilling af deres geografiske placering.</p>`;
     break;
   case 'adgangsadresser':
     tekst= `
       <h1 class="display-5">Danmarks adgangsadresser</h1>
       <p class="lead">En adgangsadresse er populært sagt en adresse uden etagebetegnelse og dørbetegnelse</p>
       <hr class="my-4">
-      <p><a href='https://dawa.aws.dk'>DAWA</a> udstiller adgangsadressedata og -funktionalitet via et <a href='http://dawa.aws.dk/dok/api/adresse'>adgangsadresse API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete, datavask og reverse geokodning af adgangsadresser samt udstilling af deres geografiske placering.</p>`;
+      <p><a href='https://dawadocs.dataforsyningen.dk'>DAWA</a> udstiller adgangsadressedata og -funktionalitet via et <a href='https://dawadocs.dataforsyningen.dk/dok/api/adresse'>adgangsadresse API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete, datavask og reverse geokodning af adgangsadresser samt udstilling af deres geografiske placering.</p>`;
     break;
   case 'navngivneveje': 
     tekst= `
       <h1 class="display-5">Danmarks navngivne veje</h1>
       <p class="lead">En navngiven vej er et samlet færdselsareal, uafhængigt af kommunegrænser, for hvilket der er fastsat ét vejnavn.</p>
       <hr class="my-4">
-      <p><a href='https://dawa.aws.dk'>DAWA</a> udstiller data og funktionalitet om navngivne veje via et <a href='http://dawa.aws.dk/dok/api/navngivenvej'>navngiven vej API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af navngivne veje samt udstilling af deres geografiske placering.</p>`;
+      <p><a href='https://dawadocs.dataforsyningen.dk'>DAWA</a> udstiller data og funktionalitet om navngivne veje via et <a href='https://dawadocs.dataforsyningen.dk/dok/api/navngivenvej'>navngiven vej API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af navngivne veje samt udstilling af deres geografiske placering.</p>`;
     break;
   case 'vejstykker': 
     tekst= `
       <h1 class="display-5">Danmarks vejstykker</h1>
       <p class="lead">Et vejstykke er en vej begrænset en kommunes kommunegrænser, for hvilket der er fastsat ét vejnavn.</p>
       <hr class="my-4">
-      <p><a href='https://dawa.aws.dk'>DAWA</a> udstiller data og funktionalitet om vejstykker via et <a href='http://dawa.aws.dk/dok/api/vejstykke'>vejstykke API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af vejstykker samt udstilling af deres geografiske placering.</p>`;
+      <p><a href='https://dawadocs.dataforsyningen.dk'>DAWA</a> udstiller data og funktionalitet om vejstykker via et <a href='https://dawadocs.dataforsyningen.dk/dok/api/vejstykke'>vejstykke API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af vejstykker samt udstilling af deres geografiske placering.</p>`;
     break;
   case 'supplerendebynavne2':  
     tekst= `
       <h1 class="display-5">Danmarks supplerende bynavne</h1>
       <p class="lead">Et supplerende bynavn er et lokalt stednavn som indgår i adressebetegnelsen for at præcisere den geografiske beliggenhed af en gruppe adresser.</p>
       <hr class="my-4">
-      <p><a href='https://dawa.aws.dk'>DAWA</a> udstiller data og funktionalitet om supplerende bynavne via et <a href='http://dawa.aws.dk/dok/api/vejstykke'>supplerende bynavne API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af supplerende bynavn samt udstilling af deres geografiske grænser.</p>`;
+      <p><a href='https://dawadocs.dataforsyningen.dk'>DAWA</a> udstiller data og funktionalitet om supplerende bynavne via et <a href='https://dawadocs.dataforsyningen.dk/dok/api/vejstykke'>supplerende bynavne API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af supplerende bynavn samt udstilling af deres geografiske grænser.</p>`;
     break;
   case 'ejerlav':
     tekst= `
       <h1 class="display-5">Danmarks ejerlav</h1>
       <p class="lead">Ejerlav er en betegnelse for en del af et jordstykkes matrikelnummer. Tidligere var det en betegnelse for det fællesskab, som en landsbys gårde havde omkring dyrkningen af landsbyens jorde.</p>
       <hr class="my-4">
-      <p>Data og funktionalitet om ejerlav udstilles af <a href='https://dawa.aws.dk'>DAWA</a> via et <a href='http://dawa.aws.dk/dok/api/ejerlav'>ejerlavs API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af ejerlav samt udstilling af deres geografiske grænser.</p>`;
+      <p>Data og funktionalitet om ejerlav udstilles af <a href='https://dawadocs.dataforsyningen.dk'>DAWA</a> via et <a href='https://dawadocs.dataforsyningen.dk/dok/api/ejerlav'>ejerlavs API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af ejerlav samt udstilling af deres geografiske grænser.</p>`;
     break;
   case 'jordstykker':
     tekst= `
       <h1 class="display-5">Danmarks jordstykker</h1>
       <p class="lead">Et jordstykke er et areal betegnet ved et matrikelnummer.</p>
       <hr class="my-4">
-      <p>Jordstykkedata og -funktionalitet udstilles af <a href='https://dawa.aws.dk'>DAWA</a> via et <a href='http://dawa.aws.dk/dok/api/jordstykke'>jordstykke API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af jordstykker samt udstilling af deres geografiske grænser.</p>`;
+      <p>Jordstykkedata og -funktionalitet udstilles af <a href='https://dawadocs.dataforsyningen.dk'>DAWA</a> via et <a href='https://dawadocs.dataforsyningen.dk/dok/api/jordstykke'>jordstykke API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af jordstykker samt udstilling af deres geografiske grænser.</p>`;
     break;
   case 'postnumre':  
     tekst= `
       <h1 class="display-5">Danmarks postnumre</h1>
-      <p class="lead">Danmark er inddelt i <a href='https://info.aws.dk/postnumre'>postnumre</a>, hvis oprindelige formål var at lette sorteringen af posten. Et postnummer er i Danmark et firecifret tal, som knyttes til et geografisk område.</p>
+      <p class="lead">Danmark er inddelt i <a href='https://info.dataforsyningen.dk/postnumre'>postnumre</a>, hvis oprindelige formål var at lette sorteringen af posten. Et postnummer er i Danmark et firecifret tal, som knyttes til et geografisk område.</p>
       <hr class="my-4">
-      <p><a href='https://dawa.aws.dk'>DAWA</a> udstiller postnummerdata og -funktionalitet via et <a href='http://dawa.aws.dk/dok/api/postnummer'>postnummer API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af postnumre samt udstilling af deres geografiske grænser.</p>`;
+      <p><a href='https://dawadocs.dataforsyningen.dk'>DAWA</a> udstiller postnummerdata og -funktionalitet via et <a href='https://dawadocs.dataforsyningen.dk/dok/api/postnummer'>postnummer API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af postnumre samt udstilling af deres geografiske grænser.</p>`;
     break;
   case 'sogne': 
     tekst= `
       <h1 class="display-5">Danmarks sogne</h1>
-      <p class="lead"><a href='https://info.aws.dk/sogne'>Sogne i Danmark</a> betegner Folkekirkens sogne. Sogn er betegnelsen for et geografisk område med en fælles kirke. Normalt hører der én kirke til hver sogn, men enkelte sogn har dog mere end en kirke.</p>
+      <p class="lead"><a href='https://info.dataforsyningen.dk/sogne'>Sogne i Danmark</a> betegner Folkekirkens sogne. Sogn er betegnelsen for et geografisk område med en fælles kirke. Normalt hører der én kirke til hver sogn, men enkelte sogn har dog mere end en kirke.</p>
       <hr class="my-4">
-      <p>Sognedata og -funktionalitet udstilles af <a href='https://dawa.aws.dk'>DAWA</a> via et <a href='http://dawa.aws.dk/dok/api/sogn'>sogne API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af sogne samt udstilling af deres geografiske grænser.</p>`;
+      <p>Sognedata og -funktionalitet udstilles af <a href='https://dawadocs.dataforsyningen.dk'>DAWA</a> via et <a href='https://dawadocs.dataforsyningen.dk/dok/api/sogn'>sogne API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af sogne samt udstilling af deres geografiske grænser.</p>`;
     break;
   case 'politikredse': 
     tekst= `
       <h1 class="display-5">Danmarks politikredse</h1>
-      <p class="lead">Danmark er opdelt i <a href='https://info.aws.dk/politikredse'>12 politikredse</a>. Hver politikreds har en hovedpolitistation, der er døgnbemandet.</p>
+      <p class="lead">Danmark er opdelt i <a href='https://info.dataforsyningen.dk/politikredse'>12 politikredse</a>. Hver politikreds har en hovedpolitistation, der er døgnbemandet.</p>
       <hr class="my-4">
-      <p>Data og funktionalitet om politikredse udstilles af <a href='https://dawa.aws.dk'>DAWA</a> via et <a href='http://dawa.aws.dk/dok/api/politikreds'>politikreds API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af politikredse samt udstilling af deres geografiske grænser.</p>`;
+      <p>Data og funktionalitet om politikredse udstilles af <a href='https://dawadocs.dataforsyningen.dk'>DAWA</a> via et <a href='https://dawadocs.dataforsyningen.dk/dok/api/politikreds'>politikreds API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af politikredse samt udstilling af deres geografiske grænser.</p>`;
     break;
   case 'retskredse':
     tekst= `
       <h1 class="display-5">Danmarks retskredse</h1>
-      <p class="lead">Danmark er opdelt i <a href='https://info.aws.dk/retskredse'>24 retskredse</a>. En retskreds er det område, der hører til en bestemt domstol. Det er typisk bestemt ud fra det geografiske område, men kan også bestemmes ud fra sagstypen.</p>
+      <p class="lead">Danmark er opdelt i <a href='https://info.dataforsyningen.dk/retskredse'>24 retskredse</a>. En retskreds er det område, der hører til en bestemt domstol. Det er typisk bestemt ud fra det geografiske område, men kan også bestemmes ud fra sagstypen.</p>
       <hr class="my-4">
-      <p>Data og funktionalitet om retskredse udstilles af <a href='https://dawa.aws.dk'>DAWA</a> via et <a href='http://dawa.aws.dk/dok/api/retskreds'>retskreds API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af retskredse samt udstilling af deres geografiske grænser.</p>`;
+      <p>Data og funktionalitet om retskredse udstilles af <a href='https://dawadocs.dataforsyningen.dk'>DAWA</a> via et <a href='https://dawadocs.dataforsyningen.dk/dok/api/retskreds'>retskreds API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af retskredse samt udstilling af deres geografiske grænser.</p>`;
     break;
   case 'regioner':
     tekst= `
       <h1 class="display-5">Danmarks regioner</h1>
-      <p class="lead">Danmark er opdelt i <a href='https://info.aws.dk/regioner'>5 regioner</a>. Regionernes hovedopgaver er sundhedsvæsenet, regional udvikling samt drift af visse sociale institutioner.</p>
+      <p class="lead">Danmark er opdelt i <a href='https://info.dataforsyningen.dk/regioner'>5 regioner</a>. Regionernes hovedopgaver er sundhedsvæsenet, regional udvikling samt drift af visse sociale institutioner.</p>
       <hr class="my-4">
-      <p>Data og funktionalitet om regioner udstilles af <a href='https://dawa.aws.dk'>DAWA</a> via et <a href='http://dawa.aws.dk/dok/api/region'>regions API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af regioner samt udstilling af deres geografiske grænser.</p>`;
+      <p>Data og funktionalitet om regioner udstilles af <a href='https://dawadocs.dataforsyningen.dk'>DAWA</a> via et <a href='https://dawadocs.dataforsyningen.dk/dok/api/region'>regions API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af regioner samt udstilling af deres geografiske grænser.</p>`;
     break;
   case 'landsdele':
     tekst= `
       <h1 class="display-5">Danmarks landsdele</h1>
-      <p class="lead">Danmark er opdelt i <a href='https://info.aws.dk/landsdele'>11 landsdele</a>. Landsdelene er en underopdeling af <a href='https://info.aws.dk/regioner'>regionerne</a>, implementeret som en del af <a href='https://en.wikipedia.org/wiki/Nomenclature_of_Territorial_Units_for_Statistics'>NUTS</a> og anvendes til statistiske formål</p>
+      <p class="lead">Danmark er opdelt i <a href='https://info.dataforsyningen.dk/landsdele'>11 landsdele</a>. Landsdelene er en underopdeling af <a href='https://info.dataforsyningen.dk/regioner'>regionerne</a>, implementeret som en del af <a href='https://en.wikipedia.org/wiki/Nomenclature_of_Territorial_Units_for_Statistics'>NUTS</a> og anvendes til statistiske formål</p>
       <hr class="my-4">
-      <p>Data og funktionalitet om landsdelene udstilles af <a href='https://dawa.aws.dk'>DAWA</a> via et <a href='http://dawa.aws.dk/dok/api/landsdel'>landsdels API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af landsdele samt udstilling af deres geografiske grænser.</p>`;
+      <p>Data og funktionalitet om landsdelene udstilles af <a href='https://dawadocs.dataforsyningen.dk'>DAWA</a> via et <a href='https://dawadocs.dataforsyningen.dk/dok/api/landsdel'>landsdels API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af landsdele samt udstilling af deres geografiske grænser.</p>`;
     break;
   case 'kommuner':
     tekst= `
       <h1 class="display-5">Danmarks kommuner</h1>
-      <p class="lead">Danmark er inddelt i <a href='https://info.aws.dk/kommuner?udenforkommuneinddeling=false'>98 kommuner</a>. <a href='https://vis.aws.dk/stednavne2/1233766a-0e2c-6b98-e053-d480220a5a3f/Ertholmene'>Ertholmene</a>, er den eneste del af Danmark, som ikke hører under en kommune, men ejes og administreres af Forsvarsministeriet.</p>
+      <p class="lead">Danmark er inddelt i <a href='https://info.dataforsyningen.dk/kommuner?udenforkommuneinddeling=false'>98 kommuner</a>. <a href='https://vis.dataforsyningen.dk/stednavne2/1233766a-0e2c-6b98-e053-d480220a5a3f/Ertholmene'>Ertholmene</a>, er den eneste del af Danmark, som ikke hører under en kommune, men ejes og administreres af Forsvarsministeriet.</p>
       <hr class="my-4">
-      <p>Data og funktionalitet vedrørende kommunerne udstilles af <a href='https://dawa.aws.dk'>DAWA</a> via et <a href='http://dawa.aws.dk/dok/api/kommune'>kommune API</a>. API'et understøtter bl.a. opslag, indtastning med autocomplete og reverse geokodning af kommuner samt udstilling af deres geografiske grænser.</p>`;
+      <p>Data og funktionalitet vedrørende kommunerne udstilles af <a href='https://dawadocs.dataforsyningen.dk'>DAWA</a> via et <a href='https://dawadocs.dataforsyningen.dk/dok/api/kommune'>kommune API</a>. API'et understøtter bl.a. opslag, indtastning med autocomplete og reverse geokodning af kommuner samt udstilling af deres geografiske grænser.</p>`;
     break;
   case 'afstemningsomraader':
     tekst= `
       <h1 class="display-5">Danmarks afstemningsområder</h1>
       <p class="lead">Geografisk inddeling af kommunerne i områder, hvor vælgere stemmer til Folketings-, EUog Kommunevalg, samt til folkeafstemninger. I hvert afstemningsområde foregår afstemningen på ét afstemningssted.</p>
       <hr class="my-4">
-      <p>Data og funktionalitet om afstemningsområder udstilles af <a href='https://dawa.aws.dk'>DAWA</a> via et <a href='https://dawa.aws.dk/dok/api/afstemningsomr%C3%A5de'>afstemningsområde API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af afstemningsområder samt udstilling af deres geografiske grænser.</p>`;
+      <p>Data og funktionalitet om afstemningsområder udstilles af <a href='https://dawadocs.dataforsyningen.dk'>DAWA</a> via et <a href='https://dawadocs.dataforsyningen.dk/dok/api/afstemningsomr%C3%A5de'>afstemningsområde API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af afstemningsområder samt udstilling af deres geografiske grænser.</p>`;
     break;
   case 'menighedsraadsafstemningsomraader':
     tekst= `
       <h1 class="display-5">Danmarks menighedsrådsafstemningsområder</h1>
       <p class="lead">Kirkeministeriet fastlægger menighedsrådsafstemningsområder, når der er valg til menighedsrådene, i de sogne, hvor der skal være afstemningsvalg til menighedsrådet. </p>
       <hr class="my-4">
-      <p>Data og funktionalitet om menighedsrådsafstemningsområder udstilles af <a href='https://dawa.aws.dk'>DAWA</a> via et <a href='http://dawa.aws.dk/dok/api/menighedsr%C3%A5dsafstemningsomr%C3%A5de'>menighedsrådsafstemningsområde API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af menighedsrådsafstemningsområder samt udstilling af deres geografiske grænser.</p>`;
+      <p>Data og funktionalitet om menighedsrådsafstemningsområder udstilles af <a href='https://dawadocs.dataforsyningen.dk'>DAWA</a> via et <a href='https://dawadocs.dataforsyningen.dk/dok/api/menighedsr%C3%A5dsafstemningsomr%C3%A5de'>menighedsrådsafstemningsområde API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af menighedsrådsafstemningsområder samt udstilling af deres geografiske grænser.</p>`;
     break;
   case 'opstillingskredse':
     tekst= `
       <h1 class="display-5">Danmarks opstillingskredse</h1>
-      <p class="lead">Danmark er inddelt i <a href='https://info.aws.dk/valglandsdele'>3 valglandsdele</a> og <a href='https://info.aws.dk/storkredse'>10 storkredse</a>, der igen er opdelt i <a href='https://info.aws.dk/opstillingskredse'>92 mindre opstillingskredse</a>, ved et folketingsvalg.</p>
+      <p class="lead">Danmark er inddelt i <a href='https://info.dataforsyningen.dk/valglandsdele'>3 valglandsdele</a> og <a href='https://info.dataforsyningen.dk/storkredse'>10 storkredse</a>, der igen er opdelt i <a href='https://info.dataforsyningen.dk/opstillingskredse'>92 mindre opstillingskredse</a>, ved et folketingsvalg.</p>
       <p>Inddelingen bruges ved beregningen af, hvor mange folketingsmedlemmer der skal vælges i de forskellige områder af landet. Metoden skal sikre, at alle egne repræsenteres i Folketinget, og at partiernes valgresultater på landsplan afspejles i Folketinget.</p>
       <hr class="my-4">
-      <p>Data og funktionalitet om opstillingskredse udstilles af <a href='https://dawa.aws.dk'>DAWA</a> via et <a href='https://dawa.aws.dk/dok/api/opstillingskreds'>opstillingskreds API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af opstillingskredse samt udstilling af deres geografiske grænser.</p>`;
+      <p>Data og funktionalitet om opstillingskredse udstilles af <a href='https://dawadocs.dataforsyningen.dk'>DAWA</a> via et <a href='https://dawadocs.dataforsyningen.dk/dok/api/opstillingskreds'>opstillingskreds API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af opstillingskredse samt udstilling af deres geografiske grænser.</p>`;
     break;
   case 'storkredse':
     tekst= `
       <h1 class="display-5">Danmarks storkredse</h1>
-      <p class="lead">Danmark er inddelt i <a href='https://info.aws.dk/valglandsdele'>3 valglandsdele</a> og <a href='https://info.aws.dk/storkredse'>10 storkredse</a>, der igen er opdelt i <a href='https://info.aws.dk/opstillingskredse'>92 mindre opstillingskredse</a>, ved et folketingsvalg.</p>
+      <p class="lead">Danmark er inddelt i <a href='https://info.dataforsyningen.dk/valglandsdele'>3 valglandsdele</a> og <a href='https://info.dataforsyningen.dk/storkredse'>10 storkredse</a>, der igen er opdelt i <a href='https://info.dataforsyningen.dk/opstillingskredse'>92 mindre opstillingskredse</a>, ved et folketingsvalg.</p>
       <p>Inddelingen bruges ved beregningen af, hvor mange folketingsmedlemmer der skal vælges i de forskellige områder af landet. Metoden skal sikre, at alle egne repræsenteres i Folketinget, og at partiernes valgresultater på landsplan afspejles i Folketinget.</p>
       <hr class="my-4">
-      <p>Data og funktionalitet om storkredse udstilles af <a href='https://dawa.aws.dk'>DAWA</a> via et <a href='https://dawa.aws.dk/dok/api/storkreds'>storkreds API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af storkredse samt udstilling af deres geografiske grænser.</p>`;
+      <p>Data og funktionalitet om storkredse udstilles af <a href='https://dawadocs.dataforsyningen.dk'>DAWA</a> via et <a href='https://dawadocs.dataforsyningen.dk/dok/api/storkreds'>storkreds API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af storkredse samt udstilling af deres geografiske grænser.</p>`;
     break;
   case 'valglandsdele':
     tekst= `
       <h1 class="display-5">Danmarks valglandsdele</h1>
-      <p class="lead">Danmark er inddelt i <a href='https://info.aws.dk/valglandsdele'>3 valglandsdele</a> og <a href='https://info.aws.dk/storkredse'>10 storkredse</a>, der igen er opdelt i <a href='https://info.aws.dk/opstillingskredse'>92 mindre opstillingskredse</a>, ved et folketingsvalg.</p>
+      <p class="lead">Danmark er inddelt i <a href='https://info.dataforsyningen.dk/valglandsdele'>3 valglandsdele</a> og <a href='https://info.dataforsyningen.dk/storkredse'>10 storkredse</a>, der igen er opdelt i <a href='https://info.dataforsyningen.dk/opstillingskredse'>92 mindre opstillingskredse</a>, ved et folketingsvalg.</p>
       <p>Inddelingen bruges ved beregningen af, hvor mange folketingsmedlemmer der skal vælges i de forskellige områder af landet. Metoden skal sikre, at alle egne repræsenteres i Folketinget, og at partiernes valgresultater på landsplan afspejles i Folketinget.</p>
       <hr class="my-4">
-      <p>Data og funktionalitet om valglandsdele udstilles af <a href='https://dawa.aws.dk'>DAWA</a> via et <a href='https://dawa.aws.dk/dok/api/valglandsdel'>valglandsdel API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af valglandsdele samt udstilling af deres geografiske grænser.</p>`;
+      <p>Data og funktionalitet om valglandsdele udstilles af <a href='https://dawadocs.dataforsyningen.dk'>DAWA</a> via et <a href='https://dawadocs.dataforsyningen.dk/dok/api/valglandsdel'>valglandsdel API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af valglandsdele samt udstilling af deres geografiske grænser.</p>`;
     break;
   case 'bebyggelser':
     tekst= `
       <h1 class="display-5">Danmarks bebyggelser</h1>
-      <p class="lead">Danmarks bebyggelser indeholder forskellige former for bebyggelser som f.eks. <a href='https://info.aws.dk/bebyggelser?type=by'>byer</a>, <a href='https://info.aws.dk/bebyggelser?type=bydel'>bydele</a>, <a href='https://info.aws.dk/bebyggelser?type=sommerhusområde'>sommerhusområder</a> og <a href='https://info.aws.dk/bebyggelser?type=kolonihave'>kolonihaver</a>.</p>
-      <p>Data og funktionalitet om bebyggelser udstilles af <a href='https://dawa.aws.dk'>DAWA</a> via et <a href='https://dawa.aws.dk/dok/api/bebyggelse'>bebyggelse API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af bebyggelser samt udstilling af deres geografiske grænser.</p>`;
+      <p class="lead">Danmarks bebyggelser indeholder forskellige former for bebyggelser som f.eks. <a href='https://info.dataforsyningen.dk/bebyggelser?type=by'>byer</a>, <a href='https://info.dataforsyningen.dk/bebyggelser?type=bydel'>bydele</a>, <a href='https://info.dataforsyningen.dk/bebyggelser?type=sommerhusområde'>sommerhusområder</a> og <a href='https://info.dataforsyningen.dk/bebyggelser?type=kolonihave'>kolonihaver</a>.</p>
+      <p>Data og funktionalitet om bebyggelser udstilles af <a href='https://dawadocs.dataforsyningen.dk'>DAWA</a> via et <a href='https://dawadocs.dataforsyningen.dk/dok/api/bebyggelse'>bebyggelse API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af bebyggelser samt udstilling af deres geografiske grænser.</p>`;
     break;
   case 'stednavne':
     tekst= `
       <h1 class="display-5">Danske stednavne</h1>
       <p class="lead">Et stednavn er et navn på en lokalitet, f.eks. en by, et vandløb eller en skov.</p>
-      <p>Data og funktionalitet om danske stednavne udstilles af <a href='https://dawa.aws.dk'>DAWA</a> via et <a href='https://dawa.aws.dk/dok/api/stednavn'>stednavne API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af stednavne samt udstilling af deres geografiske grænser.</p>`;
+      <p>Data og funktionalitet om danske stednavne udstilles af <a href='https://dawadocs.dataforsyningen.dk'>DAWA</a> via et <a href='https://dawadocs.dataforsyningen.dk/dok/api/stednavn'>stednavne API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af stednavne samt udstilling af deres geografiske grænser.</p>`;
     break;
   case 'stednavne2':
     tekst= `
       <h1 class="display-5">Danske stednavne</h1>
       <p class="lead">Et stednavn er et navn på en lokalitet, f.eks. en by, et vandløb eller en skov.</p>
-      <p>Data og funktionalitet om danske stednavne udstilles af <a href='https://dawa.aws.dk'>DAWA</a> via et <a href='https://dawa.aws.dk/dok/api/stednavn2'>stednavne API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af stednavne samt udstilling af deres geografiske grænser.</p>`;
+      <p>Data og funktionalitet om danske stednavne udstilles af <a href='https://dawadocs.dataforsyningen.dk'>DAWA</a> via et <a href='https://dawadocs.dataforsyningen.dk/dok/api/stednavn2'>stednavne API</a>. API'et understøtter bl.a. download, opslag, indtastning med autocomplete og reverse geokodning af stednavne samt udstilling af deres geografiske grænser.</p>`;
     break;
   case 'steder':
     tekst= `
       <h1 class="display-5">Danske steder</h1>
       <p class="lead">Et sted er en lokalitet, som er blandt de danske stednavne.  Et sted har et primært navn, men kan også have et eller flere sekundære navne.</p>
-      <p>Data og funktionalitet om danske steder udstilles af <a href='https://dawa.aws.dk'>DAWA</a> via et <a href='https://dawa.aws.dk/dok/api/sted'>stednavne API</a>. API'et understøtter bl.a. download, opslag og reverse geokodning af steder samt udstilling af deres geografiske grænser.</p>`;
+      <p>Data og funktionalitet om danske steder udstilles af <a href='https://dawadocs.dataforsyningen.dk'>DAWA</a> via et <a href='https://dawadocs.dataforsyningen.dk/dok/api/sted'>stednavne API</a>. API'et understøtter bl.a. download, opslag og reverse geokodning af steder samt udstilling af deres geografiske grænser.</p>`;
     break;
   case 'stednavntyper':
     tekst= `
       <h1 class="display-5">Stednavntyper</h1>
       <p class="lead">Stednavntyper opdeler danske stednavne i hoved- og undertyper.</p>
-      <p>Data og funktionalitet om stednavntyper udstilles af <a href='https://dawa.aws.dk'>DAWA</a> via et <a href='https://dawa.aws.dk/dok/api/stednavntype'>stednavntype API</a>. API'et understøtter bl.a. download og opslag af stednavntyper.</p>`;
+      <p>Data og funktionalitet om stednavntyper udstilles af <a href='https://dawadocs.dataforsyningen.dk'>DAWA</a> via et <a href='https://dawadocs.dataforsyningen.dk/dok/api/stednavntype'>stednavntype API</a>. API'et understøtter bl.a. download og opslag af stednavntyper.</p>`;
     break;      
   case 'darhistorik':
     tekst= null;
@@ -1134,8 +1134,8 @@ function visAdresseKort(adresse, indrykninger= 0) {
       adresse.vejnavn
       html('<br/>' + util.formatHelAdresse(adresse,false));
     ec('td');
-    badge('info', 'badge-primary', adresse.href.replace('dawa.aws.dk',host));
-    badge('kort', 'badge-primary', adresse.href.replace('dawa','vis'));
+    badge('info', 'badge-primary', adresse.href.replace('api.dataforsyningen.dk',host));
+    badge('kort', 'badge-primary', adresse.href.replace('api','vis'));
     badge('data', 'badge-primary', adresse.href);
   ec('tr');
 }
@@ -1144,7 +1144,7 @@ function visAdresse(data) {
   return function() {
     eo('table',null,null,
       'class', tableclasses);
-      let historiklink= `<a class="btn btn-primary btn-sm float-right" href="https://info.aws.dk/darhistorik?entitet=adresse&id=${data.id}" role="button">Historik</a>`;
+      let historiklink= `<a class="btn btn-primary btn-sm float-right" href="https://info.dataforsyningen.dk/darhistorik?entitet=adresse&id=${data.id}" role="button">Historik</a>`;
       danNavbar(ressource,'<h2><address>' + util.formatHelAdresse(data, false) + '</address></h2', true, null, historiklink);
       eo('tbody'); 
         eo('tr');
@@ -1199,8 +1199,8 @@ function visAdresse(data) {
           eo('td');
             html('Adgangsadresse: ');
           ec('td');
-          badge('info', 'badge-primary', data.adgangsadresse.href.replace('dawa.aws.dk',host));
-          badge('kort', 'badge-primary', data.adgangsadresse.href.replace('dawa','vis'));
+          badge('info', 'badge-primary', data.adgangsadresse.href.replace('api.dataforsyningen.dk',host));
+          badge('kort', 'badge-primary', data.adgangsadresse.href.replace('api','vis'));
           badge('data', 'badge-primary', data.adgangsadresse.href);
         ec('tr');
         adgangsadresseIndhold(data.adgangsadresse, 1); 
@@ -1218,8 +1218,8 @@ function visAdgangsadresseKort(adgangsadresse) {
       ec('span');
       html('<br/>' + util.formatAdgangsadresse(adgangsadresse, false));
     ec('td');
-    badge('info', 'badge-primary', adgangsadresse.href.replace('dawa.aws.dk',host));
-    badge('kort', 'badge-primary', adgangsadresse.href.replace('dawa','vis'));
+    badge('info', 'badge-primary', adgangsadresse.href.replace('api.dataforsyningen.dk',host));
+    badge('kort', 'badge-primary', adgangsadresse.href.replace('api','vis'));
     badge('data', 'badge-primary', adgangsadresse.href);
   ec('tr');
 }
@@ -1272,16 +1272,16 @@ function adgangsadresseIndhold(data, indrykninger= 0)
     eotd(indrykninger);; 
         html('Navngiven vej: ' + strong(data.vejstykke.navn));
      ec('td');
-    badge('info', 'badge-primary', data.navngivenvej.href.replace('dawa.aws.dk',host));
-    badge('kort', 'badge-primary', data.navngivenvej.href.replace('dawa','vis'));
+    badge('info', 'badge-primary', data.navngivenvej.href.replace('api.dataforsyningen.dk',host));
+    badge('kort', 'badge-primary', data.navngivenvej.href.replace('api','vis'));
     badge('data', 'badge-primary', data.navngivenvej.href);
   ec('tr'); 
   eo('tr');    
     eotd(indrykninger);;
       html('Vejstykke: ' + strong(data.vejstykke.kode + " " + data.vejstykke.navn));
     ec('td');
-    badge('info', 'badge-primary', data.vejstykke.href.replace('dawa.aws.dk',host));
-    badge('kort', 'badge-primary', data.vejstykke.href.replace('dawa','vis'));
+    badge('info', 'badge-primary', data.vejstykke.href.replace('api.dataforsyningen.dk',host));
+    badge('kort', 'badge-primary', data.vejstykke.href.replace('api','vis'));
     badge('data', 'badge-primary', data.vejstykke.href);
   ec('tr');
   if (data.supplerendebynavn2) { 
@@ -1289,8 +1289,8 @@ function adgangsadresseIndhold(data, indrykninger= 0)
     eotd(indrykninger);;
         html('Supplerende bynavn: ' + strong(data.supplerendebynavn));
       ec('td');
-      badge('info', 'badge-primary', data.supplerendebynavn2.href.replace('dawa.aws.dk',host));
-      badge('kort', 'badge-primary', data.supplerendebynavn2.href.replace('dawa','vis'));
+      badge('info', 'badge-primary', data.supplerendebynavn2.href.replace('api.dataforsyningen.dk',host));
+      badge('kort', 'badge-primary', data.supplerendebynavn2.href.replace('api','vis'));
       badge('data', 'badge-primary', data.supplerendebynavn2.href);
     ec('tr');
   }
@@ -1298,8 +1298,8 @@ function adgangsadresseIndhold(data, indrykninger= 0)
     eotd(indrykninger);;
       html('Postnummer: ' + strong(data.postnummer.nr + " " + data.postnummer.navn));
     ec('td');
-    badge('info', 'badge-primary', data.postnummer.href.replace('dawa.aws.dk',host));
-    badge('kort', 'badge-primary', data.postnummer.href.replace('dawa','vis'));
+    badge('info', 'badge-primary', data.postnummer.href.replace('api.dataforsyningen.dk',host));
+    badge('kort', 'badge-primary', data.postnummer.href.replace('api','vis'));
     badge('data', 'badge-primary', data.postnummer.href);
   ec('tr');
   if (data.stormodtagerpostnummer) {
@@ -1307,10 +1307,10 @@ function adgangsadresseIndhold(data, indrykninger= 0)
     eotd(indrykninger);;
         html('Stormodtagerpostnummer: ' + strong(data.stormodtagerpostnummer.nr + " " + data.stormodtagerpostnummer.navn));
       ec('td');
-      badge('info', 'badge-primary', data.stormodtagerpostnummer.href.replace('dawa.aws.dk',host));
+      badge('info', 'badge-primary', data.stormodtagerpostnummer.href.replace('api.dataforsyningen.dk',host));
       eo('td');
       ec('td');
-     // badge('kort', 'badge-primary', data.stormodtagerpostnummer.href.replace('dawa','vis'));
+     // badge('kort', 'badge-primary', data.stormodtagerpostnummer.href.replace('api','vis'));
       badge('data', 'badge-primary', data.stormodtagerpostnummer.href);
     ec('tr');
   }
@@ -1333,8 +1333,8 @@ function adgangsadresseIndhold(data, indrykninger= 0)
     eotd(indrykninger);;
       html('Jordstykke: ' + strong(data.jordstykke.matrikelnr + " " + data.jordstykke.ejerlav.navn));
     ec('td');
-    badge('info', 'badge-primary', data.jordstykke.href.replace('dawa.aws.dk',host));
-    badge('kort', 'badge-primary', data.jordstykke.href.replace('dawa','vis'));
+    badge('info', 'badge-primary', data.jordstykke.href.replace('api.dataforsyningen.dk',host));
+    badge('kort', 'badge-primary', data.jordstykke.href.replace('api','vis'));
     badge('data', 'badge-primary', data.jordstykke.href);
   ec('tr');
   visKodeNavn('Ejerlav', data.jordstykke.ejerlav, indrykninger);
@@ -1344,8 +1344,8 @@ function adgangsadresseIndhold(data, indrykninger= 0)
       eotd(indrykninger);;
         html('Landsdel: ' + strong(data.landsdel.nuts3 + " " + data.landsdel.navn));
       ec('td');
-      badge('info', 'badge-primary', data.landsdel.href.replace('dawa.aws.dk',host));
-      badge('kort', 'badge-primary', data.landsdel.href.replace('dawa','vis'));
+      badge('info', 'badge-primary', data.landsdel.href.replace('api.dataforsyningen.dk',host));
+      badge('kort', 'badge-primary', data.landsdel.href.replace('api','vis'));
       badge('data', 'badge-primary', data.landsdel.href);
     ec('tr');
   }
@@ -1356,8 +1356,8 @@ function adgangsadresseIndhold(data, indrykninger= 0)
     eotd(indrykninger);;
       html('Afstemningsområde: ' + strong(data.afstemningsområde.nummer + " " + data.afstemningsområde.navn));
     ec('td');
-    badge('info', 'badge-primary', data.afstemningsområde.href.replace('dawa.aws.dk',host));
-    badge('kort', 'badge-primary', data.afstemningsområde.href.replace('dawa','vis'));
+    badge('info', 'badge-primary', data.afstemningsområde.href.replace('api.dataforsyningen.dk',host));
+    badge('kort', 'badge-primary', data.afstemningsområde.href.replace('api','vis'));
     badge('data', 'badge-primary', data.afstemningsområde.href);
   ec('tr');
   visKodeNavn('Opstillingskreds', data.opstillingskreds, indrykninger);
@@ -1365,16 +1365,16 @@ function adgangsadresseIndhold(data, indrykninger= 0)
     eotd(indrykninger);;
       html('Storkreds: ' + strong(data.storkreds.nummer + " " + data.storkreds.navn));
     ec('td');
-    badge('info', 'badge-primary', data.storkreds.href.replace('dawa.aws.dk',host));
-    badge('kort', 'badge-primary', data.storkreds.href.replace('dawa','vis'));
+    badge('info', 'badge-primary', data.storkreds.href.replace('api.dataforsyningen.dk',host));
+    badge('kort', 'badge-primary', data.storkreds.href.replace('api','vis'));
     badge('data', 'badge-primary', data.storkreds.href);
   ec('tr');
   eo('tr');    
     eotd(indrykninger);;
       html('Valglandsdel: ' + strong(data.valglandsdel.bogstav + " " + data.valglandsdel.navn));
     ec('td');
-    badge('info', 'badge-primary', data.valglandsdel.href.replace('dawa.aws.dk',host));
-    badge('kort', 'badge-primary', data.valglandsdel.href.replace('dawa','vis'));
+    badge('info', 'badge-primary', data.valglandsdel.href.replace('api.dataforsyningen.dk',host));
+    badge('kort', 'badge-primary', data.valglandsdel.href.replace('api','vis'));
     badge('data', 'badge-primary', data.valglandsdel.href);
   ec('tr');
   if (data.bebyggelser) {
@@ -1383,8 +1383,8 @@ function adgangsadresseIndhold(data, indrykninger= 0)
       eotd(indrykninger);;
           html(capitalizeFirstLetter(bebyggelse.type) + ': ' + strong(bebyggelse.navn));
         ec('td');
-        badge('info', 'badge-primary', bebyggelse.href.replace('dawa.aws.dk',host));
-        badge('kort', 'badge-primary', bebyggelse.href.replace('dawa','vis'));
+        badge('info', 'badge-primary', bebyggelse.href.replace('api.dataforsyningen.dk',host));
+        badge('kort', 'badge-primary', bebyggelse.href.replace('api','vis'));
         badge('data', 'badge-primary', bebyggelse.href);
       ec('tr');
     })
@@ -1485,8 +1485,8 @@ function getBygning(id, adgangsadresseid, indrykninger) {
             eotd(indrykninger);
                 html('GeoDanmark bygning: ');
             ec('td');
-            badge('info', 'badge-primary', url.replace('dawa.aws.dk',host));
-            badge('kort', 'badge-primary', url.replace('dawa','vis'));
+            badge('info', 'badge-primary', url.replace('api.dataforsyningen.dk',host));
+            badge('kort', 'badge-primary', url.replace('api','vis'));
             badge('data', 'badge-primary', url); 
           });
         }
@@ -1499,7 +1499,7 @@ function visAdgangsadresse(data) {
   return function() {
     eo('table',null,null,
       'class', tableclasses); 
-      let historiklink= `<a class="btn btn-primary btn-sm float-right" href="https://info.aws.dk/darhistorik?entitet=husnummer&id=${data.id}" role="button">Historik</a>`;
+      let historiklink= `<a class="btn btn-primary btn-sm float-right" href="https://info.dataforsyningen.dk/darhistorik?entitet=husnummer&id=${data.id}" role="button">Historik</a>`;
       danNavbar(ressource,'<h2><address>' + util.formatAdgangsadresse(data, false) + '</address></h2', true, null, historiklink);
       eo('tbody');
         adgangsadresseIndhold(data);
@@ -1510,7 +1510,7 @@ function visAdgangsadresse(data) {
           let adrurl= origin + "/adresser?adgangsadresseid=" + data.id;
           badge('info', 'badge-primary', adrurl);
           badge('kort', 'badge-primary', adrurl.replace('info','vis'));
-          badge('data', 'badge-primary', adrurl.replace('info','dawa'));
+          badge('data', 'badge-primary', adrurl.replace('info','api'));
         ec('tr');
       ec('tbody'); 
       let adgangsadressensadresser= 'adgangsadressensadresser';
@@ -1663,8 +1663,8 @@ function getAdresser(id, adgangsadresseid) {
           //   eotd(1);
           //     html(strong(adresse.kode + " " + adresse.navn));
           //   ec('td');
-          //   badge('info', 'badge-primary', adresse.href.replace('dawa.aws.dk',host));
-          //   badge('kort', 'badge-primary', adresse.href.replace('dawa','vis'));
+          //   badge('info', 'badge-primary', adresse.href.replace('api.dataforsyningen.dk',host));
+          //   badge('kort', 'badge-primary', adresse.href.replace('api','vis'));
           //   badge('data', 'badge-primary', adresse.href);
           // ec('tr');
         });   
@@ -1682,8 +1682,8 @@ function visNavngivnevejKort(navngivenvej) {
       ec('span');
       html('<br/>' + strong(navngivenvej.navn + ' (' + navngivenvej.administrerendekommune.kode + ' ' +  navngivenvej.administrerendekommune.navn + ')'));
     ec('td');
-    badge('info', 'badge-primary', navngivenvej.href.replace('dawa.aws.dk',host));
-    badge('kort', 'badge-primary', navngivenvej.href.replace('dawa','vis'));
+    badge('info', 'badge-primary', navngivenvej.href.replace('api.dataforsyningen.dk',host));
+    badge('kort', 'badge-primary', navngivenvej.href.replace('api','vis'));
     badge('data', 'badge-primary', navngivenvej.href);
   ec('tr');
 }
@@ -1692,7 +1692,7 @@ function visNavngivnevej(data) {
   return function() {
     eo('table',null,null,
       'class', tableclasses); //table-striped'); //) table-dark'); 
-      let historiklink= `<a class="btn btn-primary btn-sm float-right" href="https://info.aws.dk/darhistorik?entitet=navngivenvej&id=${data.id}" role="button">Historik</a>`;
+      let historiklink= `<a class="btn btn-primary btn-sm float-right" href="https://info.dataforsyningen.dk/darhistorik?entitet=navngivenvej&id=${data.id}" role="button">Historik</a>`;
       danNavbar(ressource,'<h2>' + data.navn + ' (' + data.administrerendekommune.kode + ' ' +  data.administrerendekommune.navn + ')' + '</h2', true, null, historiklink);
       eo('tbody');
         eo('tr');
@@ -1764,8 +1764,8 @@ function visNavngivnevej(data) {
               eo('td', null, null, 'style', 'padding-left:2em ');
                 html(strong(vejstykke.kode + " " + data.navn + " (" + vejstykke.kommunekode + ")"));
               ec('td');
-              badge('info', 'badge-primary', vejstykke.href.replace('dawa.aws.dk',host));
-              badge('kort', 'badge-primary', vejstykke.href.replace('dawa','vis'));
+              badge('info', 'badge-primary', vejstykke.href.replace('api.dataforsyningen.dk',host));
+              badge('kort', 'badge-primary', vejstykke.href.replace('api','vis'));
               badge('data', 'badge-primary', vejstykke.href);
             ec('tr');
           }) 
@@ -1780,8 +1780,8 @@ function visNavngivnevej(data) {
               eo('td', null, null, 'style', 'padding-left:2em ');
                 html(strong(postnummer.nr + " " + postnummer.navn));
               ec('td');
-              badge('info', 'badge-primary', postnummer.href.replace('dawa.aws.dk',host));
-              badge('kort', 'badge-primary', postnummer.href.replace('dawa','vis'));
+              badge('info', 'badge-primary', postnummer.href.replace('api.dataforsyningen.dk',host));
+              badge('kort', 'badge-primary', postnummer.href.replace('api','vis'));
               badge('data', 'badge-primary', postnummer.href);
             ec('tr');
           }) 
@@ -1826,8 +1826,8 @@ function visVejstykkeKort(data) {
       ec('span');
       html('<br/>' + strong(data.kode + ' ' + data.navn + ' (' + data.kommune.kode + ' ' +  data.kommune.navn + ')'));
     ec('td');
-    badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
-    badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+    badge('info', 'badge-primary', data.href.replace('api.dataforsyningen.dk',host));
+    badge('kort', 'badge-primary', data.href.replace('api','vis'));
     badge('data', 'badge-primary', data.href);
   ec('tr');
 }
@@ -1874,8 +1874,8 @@ function visVejstykke(data) {
           eo('td');
             html('Navngiven vej: ' + strong(data.navn));
           ec('td');
-          badge('info', 'badge-primary', data.navngivenvej.href.replace('dawa.aws.dk',host));
-          badge('kort', 'badge-primary', data.navngivenvej.href.replace('dawa','vis'));
+          badge('info', 'badge-primary', data.navngivenvej.href.replace('api.dataforsyningen.dk',host));
+          badge('kort', 'badge-primary', data.navngivenvej.href.replace('api','vis'));
           badge('data', 'badge-primary', data.navngivenvej.href);
         ec('tr');
         if (data.postnumre) {                     
@@ -1889,8 +1889,8 @@ function visVejstykke(data) {
               eo('td', null, null, 'style', 'padding-left:2em ');
                 html(strong(postnummer.nr + " " + postnummer.navn));
               ec('td');
-              badge('info', 'badge-primary', postnummer.href.replace('dawa.aws.dk',host));
-              badge('kort', 'badge-primary', postnummer.href.replace('dawa','vis'));
+              badge('info', 'badge-primary', postnummer.href.replace('api.dataforsyningen.dk',host));
+              badge('kort', 'badge-primary', postnummer.href.replace('api','vis'));
               badge('data', 'badge-primary', postnummer.href);
             ec('tr');
           }) 
@@ -1906,8 +1906,8 @@ function visVejnavnpostnummerrelationerKort(data) {
     eo('td');
       html('<br/>' + strong(data.betegnelse));
     ec('td');
-    badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
-    badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+    badge('info', 'badge-primary', data.href.replace('api.dataforsyningen.dk',host));
+    badge('kort', 'badge-primary', data.href.replace('api','vis'));
     badge('data', 'badge-primary', data.href);
   ec('tr');
 }
@@ -1922,8 +1922,8 @@ function visVejnavnpostnummerrelationer(data) {
           eo('td');
             html('Postnummer: ' + strong(data.postnummer.nr + " " + data.postnummer.navn));
           ec('td');
-          badge('info', 'badge-primary', data.postnummer.href.replace('dawa.aws.dk',host));
-          badge('kort', 'badge-primary', data.postnummer.href.replace('dawa','vis'));
+          badge('info', 'badge-primary', data.postnummer.href.replace('api.dataforsyningen.dk',host));
+          badge('kort', 'badge-primary', data.postnummer.href.replace('api','vis'));
           badge('data', 'badge-primary', data.postnummer.href);
         ec('tr');
         if (data.kommuner) {                     
@@ -1937,8 +1937,8 @@ function visVejnavnpostnummerrelationer(data) {
               eo('td', null, null, 'style', 'padding-left:2em ');
                 html(strong(kommune.kode + " " + kommune.navn));
               ec('td');
-              badge('info', 'badge-primary', kommune.href.replace('dawa.aws.dk',host));
-              badge('kort', 'badge-primary', kommune.href.replace('dawa','vis'));
+              badge('info', 'badge-primary', kommune.href.replace('api.dataforsyningen.dk',host));
+              badge('kort', 'badge-primary', kommune.href.replace('api','vis'));
               badge('data', 'badge-primary', kommune.href);
             ec('tr');  
           }) 
@@ -1985,7 +1985,7 @@ function visVejnavnKort(data) {
     eo('td');
       html(strong(data.navn));
     ec('td');
-    badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
+    badge('info', 'badge-primary', data.href.replace('api.dataforsyningen.dk',host));
     eo('td'); ec('td');
     badge('data', 'badge-primary', data.href);
   ec('tr');
@@ -2007,8 +2007,8 @@ function visVejnavn(data) {
             eo('td', null, null, 'style', 'padding-left:2em ');
               html(strong(kommune.kode + " " + kommune.navn));
             ec('td');
-            badge('info', 'badge-primary', kommune.href.replace('dawa.aws.dk',host));
-            badge('kort', 'badge-primary', kommune.href.replace('dawa','vis'));
+            badge('info', 'badge-primary', kommune.href.replace('api.dataforsyningen.dk',host));
+            badge('kort', 'badge-primary', kommune.href.replace('api','vis'));
             badge('data', 'badge-primary', kommune.href);
           ec('tr');
         });
@@ -2023,8 +2023,8 @@ function visVejnavn(data) {
               eo('td', null, null, 'style', 'padding-left:2em ');
                 html(strong(postnummer.nr + " " + postnummer.navn));
               ec('td');
-              badge('info', 'badge-primary', postnummer.href.replace('dawa.aws.dk',host));
-              badge('kort', 'badge-primary', postnummer.href.replace('dawa','vis'));
+              badge('info', 'badge-primary', postnummer.href.replace('api.dataforsyningen.dk',host));
+              badge('kort', 'badge-primary', postnummer.href.replace('api','vis'));
               badge('data', 'badge-primary', postnummer.href);
             ec('tr');
           }) 
@@ -2195,7 +2195,7 @@ function danressourcenavn(entitet) {
 function visDarhistorikEntitet(data, titel, id, entitet) {
   // se i https://getbootstrap.com/docs/4.4/components/collapse/
   let ressourcenavn= danressourcenavn(entitet);
-  let link= `<a class="btn btn-primary btn-sm float-right" href="https://info.aws.dk/${ressourcenavn}?id=${id}&medtagnedlagte" role="button">${titel}</a>`;
+  let link= `<a class="btn btn-primary btn-sm float-right" href="https://info.dataforsyningen.dk/${ressourcenavn}?id=${id}&medtagnedlagte" role="button">${titel}</a>`;
   danNavbar(ressource,'<h2>' + titel + ' ' + id + '</h2', false, ['json'], link);
   let oprettet= new Date(data.oprettettidspunkt);  
   eo('div', null, null, 'id', 'darhistorik', 'class', 'accordion');
@@ -2240,8 +2240,8 @@ function visBygningKort(bygning) {
     eo('td');
       html(strong('Bygning ' + bygning.id));
     ec('td');
-    badge('info', 'badge-primary', bygning.href.replace('dawa.aws.dk',host));
-    badge('kort', 'badge-primary', bygning.href.replace('dawa','vis'));
+    badge('info', 'badge-primary', bygning.href.replace('api.dataforsyningen.dk',host));
+    badge('kort', 'badge-primary', bygning.href.replace('api','vis'));
     badge('data', 'badge-primary', bygning.href);
   ec('tr');
 }
@@ -2304,8 +2304,8 @@ function visBygning(data) {
             eotd(1);
               html(strong(kommune.kode + " " + kommune.navn));
             ec('td');
-            badge('info', 'badge-primary', kommune.href.replace('dawa.aws.dk',host));
-            badge('kort', 'badge-primary', kommune.href.replace('dawa','vis'));
+            badge('info', 'badge-primary', kommune.href.replace('api.dataforsyningen.dk',host));
+            badge('kort', 'badge-primary', kommune.href.replace('api','vis'));
             badge('data', 'badge-primary', kommune.href);
           ec('tr');
         });                       
@@ -2319,8 +2319,8 @@ function visBygning(data) {
               eotd(1);
                 html(strong(adgangsadresse.adressebetegnelse));
               ec('td');
-              badge('info', 'badge-primary', adgangsadresse.href.replace('dawa.aws.dk',host));
-              badge('kort', 'badge-primary', adgangsadresse.href.replace('dawa','vis'));
+              badge('info', 'badge-primary', adgangsadresse.href.replace('api.dataforsyningen.dk',host));
+              badge('kort', 'badge-primary', adgangsadresse.href.replace('api','vis'));
               badge('data', 'badge-primary', adgangsadresse.href);
             ec('tr');
           }) 
@@ -2338,8 +2338,8 @@ function visEjerlavetKort(ejerlavet) {
     eo('td');
       html(strong(ejerlavet.kode + ' ' +ejerlavet.navn));
     ec('td');
-    badge('info', 'badge-primary', ejerlavet.href.replace('dawa.aws.dk',host));
-    badge('kort', 'badge-primary', ejerlavet.href.replace('dawa','vis'));
+    badge('info', 'badge-primary', ejerlavet.href.replace('api.dataforsyningen.dk',host));
+    badge('kort', 'badge-primary', ejerlavet.href.replace('api','vis'));
     badge('data', 'badge-primary', ejerlavet.href);
   ec('tr');
 }
@@ -2361,8 +2361,8 @@ function visJordstykkeKort(data) {
     eo('td');
       html(data.matrikelnr + ' ' + data.ejerlav.navn);
     ec('td');
-    badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
-    badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+    badge('info', 'badge-primary', data.href.replace('api.dataforsyningen.dk',host));
+    badge('kort', 'badge-primary', data.href.replace('api','vis'));
     badge('data', 'badge-primary', data.href);
   ec('tr');
 }
@@ -2468,8 +2468,8 @@ function getTilknyttedeJordstykker(id, moderjorstykke) {
               eotd(1);
                 html(strong(jordstykke.matrikelnr + " " + jordstykke.ejerlav.navn));
               ec('td');
-              badge('info', 'badge-primary', jordstykke.href.replace('dawa.aws.dk',host));
-              badge('kort', 'badge-primary', jordstykke.href.replace('dawa','vis'));
+              badge('info', 'badge-primary', jordstykke.href.replace('api.dataforsyningen.dk',host));
+              badge('kort', 'badge-primary', jordstykke.href.replace('api','vis'));
               badge('data', 'badge-primary', jordstykke.href);
             ec('tr');
           });
@@ -2487,8 +2487,8 @@ function getModerjordstykke(id, featureid) {
         eo('td');
         html('Moderjordstykke: ' + strong(data[0].featureid));
         ec('td');
-        badge('info', 'badge-primary', url.replace('dawa.aws.dk',host));
-        badge('kort', 'badge-primary', url.replace('dawa','vis'));
+        badge('info', 'badge-primary', url.replace('api.dataforsyningen.dk',host));
+        badge('kort', 'badge-primary', url.replace('api','vis'));
         badge('data', 'badge-primary', url);
       });
     });
@@ -2507,8 +2507,8 @@ function visSupplerendeBynavnKort(data) {
       ec('span');
       html('<br/>' + strong(data.navn));
     ec('td');
-    badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
-    badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+    badge('info', 'badge-primary', data.href.replace('api.dataforsyningen.dk',host));
+    badge('kort', 'badge-primary', data.href.replace('api','vis'));
     badge('data', 'badge-primary', data.href);
   ec('tr');
 }
@@ -2550,8 +2550,8 @@ function visSupplerendeBynavn(data) {
               eo('td', null, null, 'style', 'padding-left:2em ');
                 html(strong(postnummer.nr + " " + postnummer.navn));
               ec('td');
-              badge('info', 'badge-primary', postnummer.href.replace('dawa.aws.dk',host));
-              badge('kort', 'badge-primary', postnummer.href.replace('dawa','vis'));
+              badge('info', 'badge-primary', postnummer.href.replace('api.dataforsyningen.dk',host));
+              badge('kort', 'badge-primary', postnummer.href.replace('api','vis'));
               badge('data', 'badge-primary', postnummer.href);
             ec('tr');
           })       
@@ -2565,8 +2565,8 @@ function visDAGIKort(data) {
     eo('td');
       html(data.kode + ' ' + data.navn);
     ec('td');
-    badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
-    badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+    badge('info', 'badge-primary', data.href.replace('api.dataforsyningen.dk',host));
+    badge('kort', 'badge-primary', data.href.replace('api','vis'));
     badge('data', 'badge-primary', data.href);
   ec('tr');
 }
@@ -2600,8 +2600,8 @@ function visKommuneKort(data) {
     eo('td');
       html(data.kode + ' ' + data.navn);
     ec('td');
-    badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
-    badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+    badge('info', 'badge-primary', data.href.replace('api.dataforsyningen.dk',host));
+    badge('kort', 'badge-primary', data.href.replace('api','vis'));
     badge('data', 'badge-primary', data.href);
   ec('tr');
 }
@@ -2648,8 +2648,8 @@ function getRegion(id, regionskode) {
         eo('td');
             html('Region: ' + strong(data.kode + ' ' + data.navn));
         ec('td');
-        badge('info', 'badge-primary', url.replace('dawa.aws.dk',host));
-        badge('kort', 'badge-primary', url.replace('dawa','vis'));
+        badge('info', 'badge-primary', url.replace('api.dataforsyningen.dk',host));
+        badge('kort', 'badge-primary', url.replace('api','vis'));
         badge('data', 'badge-primary', url);
       });
     });
@@ -2662,8 +2662,8 @@ function visLandsdelKort(data) {
     eo('td');
       html(strong(data.navn));
     ec('td');
-    badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
-    badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+    badge('info', 'badge-primary', data.href.replace('api.dataforsyningen.dk',host));
+    badge('kort', 'badge-primary', data.href.replace('api','vis'));
     badge('data', 'badge-primary', data.href);
   ec('tr');
 }
@@ -2701,8 +2701,8 @@ function visRegionKort(data) {
     eo('td');
       html(data.kode + ' ' + data.navn);
     ec('td');
-    badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
-    badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+    badge('info', 'badge-primary', data.href.replace('api.dataforsyningen.dk',host));
+    badge('kort', 'badge-primary', data.href.replace('api','vis'));
     badge('data', 'badge-primary', data.href);
   ec('tr');
 }
@@ -2748,8 +2748,8 @@ function getKommuner(id, regionskode) {
             eotd(1);
               html(strong(kommune.kode + " " + kommune.navn));
             ec('td');
-            badge('info', 'badge-primary', kommune.href.replace('dawa.aws.dk',host));
-            badge('kort', 'badge-primary', kommune.href.replace('dawa','vis'));
+            badge('info', 'badge-primary', kommune.href.replace('api.dataforsyningen.dk',host));
+            badge('kort', 'badge-primary', kommune.href.replace('api','vis'));
             badge('data', 'badge-primary', kommune.href);
           ec('tr');
         });   
@@ -2767,8 +2767,8 @@ function getKommune(id, kode, indrykninger= 0) {
           eotd(indrykninger);
             html('Kommune: ' + strong(kommune.kode + " " + kommune.navn));
           ec('td');
-          badge('info', 'badge-primary', kommune.href.replace('dawa.aws.dk',host));
-          badge('kort', 'badge-primary', kommune.href.replace('dawa','vis'));
+          badge('info', 'badge-primary', kommune.href.replace('api.dataforsyningen.dk',host));
+          badge('kort', 'badge-primary', kommune.href.replace('api','vis'));
           badge('data', 'badge-primary', kommune.href);
         ec('tr');
       });
@@ -2781,8 +2781,8 @@ function visAfstemningsområdeKort(data) {
     eo('td');
       html(data.kommune.kode + ' ' + data.nummer + ' ' + data.navn);
     ec('td');
-    badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
-    badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+    badge('info', 'badge-primary', data.href.replace('api.dataforsyningen.dk',host));
+    badge('kort', 'badge-primary', data.href.replace('api','vis'));
     badge('data', 'badge-primary', data.href);
   ec('tr');
 }
@@ -2808,8 +2808,8 @@ function visAfstemningsområde(data) {
           eo('td');
             html('Afstemningssted: ' + strong(data.afstemningssted.navn + ', ' + data.afstemningssted.adgangsadresse.adressebetegnelse));
           ec('td');
-          badge('info', 'badge-primary', data.afstemningssted.adgangsadresse.href.replace('dawa.aws.dk',host));
-          badge('kort', 'badge-primary', data.afstemningssted.adgangsadresse.href.replace('dawa','vis'));
+          badge('info', 'badge-primary', data.afstemningssted.adgangsadresse.href.replace('api.dataforsyningen.dk',host));
+          badge('kort', 'badge-primary', data.afstemningssted.adgangsadresse.href.replace('api','vis'));
           badge('data', 'badge-primary', data.afstemningssted.adgangsadresse.href);
         ec('tr');   
         visNummerNavn('Opstillingskreds', data.opstillingskreds);  
@@ -2827,8 +2827,8 @@ function visMenighedsraadsafstemningsområdeKort(data) {
     eo('td');
       html(data.kommune.kode + ' ' + data.nummer + ' ' + data.navn);
     ec('td');
-    badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
-    badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+    badge('info', 'badge-primary', data.href.replace('api.dataforsyningen.dk',host));
+    badge('kort', 'badge-primary', data.href.replace('api','vis'));
     badge('data', 'badge-primary', data.href);
   ec('tr');
 }
@@ -2862,8 +2862,8 @@ function visOpstillingskredsKort(data) {
     eo('td');
       html(data.nummer + ' ' + data.navn);
     ec('td');
-    badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host),);
-    badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+    badge('info', 'badge-primary', data.href.replace('api.dataforsyningen.dk',host),);
+    badge('kort', 'badge-primary', data.href.replace('api','vis'));
     badge('data', 'badge-primary', data.href);
   ec('tr');
 }
@@ -2904,8 +2904,8 @@ function visOpstillingskreds(data) {
             eo('td', null, null, 'style', 'padding-left:2em ');
               html(strong(kommune.kode + " " + kommune.navn));
             ec('td');
-            badge('info', 'badge-primary', kommune.href.replace('dawa.aws.dk',host));
-            badge('kort', 'badge-primary', kommune.href.replace('dawa','vis'));
+            badge('info', 'badge-primary', kommune.href.replace('api.dataforsyningen.dk',host));
+            badge('kort', 'badge-primary', kommune.href.replace('api','vis'));
             badge('data', 'badge-primary', kommune.href);
           ec('tr');
         });
@@ -2933,8 +2933,8 @@ function getAfstemningsområder(id, opstillingskredsnummer) {
             eotd(1);
               html(strong(afstemningsområde.nummer + " " + afstemningsområde.navn));
             ec('td');
-            badge('info', 'badge-primary', afstemningsområde.href.replace('dawa.aws.dk',host));
-            badge('kort', 'badge-primary', afstemningsområde.href.replace('dawa','vis'));
+            badge('info', 'badge-primary', afstemningsområde.href.replace('api.dataforsyningen.dk',host));
+            badge('kort', 'badge-primary', afstemningsområde.href.replace('api','vis'));
             badge('data', 'badge-primary', afstemningsområde.href);
           ec('tr');
         });   
@@ -2948,8 +2948,8 @@ function visStorkredsKort(data) {
     eo('td');
       html(data.nummer + ' ' + data.navn);
     ec('td');
-    badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
-    badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+    badge('info', 'badge-primary', data.href.replace('api.dataforsyningen.dk',host));
+    badge('kort', 'badge-primary', data.href.replace('api','vis'));
     badge('data', 'badge-primary', data.href);
   ec('tr');
 }
@@ -2992,8 +2992,8 @@ function getOpstillingskredse(id, storkredsnummer) {
             eotd(1);
               html(strong(opstillingskreds.nummer + " " + opstillingskreds.navn));
             ec('td');
-            badge('info', 'badge-primary', opstillingskreds.href.replace('dawa.aws.dk',host));
-            badge('kort', 'badge-primary', opstillingskreds.href.replace('dawa','vis'));
+            badge('info', 'badge-primary', opstillingskreds.href.replace('api.dataforsyningen.dk',host));
+            badge('kort', 'badge-primary', opstillingskreds.href.replace('api','vis'));
             badge('data', 'badge-primary', opstillingskreds.href);
           ec('tr');
         });   
@@ -3007,8 +3007,8 @@ function visValglandsdelKort(data) {
     eo('td');
       html(data.bogstav + ' ' + data.navn);
     ec('td');
-    badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
-    badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+    badge('info', 'badge-primary', data.href.replace('api.dataforsyningen.dk',host));
+    badge('kort', 'badge-primary', data.href.replace('api','vis'));
     badge('data', 'badge-primary', data.href);
   ec('tr');
 }
@@ -3049,8 +3049,8 @@ function getStorkredse(id, valglandsdelsbogstav) {
             eotd(1);
               html(strong(storkreds.nummer + " " + storkreds.navn));
             ec('td');
-            badge('info', 'badge-primary', storkreds.href.replace('dawa.aws.dk',host));
-            badge('kort', 'badge-primary', storkreds.href.replace('dawa','vis'));
+            badge('info', 'badge-primary', storkreds.href.replace('api.dataforsyningen.dk',host));
+            badge('kort', 'badge-primary', storkreds.href.replace('api','vis'));
             badge('data', 'badge-primary', storkreds.href);
           ec('tr');
         });   
@@ -3064,8 +3064,8 @@ function visPostnummerKort(data) {
     eo('td');
       html(data.nr + ' ' + data.navn);
     ec('td');
-    badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
-    badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+    badge('info', 'badge-primary', data.href.replace('api.dataforsyningen.dk',host));
+    badge('kort', 'badge-primary', data.href.replace('api','vis'));
     badge('data', 'badge-primary', data.href);
   ec('tr');
 }
@@ -3101,8 +3101,8 @@ function visPostnummer(data) {
               eo('td', null, null, 'style', 'padding-left:2em ');
                 html(strong(kommune.kode + " " + kommune.navn));
               ec('td');
-              badge('info', 'badge-primary', kommune.href.replace('dawa.aws.dk',host));
-              badge('kort', 'badge-primary', kommune.href.replace('dawa','vis'));
+              badge('info', 'badge-primary', kommune.href.replace('api.dataforsyningen.dk',host));
+              badge('kort', 'badge-primary', kommune.href.replace('api','vis'));
               badge('data', 'badge-primary', kommune.href);
             ec('tr');
           })      
@@ -3119,8 +3119,8 @@ function getStormodtager(id, href) {
         eo('td', null, null, 'style', 'padding-left:2em ');
             html(strong(util.formatAdgangsadresse(data,true)));
         ec('td');
-        badge('info', 'badge-primary', url.replace('dawa.aws.dk',host));
-        badge('kort', 'badge-primary', url.replace('dawa','vis'));
+        badge('info', 'badge-primary', url.replace('api.dataforsyningen.dk',host));
+        badge('kort', 'badge-primary', url.replace('api','vis'));
         badge('data', 'badge-primary', url);
       });
     });
@@ -3135,8 +3135,8 @@ function visStednavnKort(data) {
     eo('td');
       html(data.navn);
     ec('td');
-    badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
-    badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+    badge('info', 'badge-primary', data.href.replace('api.dataforsyningen.dk',host));
+    badge('kort', 'badge-primary', data.href.replace('api','vis'));
     badge('data', 'badge-primary', data.href);
   ec('tr');
 }
@@ -3191,8 +3191,8 @@ function visStednavn(data) {
               eo('td', null, null, 'style', 'padding-left:2em ');
                 html(strong(kommune.kode + " " + kommune.navn));
               ec('td');
-              badge('info', 'badge-primary', kommune.href.replace('dawa.aws.dk',host));
-              badge('kort', 'badge-primary', kommune.href.replace('dawa','vis'));
+              badge('info', 'badge-primary', kommune.href.replace('api.dataforsyningen.dk',host));
+              badge('kort', 'badge-primary', kommune.href.replace('api','vis'));
               badge('data', 'badge-primary', kommune.href);
             ec('tr');
           })      
@@ -3207,8 +3207,8 @@ function visBebyggelseKort(data) {
     eo('td');
       html(data.navn);
     ec('td');
-    badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
-    badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+    badge('info', 'badge-primary', data.href.replace('api.dataforsyningen.dk',host));
+    badge('kort', 'badge-primary', data.href.replace('api','vis'));
     badge('data', 'badge-primary', data.href);
   ec('tr');
 }
@@ -3246,8 +3246,8 @@ function visStednavn2Kort(data) {
     eo('td');
       html(data.navn);
     ec('td');
-    badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
-    badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+    badge('info', 'badge-primary', data.href.replace('api.dataforsyningen.dk',host));
+    badge('kort', 'badge-primary', data.href.replace('api','vis'));
     badge('data', 'badge-primary', data.href);
   ec('tr');
 }
@@ -3272,8 +3272,8 @@ function visStednavn2(data) {
           eo('td');
             html('Sted: ' + strong(data.sted.primærtnavn));
           ec('td');
-          badge('info', 'badge-primary', data.sted.href.replace('dawa.aws.dk',host));
-          badge('kort', 'badge-primary', data.sted.href.replace('dawa','vis'));
+          badge('info', 'badge-primary', data.sted.href.replace('api.dataforsyningen.dk',host));
+          badge('kort', 'badge-primary', data.sted.href.replace('api','vis'));
           badge('data', 'badge-primary', data.sted.href);
         ec('tr'); 
         stedIndhold(data.sted, 1);
@@ -3287,8 +3287,8 @@ function visStedKort(data) {
     eo('td');
       html(data.primærtnavn);
     ec('td');
-    badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
-    badge('kort', 'badge-primary', data.href.replace('dawa','vis'));
+    badge('info', 'badge-primary', data.href.replace('api.dataforsyningen.dk',host));
+    badge('kort', 'badge-primary', data.href.replace('api','vis'));
     badge('data', 'badge-primary', data.href);
   ec('tr');
 }
@@ -3309,9 +3309,9 @@ function stedIndhold(data,indrykninger) {
     eotd(indrykninger);
       html('Primært navn: ' + strong(data.primærtnavn));
     ec('td');
-    badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host).replace('steder','stednavne2') + '/' + data.primærtnavn);
-    badge('kort', 'badge-primary', 'https://vis.aws.dk/stednavne2/' + data.id + '/' + data.primærtnavn);
-    badge('data', 'badge-primary', 'https://data.aws.dk/stednavne2/' + data.id + '/' + data.primærtnavn);
+    badge('info', 'badge-primary', data.href.replace('api.dataforsyningen.dk',host).replace('steder','stednavne2') + '/' + data.primærtnavn);
+    badge('kort', 'badge-primary', 'https://vis.dataforsyningen.dk/stednavne2/' + data.id + '/' + data.primærtnavn);
+    badge('data', 'badge-primary', 'https://api.dataforsyningen.dk/stednavne2/' + data.id + '/' + data.primærtnavn);
   ec('tr');      
   eo('tr');
     eotd(indrykninger);
@@ -3339,9 +3339,9 @@ function stedIndhold(data,indrykninger) {
         eotd(indrykninger+1);
           html(strong(seknavn.navn + ' (' + seknavn.navnestatus + ')'));
         ec('td');
-        badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host).replace('steder','stednavne2') + '/' + seknavn.navn);
-        badge('kort', 'badge-primary', 'https://vis.aws.dk/stednavne2/' + data.id + '/' + seknavn.navn);
-        badge('data', 'badge-primary', 'https://data.aws.dk/stednavne2/' + data.id + '/' + seknavn.navn);
+        badge('info', 'badge-primary', data.href.replace('api.dataforsyningen.dk',host).replace('steder','stednavne2') + '/' + seknavn.navn);
+        badge('kort', 'badge-primary', 'https://vis.dataforsyningen.dk/stednavne2/' + data.id + '/' + seknavn.navn);
+        badge('data', 'badge-primary', 'https://api.dataforsyningen.dk/stednavne2/' + data.id + '/' + seknavn.navn);
       ec('tr');
     })  
   }            
@@ -3363,8 +3363,8 @@ function stedIndhold(data,indrykninger) {
         eotd(indrykninger+1);
           html(strong(kommune.kode + " " + kommune.navn));
         ec('td');
-        badge('info', 'badge-primary', kommune.href.replace('dawa.aws.dk',host));
-        badge('kort', 'badge-primary', kommune.href.replace('dawa','vis'));
+        badge('info', 'badge-primary', kommune.href.replace('api.dataforsyningen.dk',host));
+        badge('kort', 'badge-primary', kommune.href.replace('api','vis'));
         badge('data', 'badge-primary', kommune.href);
       ec('tr');
     })      
@@ -3387,7 +3387,7 @@ function visStednavntypeKort(data) {
     eo('td');
       html(data.hovedtype);
     ec('td');
-    badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
+    badge('info', 'badge-primary', data.href.replace('api.dataforsyningen.dk',host));
     eo('td'); ec('td');
     badge('data', 'badge-primary', data.href);
   ec('tr');
@@ -3518,8 +3518,8 @@ function getAdgangsadresse(id, adgangsadresseid, indrykninger= 0) {
             eotd(indrykninger);
               html('Adgangsadresse: ' + strong(util.formatAdgangsadresse(adgangsadresse, true)));
             ec('td');
-            badge('info', 'badge-primary', adgangsadresse.href.replace('dawa.aws.dk',host));
-            badge('kort', 'badge-primary', adgangsadresse.href.replace('dawa','vis'));
+            badge('info', 'badge-primary', adgangsadresse.href.replace('api.dataforsyningen.dk',host));
+            badge('kort', 'badge-primary', adgangsadresse.href.replace('api','vis'));
             badge('data', 'badge-primary', adgangsadresse.href);
           ec('tr');
         });
@@ -3538,8 +3538,8 @@ function getAdresse(id, adresseid, indrykninger= 0) {
             eotd(indrykninger);
               html('Adresse: ' + strong(adresse.adressebetegnelse));
             ec('td');
-            badge('info', 'badge-primary', adresse.href.replace('dawa.aws.dk',host));
-            badge('kort', 'badge-primary', adresse.href.replace('dawa','vis'));
+            badge('info', 'badge-primary', adresse.href.replace('api.dataforsyningen.dk',host));
+            badge('kort', 'badge-primary', adresse.href.replace('api','vis'));
             badge('data', 'badge-primary', adresse.href);
           ec('tr');
         });
@@ -3557,7 +3557,7 @@ function getEtage(id, href, indrykninger= 0) {
             eotd(indrykninger);
               html('Etage: ' + strong(etage.eta006BygningensEtagebetegnelse));
             ec('td');
-            badge('info', 'badge-primary', etage.href.replace('dawa.aws.dk',host));
+            badge('info', 'badge-primary', etage.href.replace('api.dataforsyningen.dk',host));
             eo('td'); ec('td');
             badge('data', 'badge-primary', etage.href);
           ec('tr');
@@ -3576,7 +3576,7 @@ function getOpgang(id, href, indrykninger= 0) {
             eotd(indrykninger);
               html('Opgang');
             ec('td');
-            badge('info', 'badge-primary', opgang.href.replace('dawa.aws.dk',host));
+            badge('info', 'badge-primary', opgang.href.replace('api.dataforsyningen.dk',host));
             eo('td'); ec('td');
             badge('data', 'badge-primary', opgang.href);
           ec('tr');
@@ -3598,8 +3598,8 @@ function getJordstykke(label, id, indrykninger= 0) {
               eotd(indrykninger);
                 html('Jordstykke: ' + strong(jordstykke.matrikelnr + ' ' + jordstykke.ejerlav.navn));
               ec('td');
-              badge('info', 'badge-primary', jordstykke.href.replace('dawa.aws.dk',host));
-              badge('kort', 'badge-primary', jordstykke.href.replace('dawa','vis'));
+              badge('info', 'badge-primary', jordstykke.href.replace('api.dataforsyningen.dk',host));
+              badge('kort', 'badge-primary', jordstykke.href.replace('api','vis'));
               badge('data', 'badge-primary', jordstykke.href);
             ec('tr');
           });
@@ -3634,8 +3634,8 @@ async function getGrundJordstykker(label, grund_id, indrykninger= 0) {
           eotd(indrykninger+1);
             html(strong(jordstykker[i][0].matrikelnr + ' ' + jordstykker[i][0].ejerlav.navn));
           ec('td');
-          badge('info', 'badge-primary', jordstykker[i][0].href.replace('dawa.aws.dk',host));
-          badge('kort', 'badge-primary', jordstykker[i][0].href.replace('dawa','vis'));
+          badge('info', 'badge-primary', jordstykker[i][0].href.replace('api.dataforsyningen.dk',host));
+          badge('kort', 'badge-primary', jordstykker[i][0].href.replace('api','vis'));
           badge('data', 'badge-primary', jordstykker[i][0].href);
         ec('tr');
       }
@@ -3673,7 +3673,7 @@ async function getBBRBygningsOpgange(label, id, indrykninger= 0) {
           eotd(indrykninger+1);
             html(strong(util.formatAdgangsadresse(adgangsadresser[i], true)));
           ec('td');
-          badge('info', 'badge-primary', adgangsadresser[i].opgang.href.replace('dawa.aws.dk',host));
+          badge('info', 'badge-primary', adgangsadresser[i].opgang.href.replace('api.dataforsyningen.dk',host));
           eo('td'); ec('td');
           badge('data', 'badge-primary', adgangsadresser[i].opgang.href);
         ec('tr');
@@ -3700,7 +3700,7 @@ async function getBBRBygningsEtager(label, id, indrykninger= 0) {
           eotd(indrykninger+1);
             html(strong(etager[i].eta006BygningensEtagebetegnelse));
           ec('td');
-          badge('info', 'badge-primary', etager[i].href.replace('dawa.aws.dk',host));
+          badge('info', 'badge-primary', etager[i].href.replace('api.dataforsyningen.dk',host));
           eo('td'); ec('td');
           badge('data', 'badge-primary', etager[i].href);
         ec('tr');
@@ -3726,8 +3726,8 @@ async function getBBRBygningsTekniskeAnlæg(label, id, qparameter, indrykninger=
           eotd(indrykninger+1);
             html(strong(bbr.getKlassifikation(tekniskeanlæg[i].tek020Klassifikation) + ' fra ' + tekniskeanlæg[i].tek024Etableringsår));
           ec('td');
-          badge('info', 'badge-primary', tekniskeanlæg[i].href.replace('dawa.aws.dk',host));
-          badge('kort', 'badge-primary', tekniskeanlæg[i].href.replace('dawa','vis'));
+          badge('info', 'badge-primary', tekniskeanlæg[i].href.replace('api.dataforsyningen.dk',host));
+          badge('kort', 'badge-primary', tekniskeanlæg[i].href.replace('api','vis'));
           badge('data', 'badge-primary', tekniskeanlæg[i].href);
         ec('tr');
       }
@@ -3752,8 +3752,8 @@ async function getBBREnheder(label, id, qparameter, indrykninger= 0) {
           eotd(indrykninger+1);
             html(strong(bbr.getEnhAnvendelse(enheder[i].enh020EnhedensAnvendelse)));
           ec('td');
-          badge('info', 'badge-primary', enheder[i].href.replace('dawa.aws.dk',host));
-          badge('kort', 'badge-primary', enheder[i].href.replace('dawa','vis'));
+          badge('info', 'badge-primary', enheder[i].href.replace('api.dataforsyningen.dk',host));
+          badge('kort', 'badge-primary', enheder[i].href.replace('api','vis'));
           badge('data', 'badge-primary', enheder[i].href);
         ec('tr');
       }
@@ -3773,8 +3773,8 @@ function getBBRBygningFraAdgangsadresseid(label, adgangsadresseid, indrykninger=
               eotd(indrykninger);
               html('BBR bygning: ' + strong(bbr.getBygAnvendelse(bygning.byg021BygningensAnvendelse)));
               ec('td');
-              badge('info', 'badge-primary', bygning.href.replace('dawa.aws.dk',host));
-              badge('kort', 'badge-primary', bygning.href.replace('dawa','vis'));
+              badge('info', 'badge-primary', bygning.href.replace('api.dataforsyningen.dk',host));
+              badge('kort', 'badge-primary', bygning.href.replace('api','vis'));
               badge('data', 'badge-primary', bygning.href);
             ec('tr');
           });
@@ -3794,7 +3794,7 @@ function getBBREnhed(label, url, indrykninger= 0) {
               eotd(indrykninger);
               html('BBR enhed: ' + strong(bbr.getEnhAnvendelse(enhed.enh020EnhedensAnvendelse)));
               ec('td');
-              badge('info', 'badge-primary', enhed.href.replace('dawa.aws.dk',host));
+              badge('info', 'badge-primary', enhed.href.replace('api.dataforsyningen.dk',host));
               eo('td'); ec('td');
               badge('data', 'badge-primary', enhed.href);
             ec('tr');
@@ -3820,7 +3820,7 @@ function getBBREnhedFraAdresseid(label, adresseid, indrykninger= 0) {
               eotd(indrykninger);
               html('BBR enhed: ' + strong(bbr.getEnhAnvendelse(enhed.enh020EnhedensAnvendelse)));
               ec('td');
-              badge('info', 'badge-primary', enhed.href.replace('dawa.aws.dk',host));
+              badge('info', 'badge-primary', enhed.href.replace('api.dataforsyningen.dk',host));
               eo('td'); ec('td');
               badge('data', 'badge-primary', enhed.href);
             ec('tr');
@@ -3846,8 +3846,8 @@ function getBBRBygningViaOpgang(label, adgangsadresseid, indrykninger= 0) {
                     eotd(indrykninger);
                     html('BBR bygning: ' + strong(bbr.getBygAnvendelse(bygning.byg021BygningensAnvendelse)));
                     ec('td');
-                    badge('info', 'badge-primary', bygning.href.replace('dawa.aws.dk',host));
-                    badge('kort', 'badge-primary', bygning.href.replace('dawa','vis'));
+                    badge('info', 'badge-primary', bygning.href.replace('api.dataforsyningen.dk',host));
+                    badge('kort', 'badge-primary', bygning.href.replace('api','vis'));
                     badge('data', 'badge-primary', bygning.href);
                   ec('tr');
                 });
@@ -3870,8 +3870,8 @@ function getBBRBygning(label, id, indrykninger= 0) {
               eotd(indrykninger);
               html('BBR bygning: ' + strong(bbr.getBygAnvendelse(bygning.byg021BygningensAnvendelse) + ' fra ' + bygning.byg026Opførelsesår));
             ec('td');
-            badge('info', 'badge-primary', bygning.href.replace('dawa.aws.dk',host));
-            badge('kort', 'badge-primary', bygning.href.replace('dawa','vis'));
+            badge('info', 'badge-primary', bygning.href.replace('api.dataforsyningen.dk',host));
+            badge('kort', 'badge-primary', bygning.href.replace('api','vis'));
             badge('data', 'badge-primary', bygning.href);
           ec('tr');
         });
@@ -3889,7 +3889,7 @@ function getBBRGrund(label, url, indrykninger= 0) {
               eotd(indrykninger);
               html('BBR grund: ' + strong(grund.id));
             ec('td');
-            badge('info', 'badge-primary', grund.href.replace('dawa.aws.dk',host));
+            badge('info', 'badge-primary', grund.href.replace('api.dataforsyningen.dk',host));
             eo('td'); ec('td');
             badge('data', 'badge-primary', grund.href);
           ec('tr');
@@ -3910,7 +3910,7 @@ function getBBRBygningsFordelingsareal(label, id, indrykninger= 0) {
                 eotd(indrykninger);
                 html('BBR Fordelingsareal: ' + strong(data[0].for005Navn));
               ec('td');
-              badge('info', 'badge-primary', data[0].href.replace('dawa.aws.dk',host));
+              badge('info', 'badge-primary', data[0].href.replace('api.dataforsyningen.dk',host));
               eo('td'); ec('td');
               badge('data', 'badge-primary', data[0].href);
             ec('tr');
@@ -3930,7 +3930,7 @@ function getBBRFordelingsareal(label, url, indrykninger= 0) {
               eotd(indrykninger);
               html('BBR Fordelingsareal: ' + strong(data.for005Navn));
             ec('td');
-            badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
+            badge('info', 'badge-primary', data.href.replace('api.dataforsyningen.dk',host));
             eo('td'); ec('td');
             badge('data', 'badge-primary', data.href);
           ec('tr');
@@ -3954,7 +3954,7 @@ function getBBRBygningsEjendomsrelation(label, id, indrykninger= 0) {
                     eotd(indrykninger);
                       html('BFE nummer: ' + strong(data.bfeNummer));
                     ec('td');
-                    badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
+                    badge('info', 'badge-primary', data.href.replace('api.dataforsyningen.dk',host));
                     eo('td'); ec('td');
                     badge('data', 'badge-primary', data.href);
                   ec('tr');
@@ -3982,7 +3982,7 @@ function getBBRBygningsEjerlejlighed(label, url, indrykninger= 0) {
             eotd(indrykninger);
               html('Ejerlejligheds BFE nummer: ' + strong(data.bfeNummer));
             ec('td');
-            badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
+            badge('info', 'badge-primary', data.href.replace('api.dataforsyningen.dk',host));
             eo('td'); ec('td');
             badge('data', 'badge-primary', data.href);
           ec('tr');
@@ -4012,7 +4012,7 @@ function getBBREnhedsEjendomsrelation(label, id, indrykninger= 0) {
                     eotd(indrykninger);
                       html('BFE nummer: ' + strong(data.bfeNummer));
                     ec('td');
-                    badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
+                    badge('info', 'badge-primary', data.href.replace('api.dataforsyningen.dk',host));
                     eo('td'); ec('td');
                     badge('data', 'badge-primary', data.href);
                   ec('tr');
@@ -4040,7 +4040,7 @@ function getBBREjendomsrelation(label, url, indrykninger= 0) {
             eotd(indrykninger);
               html('BFE nummer: ' + strong(data.bfeNummer));
             ec('td');
-            badge('info', 'badge-primary', data.href.replace('dawa.aws.dk',host));
+            badge('info', 'badge-primary', data.href.replace('api.dataforsyningen.dk',host));
             eo('td'); ec('td');
             badge('data', 'badge-primary', data.href);
           ec('tr');
@@ -4065,8 +4065,8 @@ function visBBRBygningKort(bygning) {
       html('<br/>' + bbr.getBygAnvendelse(bygning.byg021BygningensAnvendelse) + ' fra ' + bygning.byg026Opførelsesår);
     ec('td');
     let href= 'https://' + host + '/bbr/bygninger/' + bygning.id;
-    badge('info', 'badge-primary', href.replace('dawa.aws.dk',host));
-    badge('kort', 'badge-primary', href.replace('dawa','vis'));
+    badge('info', 'badge-primary', href.replace('api.dataforsyningen.dk',host));
+    badge('kort', 'badge-primary', href.replace('api','vis'));
     badge('data', 'badge-primary', href);
   ec('tr');
 }
@@ -4698,8 +4698,8 @@ function visBBRTekniskAnlægKort(tekanl) {
       html('<br/>' + bbr.getKlassifikation(tekanl.tek020Klassifikation) + ' fra ' + tekanl.tek024Etableringsår);
     ec('td');
     let href= 'https://' + host + '/bbr/tekniskeanlaeg/' + tekanl.id;
-    badge('info', 'badge-primary', href.replace('dawa.aws.dk',host));
-    badge('kort', 'badge-primary', href.replace('dawa','vis'));
+    badge('info', 'badge-primary', href.replace('api.dataforsyningen.dk',host));
+    badge('kort', 'badge-primary', href.replace('api','vis'));
     badge('data', 'badge-primary', href);
   ec('tr');
 }
@@ -5100,7 +5100,7 @@ function visBBROpgangKort(data) {
       html('<br/>' + data.husnummer.id + ' <-> ' + data.bygning.id);
     ec('td');
     let href= data.href;
-    badge('info', 'badge-primary', href.replace('dawa.aws.dk',host));
+    badge('info', 'badge-primary', href.replace('api.dataforsyningen.dk',host));
     eo('td'); ec('td');
     badge('data', 'badge-primary', href);
   ec('tr');
@@ -5197,7 +5197,7 @@ function visBBREtageKort(data) {
       html('<br/>' + data.eta006BygningensEtagebetegnelse);
     ec('td');
     let href= data.href;
-    badge('info', 'badge-primary', href.replace('dawa.aws.dk',host));
+    badge('info', 'badge-primary', href.replace('api.dataforsyningen.dk',host));
     eo('td'); ec('td');
     badge('data', 'badge-primary', href);
   ec('tr');
@@ -5328,7 +5328,7 @@ function visBBREnhedKort(enhed) {
       html('<br/>' + bbr.getEnhAnvendelse(enhed.enh020EnhedensAnvendelse));
     ec('td');
     let href= 'https://' + host + '/bbr/enheder/' + enhed.id;
-    badge('info', 'badge-primary', href.replace('dawa.aws.dk',host));
+    badge('info', 'badge-primary', href.replace('api.dataforsyningen.dk',host));
     eo('td'); ec('td');
     badge('data', 'badge-primary', href);
   ec('tr');
@@ -5740,7 +5740,7 @@ function visBBRBygningPåFremmedGrundKort(data) {
       html('<br/>' + data.bygning.id + ' <-> ' + data.bygningPåFremmedGrund.id);
     ec('td');
     let href= data.href;
-    badge('info', 'badge-primary', href.replace('dawa.aws.dk',host));
+    badge('info', 'badge-primary', href.replace('api.dataforsyningen.dk',host));
     eo('td'); ec('td');
     badge('data', 'badge-primary', href);
   ec('tr');
@@ -5810,7 +5810,7 @@ function visBBREjendomsRelationKort(data) {
       html('<br/>Ejendomsrelation: ' + data.id);
     ec('td');
     let href= data.href;
-    badge('info', 'badge-primary', href.replace('dawa.aws.dk',host));
+    badge('info', 'badge-primary', href.replace('api.dataforsyningen.dk',host));
     eo('td'); ec('td');
     badge('data', 'badge-primary', href);
   ec('tr');
@@ -5913,7 +5913,7 @@ function visBBREnhedKort(enhed) {
       html('<br/>' + bbr.getEnhAnvendelse(enhed.enh020EnhedensAnvendelse));
     ec('td');
     let href= 'https://' + host + '/bbr/enheder/' + enhed.id;
-    badge('info', 'badge-primary', href.replace('dawa.aws.dk',host));
+    badge('info', 'badge-primary', href.replace('api.dataforsyningen.dk',host));
     eo('td'); ec('td');
     badge('data', 'badge-primary', href);
   ec('tr');
@@ -5929,7 +5929,7 @@ function visBBRGrundKort(grund) {
       html('<br/>' + 'Grund');
     ec('td');
     let href= 'https://' + host + '/bbr/grunde/' + grund.id;
-    badge('info', 'badge-primary', href.replace('dawa.aws.dk',host));
+    badge('info', 'badge-primary', href.replace('api.dataforsyningen.dk',host));
     eo('td'); ec('td');
     badge('data', 'badge-primary', href);
   ec('tr');
@@ -6106,7 +6106,7 @@ function visBBRGrundJordstykkeKort(data) {
       html('<br/>' + data.grund.id + ' <-> ' + data.jordstykke.id);
     ec('td');
     let href= data.href;
-    badge('info', 'badge-primary', href.replace('dawa.aws.dk',host));
+    badge('info', 'badge-primary', href.replace('api.dataforsyningen.dk',host));
     eo('td'); ec('td');
     badge('data', 'badge-primary', href);
   ec('tr');
@@ -6176,7 +6176,7 @@ function visBBRFordelingsarealKort(data) {
       html('<br/>Fordelingsareal: ' + data.for005Navn);
     ec('td');
     let href= data.href;
-    badge('info', 'badge-primary', href.replace('dawa.aws.dk',host));
+    badge('info', 'badge-primary', href.replace('api.dataforsyningen.dk',host));
     eo('td'); ec('td');
     badge('data', 'badge-primary', href);
   ec('tr');
@@ -6280,7 +6280,7 @@ function visBBRFordelingAfFordelingsarealKort(data) {
       html('<br/>Fordeling af fordelingsareal: ' + data.id);
     ec('td');
     let href= data.href;
-    badge('info', 'badge-primary', href.replace('dawa.aws.dk',host));
+    badge('info', 'badge-primary', href.replace('api.dataforsyningen.dk',host));
     eo('td'); ec('td');
     badge('data', 'badge-primary', href);
   ec('tr');
@@ -6365,7 +6365,7 @@ function visBBREnhedEjerlejlighedKort(data) {
       html('<br/>EnhedEjerlejlighed: ' + data.id);
     ec('td');
     let href= data.href;
-    badge('info', 'badge-primary', href.replace('dawa.aws.dk',host));
+    badge('info', 'badge-primary', href.replace('api.dataforsyningen.dk',host));
     eo('td'); ec('td');
     badge('data', 'badge-primary', href);
   ec('tr');
@@ -6439,13 +6439,13 @@ let url= new URL(window.location.href);
 let host= url.host;
 let origin= url.origin;
 if (url.hostname === 'localhost') {
-  url.set('host','info.aws.dk:80'); 
+  url.set('host','info.dataforsyningen.dk:80'); 
 } 
 let dawaUrl= new URL(url);
 let query= queryString.parse(dawaUrl.query);
 
 let miljø= query.m;
 if (!miljø) miljø= 'dawa';
-dawaUrl.set('host',dawaUrl.host.replace('info',miljø));
+dawaUrl.set('host',dawaUrl.host.replace('info','api'));
 const container = document.getElementById('side');
 visSide(container);
