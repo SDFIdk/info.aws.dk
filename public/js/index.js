@@ -6446,6 +6446,7 @@ let query= queryString.parse(dawaUrl.query);
 
 let miljø= query.m;
 if (!miljø) miljø= 'dawa';
-dawaUrl.set('host',dawaUrl.host.replace('info','api'));
+//dawaUrl.set('host',dawaUrl.host.replace('info','api'));
+dawaUrl.set('host', 'api.dataforsyningen.dk');
 const container = document.getElementById('side');
 visSide(container);
