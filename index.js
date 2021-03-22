@@ -21,15 +21,6 @@ app.get('/', function (req, res) {
   });
 });
 
-app.get('/getticket', function (req, res, next) { 
-  kf.getTicket(usr,pw).then((ticket) => {
-    res.status(200).send(ticket);
-  })
-  .catch((err) => {
-    res.status(400).send('Ukendt username og password: ' + err);
-  });
-}); 
-
 app.get(/.+/, function (req, res) {
   //console.log(req);
   res.sendFile(__dirname + "/public/app.html", function (err) {
