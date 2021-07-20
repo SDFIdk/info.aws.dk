@@ -586,7 +586,7 @@ function tekniskstandardTekst(standard) {
   let tekst= 'Ukendt teknisk standard';
   switch (standard) {
   case 'UF':
-    tekst= 'Adgangspunkt uspecificeret eller foreløbig';
+    tekst= 'Adgangspunkt uspecificeret eller foreløbig placeret';
     break;
   case 'TN':
     tekst= 'Adgangspunkt inden for bygningsomrids';
@@ -596,6 +596,9 @@ function tekniskstandardTekst(standard) {
     break;
   case 'TD':
     tekst= 'Adgangspunkt ved indgangsdør til bygning';
+    break;
+  case 'TA':
+    tekst= 'Adgangspunkt til anlæg - uden bygning';
     break;
   case 'VU':
     tekst= 'Vejpunkt er uspecificeret eller ukendt';
@@ -636,7 +639,22 @@ function tekniskstandardTekst(standard) {
   case 'VX':
     tekst= 'Vejpunkt på vej. Stor usikkerhed om korrekthed';
     break;
+  case 'DP':
+    tekst= 'Dørpunkt placeret principielt korrekt';
+    break;
+  case 'DE':
+    tekst= 'Dørpunkt placeret ud fra etageplan';
+    break;
+  case 'DM':
+    tekst= 'Dørpunkt målt på stedet';
+    break;
   case 'NO':
+    tekst= 'Vejnavnebeliggenhed omskriver adresser, GeoDanmark vejmidter eller er konstrueret';
+    break;
+  case 'NU':
+    tekst= 'Vejnavnebeliggenhed omskriver adresser, GeoDanmark vejmidter eller er konstrueret';
+    break;
+  case 'N0':
     tekst= 'Vejnavnebeliggenhed omskriver adresser, GeoDanmark vejmidter eller er konstrueret';
     break;
   }
