@@ -1447,7 +1447,9 @@ function adgangsadresseIndhold(data, indrykninger= 0)
   eo('tbody'); 
   eo('tr');    
     eotd(indrykninger);;
-      html('Jordstykke: ' + strong(data.jordstykke.matrikelnr?data.jordstykke.matrikelnr:"-" + " " + data.jordstykke.ejerlav.navn));
+      if (data.jordstykke.matrikelnr) {
+        html('Jordstykke: ' + strong(data.jordstykke.matrikelnr + " " + data.jordstykke.ejerlav.navn));
+      }
     ec('td');
     badge('info', 'badge-primary', data.jordstykke.href.replace('api.dataforsyningen.dk',host));
     badge('kort', 'badge-primary', data.jordstykke.href.replace('api','vis'));
