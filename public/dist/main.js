@@ -1447,7 +1447,7 @@ function adgangsadresseIndhold(data, indrykninger= 0)
   eo('tbody'); 
   eo('tr');    
     eotd(indrykninger);;
-      if (data.jordstykke.matrikelnr) {
+      if (data.jordstykke) {
         html('Jordstykke: ' + strong(data.jordstykke.matrikelnr + " " + data.jordstykke.ejerlav.navn));
       }
     ec('td');
