@@ -1445,17 +1445,17 @@ function adgangsadresseIndhold(data, indrykninger= 0)
     getBBRBygningViaOpgang(visBBRBygning,data.id, indrykninger);
   ec('tbody'); 
   eo('tbody'); 
-  eo('tr');    
-    eotd(indrykninger);;
-      if (data.jordstykke) {
+  if (data.jordstykke) {
+    eo('tr');    
+      eotd(indrykninger);;
         html('Jordstykke: ' + strong(data.jordstykke.matrikelnr + " " + data.jordstykke.ejerlav.navn));
-      }
-    ec('td');
-    badge('info', 'badge-primary', data.jordstykke.href.replace('api.dataforsyningen.dk',host));
-    badge('kort', 'badge-primary', data.jordstykke.href.replace('api','vis'));
-    badge('data', 'badge-primary', data.jordstykke.href);
-  ec('tr');
+      ec('td');
+      badge('info', 'badge-primary', data.jordstykke.href.replace('api.dataforsyningen.dk',host));
+      badge('kort', 'badge-primary', data.jordstykke.href.replace('api','vis'));
+      badge('data', 'badge-primary', data.jordstykke.href);
+    ec('tr');
   visKodeNavn('Ejerlav', data.jordstykke.ejerlav, indrykninger);
+  }
   visKodeNavn('Sogn', data.sogn, indrykninger);
   if (data.landsdel) {
     eo('tr');    
