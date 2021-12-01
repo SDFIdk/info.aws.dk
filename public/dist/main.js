@@ -171,40 +171,40 @@ function visData(data, visEnKort, visEn, ressource, compare, kort=true) {
 function visInfo(container, ressource, data) {
   let label= "";
   switch (ressource) {
-  case 'bbr/bygninger':
+  case 'bbrlight/bygninger':
     visData(data, visBBRBygningKort, visBBRBygning, ressource, null);
     break;
-  case 'bbr/tekniskeanlaeg':
+  case 'bbrlight/tekniskeanlaeg':
     visData(data, visBBRTekniskAnlægKort, visBBRTekniskAnlæg, ressource, null);
     break;
-  case 'bbr/opgange':
+  case 'bbrlight/opgange':
     visData(data, visBBROpgangKort, visBBROpgang, ressource, null, false);
     break;
-  case 'bbr/etager':
+  case 'bbrlight/etager':
     visData(data, visBBREtageKort, visBBREtage, ressource, bbrEtageCompare, false);
     break;
-  case 'bbr/enheder':
+  case 'bbrlight/enheder':
     visData(data, visBBREnhedKort, visBBREnhed, ressource, null, false);
     break;
-  case 'bbr/bygningpaafremmedgrund':
+  case 'bbrlight/bygningpaafremmedgrund':
     visData(data, visBBRBygningPåFremmedGrundKort, visBBRBygningPåFremmedGrund, ressource, null, false);
     break;
-  case 'bbr/ejendomsrelationer':
+  case 'bbrlight/ejendomsrelationer':
     visData(data, visBBREjendomsRelationKort, visBBREjendomsRelation, ressource, null, false);
     break;
-  case 'bbr/grunde':
+  case 'bbrlight/grunde':
     visData(data, visBBRGrundKort, visBBRGrund, ressource, null, false);
     break;
-  case 'bbr/grundjordstykke':
+  case 'bbrlight/grundjordstykke':
     visData(data, visBBRGrundJordstykkeKort, visBBRGrundJordstykke, ressource, null, false);
     break;
-  case 'bbr/fordelingsarealer':
+  case 'bbrlight/fordelingsarealer':
     visData(data, visBBRFordelingsarealKort, visBBRFordelingsareal, ressource, null, false);
     break;
-  case 'bbr/fordelingaffordelingsarealer':
+  case 'bbrlight/fordelingaffordelingsarealer':
     visData(data, visBBRFordelingAfFordelingsarealKort, visBBRFordelingAfFordelingsareal, ressource, null, false);
     break;
-  case 'bbr/enhedejerlejlighed':
+  case 'bbrlight/enhedejerlejlighed':
     visData(data, visBBREnhedEjerlejlighedKort, visBBREnhedEjerlejlighed, ressource, null, false);
     break;
   case 'adresser':
@@ -295,40 +295,40 @@ function visInfo(container, ressource, data) {
 function ental(ressource) {
   let tekst= "";
   switch (ressource) {
-  case 'bbr/bygninger':
+  case 'bbrlight/bygninger':
     tekst= 'BBR bygning';
     break;
-  case 'bbr/tekniskeanlaeg':
+  case 'bbrlight/tekniskeanlaeg':
     tekst= 'BBR teknisk anlæg';
     break;
-  case 'bbr/opgange':
+  case 'bbrlight/opgange':
     tekst= 'BBR opgang';
     break;
-  case 'bbr/etager':
+  case 'bbrlight/etager':
     tekst= 'BBR etage';
     break;
-  case 'bbr/enheder':
+  case 'bbrlight/enheder':
     tekst= 'BBR enhed';
     break;
-  case 'bbr/bygningpaafremmedgrund':
+  case 'bbrlight/bygningpaafremmedgrund':
     tekst= 'BBR Bygning på fremmed grund';
     break;
-  case 'bbr/ejendomsrelationer':
+  case 'bbrlight/ejendomsrelationer':
     tekst= 'BBR Ejendomsrelation';
     break;
-  case 'bbr/grunde':
+  case 'bbrlight/grunde':
     tekst= 'BBR grund';
     break;
-  case 'bbr/grundjordstykke':
+  case 'bbrlight/grundjordstykke':
     tekst= 'BBR grundjordstykke';
     break;
-  case 'bbr/fordelingsarealer':
+  case 'bbrlight/fordelingsarealer':
     tekst= 'BBR fordelingsareal';
     break;
-  case 'bbr/fordelingaffordelingsarealer':
+  case 'bbrlight/fordelingaffordelingsarealer':
     tekst= 'BBR fordeling af fordelingsarealer';
     break;
-  case 'bbr/enhedejerlejlighed':
+  case 'bbrlight/enhedejerlejlighed':
     tekst= 'BBR enhedejerlejlighed';
     break;
   case 'adresser':
@@ -424,40 +424,40 @@ function ental(ressource) {
 function flertal(ressource) {
   let tekst= "";
   switch (ressource) {
-  case 'bbr/bygninger':
+  case 'bbrlight/bygninger':
     tekst= 'BBR bygninger';
     break;
-  case 'bbr/tekniskeanlaeg':
+  case 'bbrlight/tekniskeanlaeg':
     tekst= 'BBR tekniske anlæg';
     break;
-  case 'bbr/opgange':
+  case 'bbrlight/opgange':
     tekst= 'BBR opgange';
     break;
-  case 'bbr/etager':
+  case 'bbrlight/etager':
     tekst= 'BBR etager';
     break;
-  case 'bbr/enheder':
+  case 'bbrlight/enheder':
     tekst= 'BBR enheder';
     break;
-  case 'bbr/bygningpaafremmedgrund':
+  case 'bbrlight/bygningpaafremmedgrund':
     tekst= 'BBR Bygninger på fremmed grund';
     break;
-  case 'bbr/ejendomsrelationer':
+  case 'bbrlight/ejendomsrelationer':
     tekst= 'BBR Ejendomsrelationer';
     break;
-  case 'bbr/grunde':
+  case 'bbrlight/grunde':
     tekst= 'BBR grunde';
     break;
-  case 'bbr/grundjordstykke':
+  case 'bbrlight/grundjordstykke':
     tekst= 'BBR grundjordstykker';
     break;
-  case 'bbr/fordelingsarealer':
+  case 'bbrlight/fordelingsarealer':
     tekst= 'BBR fordelingsarealer';
     break;
-  case 'bbr/fordelingaffordelingsarealer':
+  case 'bbrlight/fordelingaffordelingsarealer':
     tekst= 'BBR fordelinger af fordelingsarealer';
     break;
-  case 'bbr/enhedejerlejlighed':
+  case 'bbrlight/enhedejerlejlighed':
     tekst= 'BBR enhedejerlejligheder';
     break;
   case 'adresser':
@@ -1000,40 +1000,40 @@ function danNavbar(overskrift, infotekst, viskortmenu=true, formater=null, link=
 function jumbotrontekst(ressource) {
   let tekst= "";
   switch (ressource) {
-  case 'bbr/bygninger':
+  case 'bbrlight/bygninger':
     tekst= null;
     break;
-  case 'bbr/tekniskeanlaeg  ':
+  case 'bbrlight/tekniskeanlaeg  ':
     tekst= null;
     break;
-  case 'bbr/opgange':
+  case 'bbrlight/opgange':
     tekst= null;
     break;
-  case 'bbr/etager':
+  case 'bbrlight/etager':
     tekst= null;
     break;
-  case 'bbr/enheder':
+  case 'bbrlight/enheder':
     tekst= null;
     break;
-  case 'bbr/bygningpaafremmedgrund':
+  case 'bbrlight/bygningpaafremmedgrund':
     tekst= null;
     break;
-  case 'bbr/ejendomsrelationer':
+  case 'bbrlight/ejendomsrelationer':
     tekst= null;
     break;
-  case 'bbr/grunde':
+  case 'bbrlight/grunde':
     tekst= null;
     break;
-  case 'bbr/grundjordstykke':
+  case 'bbrlight/grundjordstykke':
     tekst= null;
     break;
-  case 'bbr/fordelingsarealer':
+  case 'bbrlight/fordelingsarealer':
     tekst= null;
     break;
-  case 'bbr/fordelingaffordelingsarealer':
+  case 'bbrlight/fordelingaffordelingsarealer':
     tekst= null;
     break;
-  case 'bbr/enhedejerlejlighed':
+  case 'bbrlight/enhedejerlejlighed':
     tekst= null;
     break;
   case 'adresser': 
