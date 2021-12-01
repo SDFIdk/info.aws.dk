@@ -33,7 +33,7 @@ var visSide= function(container) {
   ressource= arr[1].toLowerCase();
   console.log(arr);
   console.log(ressource);
-  if (ressource === 'bbr') {
+  if (ressource === 'bbrlight') {
     ressource= ressource + '/' + arr[2].toLowerCase();
   }
   console.log(ressource);
