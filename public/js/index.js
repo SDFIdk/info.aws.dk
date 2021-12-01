@@ -33,7 +33,7 @@ var visSide= function(container) {
   ressource= arr[1].toLowerCase();
   console.log(arr);
   console.log(ressource);
-  if (ressource === 'bbr') {
+  if (ressource === 'bbrlight') {
     ressource= ressource + '/' + arr[2].toLowerCase();
   }
   console.log(ressource);
@@ -74,40 +74,40 @@ function visData(data, visEnKort, visEn, ressource, compare, kort=true) {
 function visInfo(container, ressource, data) {
   let label= "";
   switch (ressource) {
-  case 'bbr/bygninger':
+  case 'bbrlight/bygninger':
     visData(data, visBBRBygningKort, visBBRBygning, ressource, null);
     break;
-  case 'bbr/tekniskeanlaeg':
+  case 'bbrlight/tekniskeanlaeg':
     visData(data, visBBRTekniskAnlægKort, visBBRTekniskAnlæg, ressource, null);
     break;
-  case 'bbr/opgange':
+  case 'bbrlight/opgange':
     visData(data, visBBROpgangKort, visBBROpgang, ressource, null, false);
     break;
-  case 'bbr/etager':
+  case 'bbrlight/etager':
     visData(data, visBBREtageKort, visBBREtage, ressource, bbrEtageCompare, false);
     break;
-  case 'bbr/enheder':
+  case 'bbrlight/enheder':
     visData(data, visBBREnhedKort, visBBREnhed, ressource, null, false);
     break;
-  case 'bbr/bygningpaafremmedgrund':
+  case 'bbrlight/bygningpaafremmedgrund':
     visData(data, visBBRBygningPåFremmedGrundKort, visBBRBygningPåFremmedGrund, ressource, null, false);
     break;
-  case 'bbr/ejendomsrelationer':
+  case 'bbrlight/ejendomsrelationer':
     visData(data, visBBREjendomsRelationKort, visBBREjendomsRelation, ressource, null, false);
     break;
-  case 'bbr/grunde':
+  case 'bbrlight/grunde':
     visData(data, visBBRGrundKort, visBBRGrund, ressource, null, false);
     break;
-  case 'bbr/grundjordstykke':
+  case 'bbrlight/grundjordstykke':
     visData(data, visBBRGrundJordstykkeKort, visBBRGrundJordstykke, ressource, null, false);
     break;
-  case 'bbr/fordelingsarealer':
+  case 'bbrlight/fordelingsarealer':
     visData(data, visBBRFordelingsarealKort, visBBRFordelingsareal, ressource, null, false);
     break;
-  case 'bbr/fordelingaffordelingsarealer':
+  case 'bbrlight/fordelingaffordelingsarealer':
     visData(data, visBBRFordelingAfFordelingsarealKort, visBBRFordelingAfFordelingsareal, ressource, null, false);
     break;
-  case 'bbr/enhedejerlejlighed':
+  case 'bbrlight/enhedejerlejlighed':
     visData(data, visBBREnhedEjerlejlighedKort, visBBREnhedEjerlejlighed, ressource, null, false);
     break;
   case 'adresser':
@@ -198,40 +198,40 @@ function visInfo(container, ressource, data) {
 function ental(ressource) {
   let tekst= "";
   switch (ressource) {
-  case 'bbr/bygninger':
+  case 'bbrlight/bygninger':
     tekst= 'BBR bygning';
     break;
-  case 'bbr/tekniskeanlaeg':
+  case 'bbrlight/tekniskeanlaeg':
     tekst= 'BBR teknisk anlæg';
     break;
-  case 'bbr/opgange':
+  case 'bbrlight/opgange':
     tekst= 'BBR opgang';
     break;
-  case 'bbr/etager':
+  case 'bbrlight/etager':
     tekst= 'BBR etage';
     break;
-  case 'bbr/enheder':
+  case 'bbrlight/enheder':
     tekst= 'BBR enhed';
     break;
-  case 'bbr/bygningpaafremmedgrund':
+  case 'bbrlight/bygningpaafremmedgrund':
     tekst= 'BBR Bygning på fremmed grund';
     break;
-  case 'bbr/ejendomsrelationer':
+  case 'bbrlight/ejendomsrelationer':
     tekst= 'BBR Ejendomsrelation';
     break;
-  case 'bbr/grunde':
+  case 'bbrlight/grunde':
     tekst= 'BBR grund';
     break;
-  case 'bbr/grundjordstykke':
+  case 'bbrlight/grundjordstykke':
     tekst= 'BBR grundjordstykke';
     break;
-  case 'bbr/fordelingsarealer':
+  case 'bbrlight/fordelingsarealer':
     tekst= 'BBR fordelingsareal';
     break;
-  case 'bbr/fordelingaffordelingsarealer':
+  case 'bbrlight/fordelingaffordelingsarealer':
     tekst= 'BBR fordeling af fordelingsarealer';
     break;
-  case 'bbr/enhedejerlejlighed':
+  case 'bbrlight/enhedejerlejlighed':
     tekst= 'BBR enhedejerlejlighed';
     break;
   case 'adresser':
@@ -327,40 +327,40 @@ function ental(ressource) {
 function flertal(ressource) {
   let tekst= "";
   switch (ressource) {
-  case 'bbr/bygninger':
+  case 'bbrlight/bygninger':
     tekst= 'BBR bygninger';
     break;
-  case 'bbr/tekniskeanlaeg':
+  case 'bbrlight/tekniskeanlaeg':
     tekst= 'BBR tekniske anlæg';
     break;
-  case 'bbr/opgange':
+  case 'bbrlight/opgange':
     tekst= 'BBR opgange';
     break;
-  case 'bbr/etager':
+  case 'bbrlight/etager':
     tekst= 'BBR etager';
     break;
-  case 'bbr/enheder':
+  case 'bbrlight/enheder':
     tekst= 'BBR enheder';
     break;
-  case 'bbr/bygningpaafremmedgrund':
+  case 'bbrlight/bygningpaafremmedgrund':
     tekst= 'BBR Bygninger på fremmed grund';
     break;
-  case 'bbr/ejendomsrelationer':
+  case 'bbrlight/ejendomsrelationer':
     tekst= 'BBR Ejendomsrelationer';
     break;
-  case 'bbr/grunde':
+  case 'bbrlight/grunde':
     tekst= 'BBR grunde';
     break;
-  case 'bbr/grundjordstykke':
+  case 'bbrlight/grundjordstykke':
     tekst= 'BBR grundjordstykker';
     break;
-  case 'bbr/fordelingsarealer':
+  case 'bbrlight/fordelingsarealer':
     tekst= 'BBR fordelingsarealer';
     break;
-  case 'bbr/fordelingaffordelingsarealer':
+  case 'bbrlight/fordelingaffordelingsarealer':
     tekst= 'BBR fordelinger af fordelingsarealer';
     break;
-  case 'bbr/enhedejerlejlighed':
+  case 'bbrlight/enhedejerlejlighed':
     tekst= 'BBR enhedejerlejligheder';
     break;
   case 'adresser':
@@ -902,40 +902,40 @@ function danNavbar(overskrift, infotekst, viskortmenu=true, formater=null, link=
 function jumbotrontekst(ressource) {
   let tekst= "";
   switch (ressource) {
-  case 'bbr/bygninger':
+  case 'bbrlight/bygninger':
     tekst= null;
     break;
-  case 'bbr/tekniskeanlaeg  ':
+  case 'bbrlight/tekniskeanlaeg  ':
     tekst= null;
     break;
-  case 'bbr/opgange':
+  case 'bbrlight/opgange':
     tekst= null;
     break;
-  case 'bbr/etager':
+  case 'bbrlight/etager':
     tekst= null;
     break;
-  case 'bbr/enheder':
+  case 'bbrlight/enheder':
     tekst= null;
     break;
-  case 'bbr/bygningpaafremmedgrund':
+  case 'bbrlight/bygningpaafremmedgrund':
     tekst= null;
     break;
-  case 'bbr/ejendomsrelationer':
+  case 'bbrlight/ejendomsrelationer':
     tekst= null;
     break;
-  case 'bbr/grunde':
+  case 'bbrlight/grunde':
     tekst= null;
     break;
-  case 'bbr/grundjordstykke':
+  case 'bbrlight/grundjordstykke':
     tekst= null;
     break;
-  case 'bbr/fordelingsarealer':
+  case 'bbrlight/fordelingsarealer':
     tekst= null;
     break;
-  case 'bbr/fordelingaffordelingsarealer':
+  case 'bbrlight/fordelingaffordelingsarealer':
     tekst= null;
     break;
-  case 'bbr/enhedejerlejlighed':
+  case 'bbrlight/enhedejerlejlighed':
     tekst= null;
     break;
   case 'adresser': 
@@ -3628,7 +3628,7 @@ function getJordstykke(label, id, indrykninger= 0) {
 } 
 
 async function getGrundJordstykker(label, grund_id, indrykninger= 0) {
-  let url= dawaUrl.origin + "/bbr/grundjordstykke?grund_id=" + grund_id;
+  let url= dawaUrl.origin + "/bbrlight/grundjordstykke?grund_id=" + grund_id;
   let response = await fetch(url);
   if (response.ok) {
     let grundjordstykker= await response.json();
@@ -3662,7 +3662,7 @@ async function getGrundJordstykker(label, grund_id, indrykninger= 0) {
 } 
 
 async function getBBRBygningsOpgange(label, id, indrykninger= 0) {
-  let url= dawaUrl.origin + "/bbr/opgange?bygning_id=" + id;
+  let url= dawaUrl.origin + "/bbrlight/opgange?bygning_id=" + id;
   let response = await fetch(url);
   if (response.ok) {
     let opgange= await response.json();
@@ -3701,7 +3701,7 @@ async function getBBRBygningsOpgange(label, id, indrykninger= 0) {
 } 
 
 async function getBBRBygningsEtager(label, id, indrykninger= 0) {
-  let url= dawaUrl.origin + "/bbr/etager?bygning_id=" + id;
+  let url= dawaUrl.origin + "/bbrlight/etager?bygning_id=" + id;
   let response = await fetch(url);
   if (response.ok) {
     let etager= await response.json();
@@ -3728,7 +3728,7 @@ async function getBBRBygningsEtager(label, id, indrykninger= 0) {
 } 
 
 async function getBBRBygningsTekniskeAnlæg(label, id, qparameter, indrykninger= 0) {
-  let url= dawaUrl.origin + "/bbr/tekniskeanlaeg?" + qparameter + '=' + id;
+  let url= dawaUrl.origin + "/bbrlight/tekniskeanlaeg?" + qparameter + '=' + id;
   let response = await fetch(url);
   if (response.ok) {
     let tekniskeanlæg= await response.json();
@@ -3754,7 +3754,7 @@ async function getBBRBygningsTekniskeAnlæg(label, id, qparameter, indrykninger=
 } 
 
 async function getBBREnheder(label, id, qparameter, indrykninger= 0) {
-  let url= dawaUrl.origin + "/bbr/enheder?" + qparameter + '=' + id;
+  let url= dawaUrl.origin + "/bbrlight/enheder?" + qparameter + '=' + id;
   let response = await fetch(url);
   if (response.ok) {
     let enheder= await response.json();
@@ -3780,7 +3780,7 @@ async function getBBREnheder(label, id, qparameter, indrykninger= 0) {
 } 
 
 function getBBRBygningFraAdgangsadresseid(label, adgangsadresseid, indrykninger= 0) {
-  const url= dawaUrl.origin + "/bbr/bygninger?husnummer_id=" + adgangsadresseid   + "&medtagnedlagte";
+  const url= dawaUrl.origin + "/bbrlight/bygninger?husnummer_id=" + adgangsadresseid   + "&medtagnedlagte";
   fetch(url).then( function(response) {
     if (response.ok) {
       response.json().then( function ( bygninger ) {
@@ -3827,7 +3827,7 @@ function getBBREnhed(label, url, indrykninger= 0) {
 }
 
 function getBBREnhedFraAdresseid(label, adresseid, indrykninger= 0) {
-  const url= dawaUrl.origin + "/bbr/enheder?adresse_id=" + adresseid   + "&medtagnedlagte";
+  const url= dawaUrl.origin + "/bbrlight/enheder?adresse_id=" + adresseid   + "&medtagnedlagte";
   fetch(url).then( function(response) {
     if (response.ok) {
       response.json().then( function ( enheder ) {
@@ -3850,7 +3850,7 @@ function getBBREnhedFraAdresseid(label, adresseid, indrykninger= 0) {
 }
 
 function getBBRBygningViaOpgang(label, adgangsadresseid, indrykninger= 0) {
-  const url= dawaUrl.origin + "/bbr/opgange?husnummer_id=" + adgangsadresseid;
+  const url= dawaUrl.origin + "/bbrlight/opgange?husnummer_id=" + adgangsadresseid;
   fetch(url).then( function(response) {
     if (response.ok) {
       response.json().then( function ( opgange ) {
@@ -3879,7 +3879,7 @@ function getBBRBygningViaOpgang(label, adgangsadresseid, indrykninger= 0) {
 }
 
 function getBBRBygning(label, id, indrykninger= 0) {
-  const url= dawaUrl.origin + "/bbr/bygninger/" + id;
+  const url= dawaUrl.origin + "/bbrlight/bygninger/" + id;
   fetch(url).then( function(response) {
     if (response.ok) {
       response.json().then( function ( bygning ) {
@@ -3918,7 +3918,7 @@ function getBBRGrund(label, url, indrykninger= 0) {
 } 
 
 function getBBRBygningsFordelingsareal(label, id, indrykninger= 0) {
-  const url= dawaUrl.origin + "/bbr/fordelingsarealer?bygning_id=" + id;
+  const url= dawaUrl.origin + "/bbrlight/fordelingsarealer?bygning_id=" + id;
   fetch(url).then( function(response) {
     if (response.ok) {
       response.json().then( function ( data ) {
@@ -3959,7 +3959,7 @@ function getBBRFordelingsareal(label, url, indrykninger= 0) {
 } 
 
 function getBBRBygningsEjendomsrelation(label, id, indrykninger= 0) {
-  const url= dawaUrl.origin + "/bbr/bygningpaafremmedgrund?bygning_id=" + id;
+  const url= dawaUrl.origin + "/bbrlight/bygningpaafremmedgrund?bygning_id=" + id;
   fetch(url).then( function(response) {
     if (response.ok) {
       response.json().then( function ( data ) {
@@ -4017,7 +4017,7 @@ function getBBRBygningsEjerlejlighed(label, url, indrykninger= 0) {
 
 
 function getBBREnhedsEjendomsrelation(label, id, indrykninger= 0) {
-  const url= dawaUrl.origin + "/bbr/enhedejerlejlighed?enhed_id=" + id;
+  const url= dawaUrl.origin + "/bbrlight/enhedejerlejlighed?enhed_id=" + id;
   fetch(url).then( function(response) {
     if (response.ok) {
       response.json().then( function ( data ) {
@@ -4082,7 +4082,7 @@ function visBBRBygningKort(bygning) {
       ec('span');
       html('<br/>' + bbr.getBygAnvendelse(bygning.byg021BygningensAnvendelse) + ' fra ' + bygning.byg026Opførelsesår);
     ec('td');
-    let href= 'https://' + host + '/bbr/bygninger/' + bygning.id;
+    let href= 'https://' + host + '/bbrlight/bygninger/' + bygning.id;
     badge('info', 'badge-primary', href.replace('api.dataforsyningen.dk',host));
     badge('kort', 'badge-primary', href.replace('api','vis'));
     badge('data', 'badge-primary', href);
@@ -4715,7 +4715,7 @@ function visBBRTekniskAnlægKort(tekanl) {
       ec('span');
       html('<br/>' + bbr.getKlassifikation(tekanl.tek020Klassifikation) + ' fra ' + tekanl.tek024Etableringsår);
     ec('td');
-    let href= 'https://' + host + '/bbr/tekniskeanlaeg/' + tekanl.id;
+    let href= 'https://' + host + '/bbrlight/tekniskeanlaeg/' + tekanl.id;
     badge('info', 'badge-primary', href.replace('api.dataforsyningen.dk',host));
     badge('kort', 'badge-primary', href.replace('api','vis'));
     badge('data', 'badge-primary', href);
@@ -5345,7 +5345,7 @@ function visBBREnhedKort(enhed) {
       ec('span');
       html('<br/>' + bbr.getEnhAnvendelse(enhed.enh020EnhedensAnvendelse));
     ec('td');
-    let href= 'https://' + host + '/bbr/enheder/' + enhed.id;
+    let href= 'https://' + host + '/bbrlight/enheder/' + enhed.id;
     badge('info', 'badge-primary', href.replace('api.dataforsyningen.dk',host));
     eo('td'); ec('td');
     badge('data', 'badge-primary', href);
@@ -5930,7 +5930,7 @@ function visBBREnhedKort(enhed) {
       ec('span');
       html('<br/>' + bbr.getEnhAnvendelse(enhed.enh020EnhedensAnvendelse));
     ec('td');
-    let href= 'https://' + host + '/bbr/enheder/' + enhed.id;
+    let href= 'https://' + host + '/bbrlight/enheder/' + enhed.id;
     badge('info', 'badge-primary', href.replace('api.dataforsyningen.dk',host));
     eo('td'); ec('td');
     badge('data', 'badge-primary', href);
@@ -5946,7 +5946,7 @@ function visBBRGrundKort(grund) {
       ec('span');
       html('<br/>' + 'Grund');
     ec('td');
-    let href= 'https://' + host + '/bbr/grunde/' + grund.id;
+    let href= 'https://' + host + '/bbrlight/grunde/' + grund.id;
     badge('info', 'badge-primary', href.replace('api.dataforsyningen.dk',host));
     eo('td'); ec('td');
     badge('data', 'badge-primary', href);
