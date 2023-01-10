@@ -12,13 +12,14 @@
   "license": "MIT",
   "dependencies": {
     "dawa-util": "^0.1.13",
-    "incremental-dom": "^0.6.0",
+    "incremental-dom": "^0.7.0",
     "query-string": "^5.1.1",
     "underscore": "^1.9.2",
     "url-parse": "^1.4.3"
   },
   "devDependencies": {
     "jshint": "^2.9.7",
-    "webpack": "^3.5.5"
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
   }
 }
