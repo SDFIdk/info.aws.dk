@@ -1,6 +1,6 @@
 {
   "name": "info.aws.dk",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Vis DAWA data tekstueltt",
   "main": "index.js",
   "scripts": {
