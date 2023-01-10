@@ -31,12 +31,9 @@ var visSide= function(container) {
 
   let arr= dawaUrl.pathname.split('/');
   ressource= arr[1].toLowerCase();
-  console.log(arr);
-  console.log(ressource);
   if (ressource === 'bbrlight') {
     ressource= ressource + '/' + arr[2].toLowerCase();
   }
-  console.log(ressource);
 
   const title = document.getElementById('title');
   title.innerText= 'Danmarks ' + flertal(ressource);
@@ -3822,7 +3819,7 @@ function getBBREnhed(label, url, indrykninger= 0) {
     });
   }
   catch (e) {
-    console.log(e);
+    console.error(e);
   }
 }
 

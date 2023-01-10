@@ -12,7 +12,7 @@ app.use(express.static(__dirname + '/public'));
 app.get('/', function (req, res) {
   res.sendFile(__dirname + "/public/index.html", function (err) {
     if (err) {
-      console.log(err);
+      console.error(err);
       res.status(404).end();
     }
     else {
@@ -25,7 +25,7 @@ app.get(/.+/, function (req, res) {
   //console.log(req);
   res.sendFile(__dirname + "/public/app.html", function (err) {
     if (err) {
-      console.log('fejl: ' + err);
+      console.error('fejl: ' + err);
     }
     else {
       console.log('app.html');
